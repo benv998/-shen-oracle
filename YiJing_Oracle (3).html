@@ -1,0 +1,2954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>SHEN · I Ching Oracle — Ancient Chinese Decision Intelligence</title>
+<meta name="description" content="Cast the I Ching with AI interpretation. The 3,000-year-old decision framework used by emperors, studied by Jung — decoded for modern life.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cinzel:wght@400;500&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: #7a5e28;
+  --ink: #0a0a0f;
+  --deep: #0f0e18;
+  --panel: #13121e;
+  --panel2: #1a192a;
+  --text: #d6cdb8;
+  --text-dim: #7a7060;
+  --accent: #8b6fc0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* Background texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(139,111,192,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(201,168,76,0.06) 0%, transparent 60%),
+    repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(201,168,76,0.015) 60px, rgba(201,168,76,0.015) 61px),
+    repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(201,168,76,0.015) 60px, rgba(201,168,76,0.015) 61px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 40px 0 40px;
+}
+
+.lang-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 0 0;
+}
+.lang-toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--gold-dim);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.1em;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.lang-btn.active {
+  background: var(--gold-dim);
+  color: var(--gold-light);
+}
+
+.lang-btn:hover:not(.active) {
+  color: var(--gold);
+}
+
+.header-ornament {
+  display: block;
+  font-size: 21px;
+  letter-spacing: 0.35em;
+  color: var(--gold-dim);
+  font-family: 'Cinzel', serif;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 400;
+  color: var(--gold-light);
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+h1 .zh {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 0.75em;
+  display: block;
+  color: var(--gold-dim);
+  letter-spacing: 0.3em;
+  margin-top: 4px;
+}
+
+.header-line {
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  margin: 24px auto 20px;
+}
+
+.subtitle {
+  font-size: 21px;
+  color: var(--text-dim);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Question section */
+.question-section {
+  margin: 48px 0 36px;
+}
+
+.section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--gold-dim), transparent);
+}
+
+.breath-guide {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 0 4px;
+  opacity: 0.42;
+  transition: opacity 0.4s;
+}
+
+.breath-guide:hover { opacity: 0.65; }
+
+.breath-icon {
+  font-size: 24px;
+  color: var(--gold-dim);
+  flex-shrink: 0;
+  margin-top: 1px;
+  line-height: 1.6;
+}
+
+.breath-guide span#breathText {
+  font-size: 13.5px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--text-dim);
+  line-height: 1.75;
+  letter-spacing: 0.03em;
+}
+
+textarea {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid #2a2840;
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.7;
+  padding: 20px 24px;
+  resize: none;
+  outline: none;
+  transition: border-color 0.3s;
+  min-height: 90px;
+}
+
+textarea::placeholder { color: var(--text-dim); font-style: italic; }
+textarea:focus { border-color: var(--gold-dim); }
+
+/* Cast button */
+.cast-btn {
+  display: block;
+  margin: 28px auto 0;
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.25em;
+  padding: 16px 48px;
+  cursor: pointer;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s;
+}
+
+.cast-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(201,168,76,0.08) 100%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.cast-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+  box-shadow: 0 0 30px rgba(201,168,76,0.1);
+}
+
+.cast-btn:hover::before { opacity: 1; }
+
+.cast-btn:active { transform: scale(0.98); }
+
+/* Coin animation */
+.coins-display {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 32px 0;
+  min-height: 60px;
+  align-items: center;
+}
+
+.coin {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: var(--panel);
+  opacity: 0;
+  transform: rotateY(90deg);
+  transition: all 0.4s;
+}
+
+.coin.revealed {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+/* Result panel */
+.result-panel {
+  display: none;
+  animation: fadeUp 0.8s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hexagram-display {
+  text-align: center;
+  padding: 48px 0 32px;
+  position: relative;
+}
+
+.hex-symbol {
+  font-size: 96px;
+  line-height: 1;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 20px rgba(201,168,76,0.3));
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { filter: drop-shadow(0 0 16px rgba(201,168,76,0.2)); }
+  to { filter: drop-shadow(0 0 32px rgba(201,168,76,0.5)); }
+}
+
+.hex-number {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  margin-bottom: 8px;
+}
+
+.hex-name-en {
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  color: var(--gold-light);
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+  font-weight: 400;
+}
+
+.hex-name-zh {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 24px;
+  color: var(--gold-dim);
+  letter-spacing: 0.3em;
+}
+
+.hex-line { width: 80px; height: 1px; background: linear-gradient(to right, transparent, var(--gold-dim), transparent); margin: 20px auto; }
+
+.hex-keyword {
+  font-size: 24px;
+  color: var(--text-dim);
+  font-style: italic;
+  letter-spacing: 0.08em;
+}
+
+/* Reading content */
+.reading-content {
+  background: var(--panel);
+  border: 1px solid #22213a;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.reading-tabs {
+  display: flex;
+  border-bottom: 1px solid #22213a;
+  background: var(--panel2);
+  overflow-x: auto;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  letter-spacing: 0.2em;
+  padding: 14px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.tab-btn.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+.tab-btn:hover:not(.active) { color: var(--text); }
+
+.tab-content { display: none; padding: 32px; }
+.tab-content.active { display: block; }
+
+.reading-text {
+  font-size: 21px;
+  font-weight: 300;
+  line-height: 1.9;
+  color: var(--text);
+}
+
+.reading-text p { margin-bottom: 18px; }
+.reading-text p:last-child { margin-bottom: 0; }
+
+.reading-text em {
+  color: var(--gold);
+  font-style: normal;
+}
+
+/* Lines display */
+.lines-grid { display: grid; gap: 12px; margin-top: 8px; }
+
+.line-item {
+  background: var(--panel2);
+  border: 1px solid #1e1d2e;
+  border-radius: 4px;
+  padding: 16px 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.line-num {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  color: var(--gold-dim);
+  letter-spacing: 0.15em;
+  min-width: 40px;
+  padding-top: 3px;
+}
+
+.line-text { font-size: 24px; line-height: 1.9; color: var(--text-dim); }
+
+.line-item.moving {
+  border-color: var(--gold-dim);
+  background: rgba(201,168,76,0.04);
+}
+
+.line-item.moving .line-num { color: var(--gold); }
+.line-item.moving .line-text { color: var(--text); }
+
+.moving-tag {
+  display: inline-block;
+  background: rgba(201,168,76,0.15);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  letter-spacing: 0.2em;
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* Changing hexagram */
+.changing-hex {
+  margin-top: 24px;
+  padding: 24px;
+  background: var(--panel2);
+  border: 1px solid #22213a;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.changing-hex .label {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.changing-hex .symbol { font-size: 48px; color: var(--gold); }
+.changing-hex .name { font-size: 24px; color: var(--text-dim); margin-top: 6px; }
+
+/* New reading button */
+.new-btn {
+  display: block;
+  margin: 40px auto 0;
+  background: none;
+  border: 1px solid #2a2840;
+  color: var(--text-dim);
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  letter-spacing: 0.25em;
+  padding: 16px 40px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.new-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+/* Footer */
+footer {
+  text-align: center;
+  padding-top: 60px;
+  padding-bottom: 20px;
+}
+
+.footer-ornament {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 28px;
+  color: var(--gold-dim);
+  display: block;
+  margin-bottom: 12px;
+  letter-spacing: 0.5em;
+}
+
+.footer-text {
+  font-size: 21px;
+  color: var(--text-dim);
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+/* Divining animation */
+.divining-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,15,0.92);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.divining-overlay.active { display: flex; }
+
+.divining-symbol {
+  font-size: 80px;
+  color: var(--gold);
+  animation: spinGlow 1.5s linear infinite;
+  display: block;
+  margin-bottom: 24px;
+}
+
+@keyframes spinGlow {
+  0% { transform: rotate(0deg); filter: drop-shadow(0 0 10px rgba(201,168,76,0.3)); }
+  50% { filter: drop-shadow(0 0 30px rgba(201,168,76,0.7)); }
+  100% { transform: rotate(360deg); filter: drop-shadow(0 0 10px rgba(201,168,76,0.3)); }
+}
+
+.divining-text {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+}
+
+/* Classical text block */
+.classical-block {
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-left: 3px solid var(--gold-dim);
+  border-radius: 0 4px 4px 0;
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  font-family: 'Ma Shan Zheng', 'Cormorant Garamond', serif;
+}
+
+.classical-label {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.classical-text {
+  font-size: 24px;
+  line-height: 2;
+  color: var(--gold);
+  white-space: pre-line;
+  letter-spacing: 0.05em;
+}
+
+.classical-note {
+  font-size: 21px;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-top: 10px;
+  line-height: 1.7;
+  font-family: 'Cormorant Garamond', serif;
+  white-space: pre-line;
+}
+
+/* Classical text block */
+/* ─── AI PERSONAL READING ───────────────────────── */
+.ai-reading-section {
+  display: none;
+  margin-top: 32px;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  animation: fadeUp 0.6s ease both;
+}
+.ai-reading-header {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(139,111,192,0.06));
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  padding: 20px 24px;
+  text-align: center;
+}
+.ai-reading-title { font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+.ai-reading-sub { font-size: 13px; color: var(--text-dim); font-style: italic; }
+.ai-input-wrap { display: none; }
+.ai-input-wrap textarea { min-height: 100px; font-size: 24px; }
+.ai-actions { display: flex; gap: 12px; padding: 16px 24px 20px; background: var(--panel); flex-wrap: wrap; }
+.ai-free-btn { flex: 1; background: transparent; border: 1px solid #2a2840; color: var(--text-dim); font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.15em; padding: 13px 20px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; border-radius: 3px; }
+.ai-free-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+.ai-paid-btn { background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.08)); border: 1px solid var(--gold-dim); color: var(--gold); font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.15em; padding: 13px 28px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; border-radius: 3px; width:100%; }
+.ai-paid-btn:hover { background: linear-gradient(135deg, rgba(201,168,76,0.25), rgba(201,168,76,0.15)); border-color: var(--gold); box-shadow: 0 0 20px rgba(201,168,76,0.1); }
+.ai-result { padding: 24px; background: var(--panel2); border-top: 1px solid #22213a; animation: fadeUp 0.5s ease both; }
+.ai-result-label { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.3em; color: var(--gold-dim); text-transform: uppercase; margin-bottom: 16px; }
+.ai-result-text { font-size: 16px; line-height: 2.0; color: var(--text); font-weight: 300; white-space: pre-wrap; }
+.ai-upgrade-prompt { margin-top: 24px; padding-top: 20px; border-top: 1px solid #22213a; }
+.ai-upgrade-text { font-size: 14px; color: var(--text-dim); font-style: italic; line-height: 1.7; }
+.ai-loading { padding: 40px 24px; text-align: center; background: var(--panel); }
+.ai-loading-symbol { font-size: 36px; color: var(--gold); animation: spinGlow 2s linear infinite; display: block; margin-bottom: 16px; }
+.ai-loading-text { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.25em; color: var(--gold-dim); text-transform: uppercase; }
+/* ─── END AI ─────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+/* ─── RITUAL NOTICE ─────────────────────────────── */
+.ritual-notice {
+  margin: 0 0 36px;
+  border: 1px solid #22213a;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.ritual-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--panel);
+  cursor: pointer;
+  transition: background 0.3s;
+  user-select: none;
+}
+
+.ritual-summary:hover { background: var(--panel2); }
+
+.ritual-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.ritual-quick {
+  flex: 1;
+}
+
+.ritual-quick-title {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.2em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.ritual-quick-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+
+.ritual-quick-item {
+  font-size: 21px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ritual-quick-item::before {
+  content: '·';
+  color: var(--gold-dim);
+}
+
+.ritual-chevron {
+  font-size: 21px;
+  color: var(--gold-dim);
+  transition: transform 0.35s;
+  flex-shrink: 0;
+}
+
+.ritual-notice.open .ritual-chevron { transform: rotate(180deg); }
+
+.ritual-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
+  background: var(--panel2);
+  border-top: 0px solid #22213a;
+}
+
+.ritual-notice.open .ritual-detail {
+  max-height: 800px;
+  border-top: 1px solid #22213a;
+}
+
+.ritual-detail-inner { padding: 24px 24px 28px; }
+
+.ritual-section { margin-bottom: 22px; }
+.ritual-section:last-child { margin-bottom: 0; }
+
+.ritual-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ritual-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--gold-dim), transparent);
+}
+
+.ritual-items { display: grid; gap: 8px; }
+
+.ritual-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.ritual-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.ritual-item-text {
+  font-size: 24px;
+  line-height: 1.75;
+  color: var(--text-dim);
+}
+
+.ritual-item-text strong { color: var(--text); font-weight: 500; }
+
+.ritual-forbid .ritual-dot { background: #7a4040; }
+.ritual-forbid .ritual-item-text { color: #8a7070; }
+.ritual-forbid .ritual-item-text strong { color: #b09090; }
+
+/* ─── END RITUAL NOTICE ─────────────────────────── */
+
+@media (max-width: 600px) {
+  .lang-toggle { position: static; margin: 0 auto 20px; width: fit-content; }
+  header { padding-top: 32px; }
+  .tab-btn { padding: 14px 16px; font-size: 21px; }
+  .tab-content { padding: 20px; }
+  .ritual-quick-list { gap: 4px 12px; }
+  .section-label { font-size: 24px; }
+  .line-text { font-size: 21px; }
+  .classical-text { font-size: 24px; }
+  .ai-result-text { font-size: 21px; }
+  .ai-upgrade-text { font-size: 21px; }
+  .ai-free-btn, .ai-paid-btn { font-size: 21px; padding: 16px 14px; }
+  .wrap { padding: 0 16px; }
+}
+
+/* ── 卦象详解折叠区 ── */
+.hex-detail-section {
+  margin-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 20px;
+}
+.hex-detail-toggle {
+  display: block;
+  width: 100%;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-dim);
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  letter-spacing: 0.2em;
+  padding: 14px 20px;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-align: center;
+  transition: all 0.3s;
+  border-radius: 3px;
+}
+.hex-detail-toggle:hover { border-color: var(--gold-dim); color: var(--gold); }
+.hex-detail-body { margin-top: 20px; }
+
+/* ── 硬币起卦仪式面板 ── */
+.coin-ritual-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(6,4,18,0.97);
+  z-index: 200;
+  overflow-y: auto;
+  padding: 40px 20px 60px;
+}
+.coin-ritual-overlay.active { display: flex; flex-direction: column; align-items: center; }
+
+.coin-ritual-wrap {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.coin-step {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: fadeInUp 0.5s ease;
+}
+.coin-step.active { display: flex; }
+
+@keyframes fadeInUp {
+  from { opacity:0; transform: translateY(16px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.coin-step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.35em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.coin-step-icon {
+  font-size: 72px;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.coin-step-title {
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.coin-step-body {
+  font-size: 24px;
+  line-height: 2.0;
+  color: var(--text-dim);
+  max-width: 440px;
+  margin-bottom: 32px;
+}
+
+.coin-step-body strong { color: var(--text); }
+
+.coin-next-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.08));
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  padding: 14px 40px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 3px;
+}
+.coin-next-btn:hover { background: rgba(201,168,76,0.25); }
+
+/* 投掷记录区 */
+.toss-section { width: 100%; max-width: 480px; }
+
+.toss-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.toss-row:last-child { border-bottom: none; }
+
+.toss-label {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.15em;
+  color: var(--gold-dim);
+  min-width: 56px;
+  text-align: right;
+}
+
+.toss-label-zh {
+  font-size: 21px;
+  color: var(--gold-dim);
+  min-width: 56px;
+  text-align: right;
+}
+
+.toss-coins {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  justify-content: center;
+}
+
+.coin-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  position: relative;
+}
+.coin-btn:hover { border-color: var(--gold-dim); background: rgba(201,168,76,0.08); }
+.coin-btn.heads { border-color: var(--gold); background: rgba(201,168,76,0.22); color: var(--gold); }
+.coin-btn.tails { border-color: #8a9ab8; background: rgba(106,122,155,0.22); color: #c0cce0; }
+
+.coin-btn-label {
+  font-family: 'Cinzel', serif;
+  font-size: 21px;
+  letter-spacing: 0.1em;
+  color: #d0d8e8;
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.toss-result {
+  min-width: 100px;
+  font-size: 21px;
+  color: var(--text-dim);
+  text-align: left;
+}
+.toss-result.done { color: var(--gold); }
+
+.toss-progress {
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  letter-spacing: 0.2em;
+  color: var(--gold-dim);
+  text-align: center;
+  margin: 20px 0 8px;
+}
+
+.toss-confirm-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.08));
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  padding: 18px 48px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 3px;
+  margin-top: 24px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.toss-confirm-btn.ready { opacity: 1; pointer-events: all; }
+.toss-confirm-btn:hover { background: rgba(201,168,76,0.25); }
+
+.coin-close-btn {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 201;
+  transition: color 0.2s;
+}
+.coin-close-btn:hover { color: var(--gold); }
+
+.breath-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-dim);
+  margin: 0 auto 24px;
+  animation: breathe 4s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+/* ── 移动端优化 ── */
+@media (max-width: 768px) {
+  body { font-size: 17px; }
+  /* 手机上网格变单列或双列 */
+  #yj-topics, #bz-topics, .ai-topics { grid-template-columns: repeat(2,1fr) !important; }
+  #yj-quick-grid, #bz-quick-grid, .ai-feats { grid-template-columns: 1fr !important; }
+  /* 按钮更大更易点击 */
+  button { min-height: 44px; }
+  .lang-btn { min-height: unset !important; height: auto !important; }
+  .cast-btn, .submit-btn, .unlock-btn { padding: 18px !important; font-size: 14px !important; }
+  /* 输入框更大 */
+  input, select, textarea { font-size: 16px !important; padding: 14px !important; }
+}
+@media (max-width: 480px) {
+  #yj-topics, #bz-topics, .ai-topics { grid-template-columns: 1fr 1fr !important; }
+}
+
+/* Select option深色背景修复 */
+select option { background:#0D0A1A; color:#E8D5A3; }
+select { color-scheme: dark; }
+</style>
+</head>
+<body>
+
+
+<!-- 硬币起卦仪式面板 -->
+<div class="coin-ritual-overlay" id="coinRitualOverlay">
+  <button class="coin-close-btn" onclick="closeCoinRitual()" title="Cancel">✕</button>
+  <div class="coin-ritual-wrap">
+
+    <!-- 铜钱抛落动画场景（装饰演示） -->
+    <div id="coin-drop-scene" style="width:100%;text-align:center;padding:24px 0 8px;position:relative;min-height:160px;overflow:hidden;">
+      <canvas id="coinCanvas" width="400" height="150" style="max-width:100%;"></canvas>
+      <div id="coin-drop-notice" style="font-size:24px;letter-spacing:.15em;color:#8878AA;margin-top:8px;text-transform:uppercase;padding:0 16px;line-height:1.8;"></div>
+    </div>
+
+    <!-- Step 1: 准备 -->
+    <div class="coin-step active" id="coinStep1">
+      <div class="coin-step-num" id="csr1">Step 1 of 4 · Prepare</div>
+      <div class="coin-step-icon">🪙</div>
+      <div class="coin-step-title" id="cst1">Prepare Three Coins</div>
+      <div class="coin-step-body" id="csb1">
+        Find <strong>three coins of any kind</strong> — they need not match.<br><br>
+        Any currency works. What matters is that they are physical, that you hold them in your hands, and that you toss them yourself.<br><br>
+        <strong>Heads = Yang (☰) · Tails = Yin (☷)</strong><br><br>
+        Place them in your cupped hands. Do not toss yet.
+      </div>
+      <button class="coin-next-btn" onclick="coinNextStep(2)" id="csBtn1">I Have Three Coins →</button>
+    </div>
+
+    <!-- Step 2: 静心 -->
+    <div class="coin-step" id="coinStep2">
+      <div class="coin-step-num" id="csr2">Step 2 of 4 · Still the Mind</div>
+      <div class="breath-ring"></div>
+      <div class="coin-step-title" id="cst2">Three Breaths</div>
+      <div class="coin-step-body" id="csb2">
+        Close your eyes.<br><br>
+        Take <strong>three slow, full breaths</strong>. Breathe in for four counts, hold for two, out for six.<br><br>
+        As you breathe, let your question rise clearly in your mind — not the words, but the <strong>feeling</strong> of the situation.<br><br>
+        The coins in your hands, your question in your mind. Hold both at once.
+      </div>
+      <button class="coin-next-btn" onclick="coinNextStep(3)" id="csBtn2">My Mind Is Still →</button>
+    </div>
+
+    <!-- Step 3: 说明投法 -->
+    <div class="coin-step" id="coinStep3">
+      <div class="coin-step-num" id="csr3">Step 3 of 4 · How to Toss</div>
+      <div class="coin-step-icon">✋</div>
+      <div class="coin-step-title" id="cst3">The Tossing Method</div>
+      <div class="coin-step-body" id="csb3">
+        You will toss the three coins <strong>six times</strong>, once for each line of the hexagram.<br><br>
+        <strong>Each toss:</strong> Cup all three coins in both hands, shake gently while holding your question in mind, then let them fall onto a flat surface.<br><br>
+        After each toss, count how many coins land <strong>heads-up</strong> (0, 1, 2, or 3), and tap the result on the next screen.<br><br>
+        Toss 1 builds the <strong>bottom line</strong>. Toss 6 builds the <strong>top line</strong>. The oracle forms from the ground up.
+      </div>
+      <button class="coin-next-btn" onclick="coinNextStep(4)" id="csBtn3">Begin Tossing →</button>
+    </div>
+
+    <!-- Step 4: 输入投掷结果 -->
+    <div class="coin-step" id="coinStep4">
+      <div class="coin-step-num" id="csr4">Step 4 of 4 · Record Each Toss</div>
+      <div class="coin-step-title" id="cst4">Toss & Record</div>
+      <div class="coin-step-body" id="csb4" style="margin-bottom:20px;">
+        For each toss, tap how many coins landed <strong>heads-up</strong>.
+      </div>
+
+      <div class="toss-section">
+        <div id="tossRows"></div>
+        <div class="toss-progress" id="tossProgress">0 / 6 tosses recorded</div>
+        <button class="toss-confirm-btn" id="tossConfirmBtn" onclick="confirmCoinToss()">
+          <span id="tossConfirmLabel">Reveal the Hexagram</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divining-overlay" id="diviningOverlay">
+  <span class="divining-symbol">☯</span>
+  <div class="divining-text" id="diviningText">Casting the oracle...</div>
+</div>
+
+<!-- SHEN BRAND NAV -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.12);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px;">
+    <a href="index.html" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span style="font-family:'Ma Shan Zheng',serif;font-size:22px;color:#C9A84C;line-height:1;">神</span>
+      <span style="font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.38em;color:#E8D5A3;text-transform:uppercase;">SHEN</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <a href="bazi_oracle.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:#7a7060;text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='#C9A84C';this.style.borderColor='#7a5e28'" onmouseout="this.style.color='#7a7060';this.style.borderColor='transparent'">Ba Zi</a>
+      <a href="purple-star.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:#7a7060;text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='#C9A84C';this.style.borderColor='#7a5e28'" onmouseout="this.style.color='#7a7060';this.style.borderColor='transparent'">Zi Wei</a>
+      <a href="YiJing_Oracle.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:#C9A84C;text-decoration:none;padding:6px 14px;border:1px solid #7a5e28;border-radius:2px;text-transform:uppercase;background:rgba(201,168,76,0.08);">Yi Jing</a>
+    </div>
+  </div>
+</nav>
+<div style="height:52px;"></div>
+<div class="container">
+  <div class="lang-row">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnEN" onclick="setLangFull('en')">EN</button>
+      <button class="lang-btn" id="btnTW" onclick="setLangFull('zh-tw')">繁體</button>
+      <button class="lang-btn" id="btnZH" onclick="setLangFull('zh')">简体</button>
+    </div>
+  </div>
+  <header>
+    <span class="header-ornament" id="hdrOrnament">The Decision Framework That Predates Every MBA by 2,800 Years</span>
+    <h1 id="hdrTitle">I Ching Oracle<span class="zh" id="hdrZh">易 经 占 卜</span></h1>
+    <div class="header-line"></div>
+    <p class="subtitle" id="hdrSubtitle">
+      Used by emperors, studied by Jung, cited by Leibniz. The I Ching does not predict the future — it reveals the hidden structure of the present moment, so you can act with clarity.
+    </p>
+  </header>
+
+  <!-- RITUAL NOTICE -->
+  <div class="ritual-notice" id="ritualNotice">
+    <div class="ritual-summary" onclick="toggleRitual()">
+      <span class="ritual-icon">☯</span>
+      <div class="ritual-quick">
+        <div class="ritual-quick-title" id="rNoticeTitle">Before You Cast</div>
+        <div class="ritual-quick-list" id="rQuickList">
+          <span class="ritual-quick-item" id="rq1">Wash hands, still the mind</span>
+          <span class="ritual-quick-item" id="rq2">One question only</span>
+          <span class="ritual-quick-item" id="rq3">Sincere intent required</span>
+          <span class="ritual-quick-item" id="rq4">No trivial enquiries</span>
+        </div>
+      </div>
+      <span class="ritual-chevron" id="ritualChevron">▾</span>
+    </div>
+
+    <div class="ritual-detail" id="ritualDetail">
+      <div class="ritual-detail-inner">
+
+        <!-- Preparation -->
+        <div class="ritual-section">
+          <div class="ritual-section-title" id="rSecPrep">Preparation of Body & Mind</div>
+          <div class="ritual-items">
+            <div class="ritual-item">
+              <div class="ritual-dot"></div>
+              <div class="ritual-item-text" id="ri1"><strong>Cleanse the hands.</strong> The ancients washed hands and rinsed the mouth before consulting the oracle. In modern practice: wash your hands deliberately, as an act of transition — from the ordinary world into the act of enquiry.</div>
+            </div>
+            <div class="ritual-item">
+              <div class="ritual-dot"></div>
+              <div class="ritual-item-text" id="ri2"><strong>Still the breath.</strong> Sit quietly for two to three minutes. Breathe slowly and evenly until the mind settles and the inner noise quiets. The oracle speaks in stillness, not in haste.</div>
+            </div>
+            <div class="ritual-item">
+              <div class="ritual-dot"></div>
+              <div class="ritual-item-text" id="ri3"><strong>Formulate your question with precision.</strong> Hold the question clearly in mind — one matter only. The ancients phrased it as: <em>"Regarding the matter of [X] — what is the way forward?"</em> Vague questions yield vague counsel.</div>
+            </div>
+            <div class="ritual-item">
+              <div class="ritual-dot"></div>
+              <div class="ritual-item-text" id="ri4"><strong>Cultivate sincerity, not supplication.</strong> Zhu Xi wrote that preparation is not prayer to a deity — it is entering the focused state of a scholar before an examination, so that the full intelligence of your attention is brought to bear.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prohibitions -->
+        <div class="ritual-section">
+          <div class="ritual-section-title" id="rSecForbid">The Classical Prohibitions</div>
+          <div class="ritual-items ritual-forbid">
+            <div class="ritual-item">
+              <div class="ritual-dot"></div>
+              <div class="ritual-item-text" id="rf1"><strong>Do not cast without sincerity.</strong> Consulting the oracle in jest, or while harbouring doubt about its validity, invalidates the enquiry.</div>
+            </div>
+            <div class="ritual-item">
+              <div class="ritual-dot"></div>
+              <div class="ritual-item-text" id="rf2"><strong>Do not cast without a real question.</strong> The oracle is not a game. It requires genuine uncertainty and genuine need.</div>
+            </div>
+            <div class="ritual-item">
+              <div class="ritual-dot"></div>
+              <div class="ritual-item-text" id="rf3"><strong>Do not cast when the decision is already made.</strong> If you have already determined your course, the oracle cannot serve you — it speaks to open questions, not to ratify closed ones.</div>
+            </div>
+            <div class="ritual-item">
+              <div class="ritual-dot"></div>
+              <div class="ritual-item-text" id="rf4"><strong>Do not cast while ill or severely depleted.</strong> The quality of concentrated attention required is unavailable when the body is in acute distress.</div>
+            </div>
+            <div class="ritual-item">
+              <div class="ritual-dot"></div>
+              <div class="ritual-item-text" id="rf5"><strong>Do not ask the same question twice.</strong> The oracle has spoken. Return only if circumstances have genuinely changed.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- END RITUAL NOTICE -->
+
+  <!-- 方向引导 -->
+  <div class="question-section" id="yj-guide-section">
+    <div class="section-label" id="lblTopic">What is your question about?</div>
+    <div id="yj-topics" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;"></div>
+    <div id="yj-quick-section" style="display:none;">
+      <div class="section-label" id="lblSituation" style="font-size:21px;margin-bottom:10px;">What best describes your situation?</div>
+      <div id="yj-quick-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;"></div>
+      <input type="hidden" id="yj-quick-val">
+      <div class="section-label" id="lblQuestion" style="font-size:21px;margin-bottom:8px;">Your Question</div>
+      <textarea id="questionInput" rows="3" placeholder="Add details here (optional)"></textarea>
+      <button style="background:none;border:none;color:rgba(255,255,255,0.3);font-size:24px;cursor:pointer;margin-top:6px;text-decoration:underline;" onclick="resetYjTopic()" id="yj-reset-btn">← Change topic</button>
+    </div>
+    <div id="yj-no-topic-msg" style="display:none;">
+      <textarea id="questionInput" rows="5" placeholder="What weighs upon your mind? Write your question here…"></textarea>
+    </div>
+  </div>
+
+  <button class="cast-btn" onclick="openCoinRitual()" id="castBtn">
+    Cast the Oracle
+  </button>
+
+  <div class="result-panel" id="resultPanel">
+
+    <!-- 卦象标题：简洁显示 -->
+    <div class="hexagram-display">
+      <span class="hex-symbol" id="hexSymbol">䷀</span>
+      <div class="hex-number" id="hexNumber">HEXAGRAM I</div>
+      <div class="hex-name-en" id="hexNameEn">Qian — The Creative</div>
+      <div class="hex-name-zh" id="hexNameZh">乾</div>
+      <div class="hex-line"></div>
+      <div class="hex-keyword" id="hexKeyword">Heaven · Strength · Initiation</div>
+    </div>
+
+    <!-- AI解读：直接放最上面，针对用户问题 -->
+    <div class="ai-reading-section" id="aiReadingSection">
+      <div class="ai-reading-header">
+        <div class="ai-reading-title" id="aiTitle">Ask the Oracle</div>
+        <div class="ai-reading-sub" id="aiSub">Your hexagram holds answers your rational mind cannot reach alone — preview free, unlock the full counsel for $9</div>
+      </div>
+
+      <div class="ai-result" id="aiResult" style="display:none">
+        <div class="ai-result-label" id="aiResultLabel">The Oracle Speaks</div>
+        <div class="ai-result-text" id="aiResultText"></div>
+        <div class="ai-upgrade-prompt" id="aiUpgradePrompt" style="display:none">
+          <div class="ai-upgrade-text" id="aiUpgradeText">↑ This is your oracle preview. The full reading includes: deep hexagram analysis, moving line interpretation, how your situation transforms over the next 3–6 months, and specific, actionable counsel for your exact question.</div>
+          <div style="text-align:center;margin-top:16px;">
+            <button class="ai-paid-btn" onclick="getAIReading(true)" style="max-width:320px;margin:0 auto;display:block;">
+              <span id="aiUnlockLabel">⟡ Unlock Full Reading · $9</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI 操作按钮：免费预览 + 付费完整解读 -->
+      <div class="ai-actions" id="aiActions" style="display:none;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;padding:16px 24px 20px;background:var(--panel);">
+          <button class="ai-free-btn" onclick="getAIReading(false)" id="aiPreviewBtn" style="flex:1;">✦ Free Preview</button>
+          <button class="ai-paid-btn" onclick="getAIReading(true)" id="aiPaidBtn" style="flex:2;">
+            <span id="aiPaidLabel">⟡ Full Reading · $9</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="ai-loading" id="aiLoading" style="display:none">
+        <div class="ai-loading-symbol">☯</div>
+        <div class="ai-loading-text" id="aiLoadingText">Consulting the hexagram...</div>
+      </div>
+    </div>
+    <!-- END AI PERSONAL READING -->
+
+    <!-- 重新起卦按钮 -->
+    <button class="new-btn" onclick="resetOracle()" id="newBtn">Begin a New Reading</button>
+
+    <!-- 卦象详解：折叠在底部，感兴趣可展开 -->
+    <div class="hex-detail-section" id="hexDetailSection">
+      <button class="hex-detail-toggle" onclick="toggleHexDetail()" id="hexDetailToggle">
+        <span id="hexDetailToggleLabel">+ Hexagram Reference</span>
+      </button>
+      <div class="hex-detail-body" id="hexDetailBody" style="display:none">
+        <div class="reading-tabs" id="readingTabs">
+          <button class="tab-btn active" onclick="showTab('overview')" id="tabOverview">Overview</button>
+          <button class="tab-btn" onclick="showTab('areas')" id="tabAreas">Life Areas</button>
+          <button class="tab-btn" onclick="showTab('lines')" id="tabLines">The Lines</button>
+          <button class="tab-btn" onclick="showTab('counsel')" id="tabCounsel">Counsel</button>
+        </div>
+        <div class="tab-content active" id="tab-overview">
+          <div class="classical-block" id="classicalBlock"></div>
+          <div class="reading-text" id="readingOverview"></div>
+        </div>
+        <div class="tab-content" id="tab-areas">
+          <div class="reading-text" id="readingAreas"></div>
+        </div>
+        <div class="tab-content" id="tab-lines">
+          <div class="lines-grid" id="readingLines"></div>
+          <div class="changing-hex" id="changingHex" style="display:none">
+            <div class="label" id="lblChanging">Changing Into</div>
+            <div class="symbol" id="changingSymbol"></div>
+            <div class="name" id="changingName"></div>
+          </div>
+        </div>
+        <div class="tab-content" id="tab-counsel">
+          <div class="reading-text" id="readingCounsel"></div>
+        </div>
+      </div>
+    </div>
+
+  <footer>
+    <span class="footer-ornament">☯</span>
+    <p class="footer-text" id="ftrText">The oracle speaks — wisdom lies in how you listen.</p>
+    <p style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.32em;color:rgba(201,168,76,0.3);margin-top:16px;text-transform:uppercase;">SHEN · Ancient Chinese Wisdom, Decoded</p>
+  </footer>
+</div>
+
+<script>
+// ─── LANGUAGE ───────────────────────────────────────────────
+let lang = 'en';
+
+const UI = {
+  en: {
+    ornament: 'The Decision Framework That Predates Every MBA by 2,800 Years',
+    title: 'I Ching Oracle',
+    subtitle: 'Used by emperors, studied by Jung, cited by Leibniz. The I Ching does not predict the future — it reveals the hidden structure of the present moment, so you can act with clarity.',
+    lblQuestion: 'Your Question',
+    placeholder: 'State your question here.\n\nThe more specific, the more precise the counsel.\nExample: "Should I move forward with this partnership in Q3?"\n\n——\n\nOnce written, close your eyes. Breathe slowly, three full breaths. On the third, hold your question clearly in mind. Then cast.',
+    castBtn: 'Cast the Oracle',
+    tabOverview: 'Overview', tabAreas: 'Life Areas', tabLines: 'The Lines', tabCounsel: 'Counsel',
+    lblChanging: 'Changing Into',
+    newBtn: 'Begin a New Reading',
+    ftrText: 'The I Ching does not tell you what to do. It shows you what is.',
+    divining: 'Casting the oracle...',
+    movingTag: 'MOVING',
+    breathText: 'Once written — set the words aside. Close your eyes. Breathe slowly, three times. On the third breath, hold your question in mind with full clarity. Then, and only then, cast.',
+    rNoticeTitle: 'Before You Cast',
+    rq: ['Clear the mind, not just the hands','One question, one consultation','Genuine intent only','No testing — the oracle knows'],
+    rSecPrep: 'Preparation of Body & Mind',
+    rSecForbid: 'The Classical Prohibitions',
+    ri: [
+      '<strong>Cleanse the hands.</strong> The ancients washed hands and rinsed the mouth before consulting the oracle. In modern practice: wash your hands deliberately, as an act of transition — from the ordinary world into the act of enquiry.',
+      '<strong>Still the breath.</strong> Sit quietly for two to three minutes. Breathe slowly and evenly until the mind settles and the inner noise quiets. The oracle speaks in stillness, not in haste.',
+      '<strong>Formulate your question with precision.</strong> Hold the question clearly in mind — one matter only. The ancients phrased it: <em>"Regarding the matter of [X] — what is the way forward?"</em> Vague questions yield vague counsel.',
+      '<strong>Cultivate sincerity, not supplication.</strong> Zhu Xi wrote that preparation is not prayer to a deity — it is entering the focused state of a scholar before an examination, so the full intelligence of your attention is brought to bear.',
+    ],
+    rf: [
+      '<strong>Do not cast without sincerity.</strong> Consulting the oracle in jest, or while harbouring doubt about its validity, invalidates the enquiry.',
+      '<strong>Do not cast without a real question.</strong> The oracle is not a game. It requires genuine uncertainty and genuine need.',
+      '<strong>Do not cast when the decision is already made.</strong> If you have already determined your course, the oracle cannot serve you — it speaks to open questions, not to closed ones.',
+      '<strong>Do not cast while ill or severely depleted.</strong> The quality of concentrated attention required is unavailable when the body is in acute distress.',
+      '<strong>Do not ask the same question twice.</strong> The oracle has spoken. Return only if circumstances have genuinely changed.',
+    ],
+  },
+  zh: {
+    ornament: '帝王用它决策，荣格研究它，莱布尼茨引用它',
+    title: '易经占卜',
+    subtitle: '易经不预测未来——它揭示当下这一刻的结构。三千年来，六十四卦照亮了无数关键抉择。',
+    lblQuestion: '你的问题',
+    placeholder: '心中所系为何？请在此写下你的问题……\n\n——\n\n写完之后，轻轻闭目，深呼吸三次，缓缓地，均匀地。第三口气呼出时，心中清晰默想你的问题。静定之后，再点击起卦。',
+    castBtn: '起  卦',
+    tabOverview: '卦义总论', tabAreas: '各方面指引', tabLines: '爻辞详解', tabCounsel: '行动建议',
+    lblChanging: '之卦',
+    newBtn: '重新起卦',
+    ftrText: '易经不告诉你该做什么，它让你看清当下是什么。',
+    divining: '起卦中……',
+    movingTag: '动爻',
+    breathText: '问题写好之后，放下文字，轻轻闭上双眼。深呼吸三次，缓缓地，均匀地。第三口气呼出的瞬间，心中清晰地默想你的问题。静定之后，再点击起卦。',
+    rNoticeTitle: '起卦须知',
+    rq: ['净手静心','一事一占','心存诚敬','忌嬉戏随意'],
+    rSecPrep: '身心准备',
+    rSecForbid: '几不占原则',
+    ri: [
+      '<strong>净手。</strong>古人问卦前需洗手净口，以表恭敬。现代可简化为：用洗手这一动作作为从日常状态进入问卦状态的仪式性切换。',
+      '<strong>静心调息。</strong>静坐两三分钟，缓慢均匀地呼吸，待杂念渐消、内心平静专注，再开始问卦。卦象在静中显现，不在浮躁中。',
+      '<strong>明确所问。</strong>心中清晰默念所占之事，一事一占。古法措辞如：<em>"今以某事云云，未知可否？"</em>问题模糊，则卦意难明。',
+      '<strong>诚敬，而非祈求。</strong>朱熹《周易本义》强调，这种准备不是向神明祈求，而是让自己进入类似考场前那种高度专注的状态，使心思集中，以保证结果准确。',
+    ],
+    rf: [
+      '<strong>心不诚不占。</strong>嬉戏玩闹，或心中怀疑占卜有效性时，不宜问卦。',
+      '<strong>无事不占。</strong>不可随意试卦，需有真实的困惑与需要，才有问卜的意义。',
+      '<strong>心意已决不占。</strong>已经做出决定的事，无需再问。卦象只对开放的问题发言，不为已定的结论背书。',
+      '<strong>病中不占。</strong>身体不适时精力涣散，无法保持起卦所需的专注度。',
+      '<strong>同一件事不重复问。</strong>卦已有言，当遵从。除非处境确实发生了实质性变化，否则不宜反复问同一件事。',
+    ],
+  }
+};
+
+function setLang(l) {
+  lang = l;
+  document.getElementById('btnEN').className = 'lang-btn' + (l==='en' ? ' active' : '');
+  document.getElementById('btnZH').className = 'lang-btn' + (l==='zh' ? ' active' : '');
+  applyUI();
+  // 重新渲染引导选项（语言切换）
+  if(typeof initYjTopics === 'function') {
+    initYjTopics();
+    if(typeof yjCurrentTopic !== 'undefined' && yjCurrentTopic) {
+      selectYjTopic(yjCurrentTopic);
+    }
+  }
+}
+
+function applyUI() {
+  const u = UI[lang];
+  document.getElementById('hdrOrnament').textContent = u.ornament;
+  document.getElementById('hdrTitle').childNodes[0].nodeValue = lang==='en' ? 'I Ching Oracle' : '易经占卜';
+  document.getElementById('hdrZh').style.display = lang==='en' ? 'block' : 'none';
+  document.getElementById('hdrSubtitle').textContent = u.subtitle;
+  document.getElementById('lblQuestion').childNodes[0].nodeValue = u.lblQuestion;
+  document.getElementById('questionInput').placeholder = u.placeholder;
+  document.getElementById('castBtn').textContent = u.castBtn;
+  document.getElementById('tabOverview').textContent = u.tabOverview;
+  document.getElementById('tabAreas').textContent = u.tabAreas;
+  document.getElementById('tabLines').textContent = u.tabLines;
+  document.getElementById('tabCounsel').textContent = u.tabCounsel;
+  document.getElementById('lblChanging').textContent = u.lblChanging;
+  document.getElementById('newBtn').textContent = u.newBtn;
+  document.getElementById('ftrText').textContent = u.ftrText;
+  // Ritual notice
+  document.getElementById('rNoticeTitle').textContent = u.rNoticeTitle;
+  document.getElementById('rSecPrep').childNodes[0].nodeValue = u.rSecPrep;
+  document.getElementById('rSecForbid').childNodes[0].nodeValue = u.rSecForbid;
+  const qIds = ['rq1','rq2','rq3','rq4'];
+  qIds.forEach((id,i) => document.getElementById(id).textContent = u.rq[i]);
+  const riIds = ['ri1','ri2','ri3','ri4'];
+  riIds.forEach((id,i) => document.getElementById(id).innerHTML = u.ri[i]);
+  const rfIds = ['rf1','rf2','rf3','rf4','rf5'];
+  rfIds.forEach((id,i) => document.getElementById(id).innerHTML = u.rf[i]);
+}
+
+function toggleRitual() {
+  document.getElementById('ritualNotice').classList.toggle('open');
+}
+
+function applyAIUI() {
+  const isZh = lang === 'zh';
+  document.getElementById('aiTitle').textContent = isZh ? '深度解读' : 'Personal Reading';
+  document.getElementById('aiSub').textContent = isZh ? '卦象正在解读中' : 'Reading the hexagram against your question';
+  document.getElementById('aiFreeLabel').textContent = isZh ? '免费预览' : 'Free Preview';
+  document.getElementById('aiPaidLabel').textContent = isZh ? '完整深度解读 · ¥65' : '⟡ Full Reading · $9';
+  document.getElementById('aiResultLabel').textContent = isZh ? '卦象直言' : 'The Oracle Speaks';
+  document.getElementById('aiUpgradeText').textContent = isZh
+    ? '以上为预览版。完整解读包含：处境深度分析、具体行动建议、时机判断、需要警惕的风险——专为你的问题定制。'
+    : 'This is a preview. The full reading includes situation analysis, specific action counsel, timing guidance, and risks to watch — tailored precisely to your question.';
+  document.getElementById('aiUnlockLabel').textContent = isZh ? '解锁完整解读 · ¥65' : '⟡ Unlock Full Reading · $9';
+  document.getElementById('aiLoadingText').textContent = isZh ? '卦象正在回应……' : 'Consulting the hexagram...';
+  const toggleLabel = document.getElementById('hexDetailToggleLabel');
+  if (toggleLabel) toggleLabel.textContent = isZh ? '+ 卦象参考（展开）' : '+ Hexagram Reference';
+  const paidLabel = document.getElementById('aiPaidLabel');
+  if (paidLabel) paidLabel.textContent = isZh ? '完整解读 · ¥65' : '⟡ Full Reading · $9';
+  const unlockLabel = document.getElementById('aiUnlockLabel');
+  if (unlockLabel) unlockLabel.textContent = isZh ? '解锁完整解读 · ¥65' : '⟡ Unlock Full Reading · $9';
+}
+
+// ─── HEXAGRAM DATA ───────────────────────────────────────────
+// 64 hexagrams with full bilingual readings
+const HEXAGRAMS = [
+  {
+    num:1, symbol:'䷀', pinyin:'Qián', en:'The Creative', zh:'乾',
+    keyword_en:'Heaven · Strength · Initiation', keyword_zh:'天 · 刚健 · 创造',
+    classical_en:`"The Creative works sublime success, furthering through perseverance." — The four qualities: origination, penetration, furtherance, and correctness. Heaven moves with ceaseless vigor.`,
+    classical_zh:`《乾》：元、亨、利、贞。\n\n象曰：天行健，君子以自强不息。\n\n（天道运行，刚健不止。君子当效法天道，自我奋发，永不停息。）`,
+    overview_en:`<p>The Creative stands as the first and most primordial of all sixty-four hexagrams — pure yang energy, undiluted and vast. Six unbroken lines, like six columns of heaven, speak of a force that initiates all things. This is not merely power; it is the <em>source</em> of power, the capacity that precedes all action.</p><p>When the oracle presents Qian, it signals a moment of extraordinary potential. The heavens themselves are aligned in your favor — but heaven does not act carelessly. The dragon, symbol of this hexagram, does not fly at all times. It watches, it gathers, it chooses the precise moment of ascent. You are being asked to cultivate that same quality: strength without recklessness, initiative without arrogance.</p><p>The ancient text whispers: <em>"Great and originating, penetrating, advantageous, correct and firm."</em> Four words. Four qualities without which no great endeavor survives. The Creative hexagram calls you not merely to act — but to act as the heavens do: with inexhaustible wisdom, impeccable timing, and sovereign clarity.</p>`,
+    overview_zh:`<p>乾卦是六十四卦里最强的一卦，六爻全是阳，代表天的力量，刚健、充沛、向上。抽到这一卦，说明你现在处于一段能量很足的时期，有推进事情的底气。</p><p>但乾卦有一个重要的提醒：力气大不等于可以乱用。卦里有龙的意象——龙不是时时刻刻都在飞的，它会潜伏、蓄势，等到时机对了才出击。你现在就需要这种判断力：<em>知道该动的时候动，知道该等的时候等</em>。</p><p>简单说：这是好时机，但别骄傲，别冒进。把每一步走稳了，你这段时间能做成大事。</p>`,
+    areas_en:`<p><em>Wealth & Career:</em> A period of genuine advancement opens before you. The Creative favors those who lead — proposals put forward now carry unusual authority. However, guard against overreach: consolidate each gain before reaching for the next.</p><p><em>Relationships:</em> Strong yang energy can overwhelm. Be conscious of the space you occupy in your relationships. The Creative asks you to inspire, not to dominate. A partner needs room to breathe and grow beside you, not merely behind you.</p><p><em>Health & Vitality:</em> Energy levels are at a natural peak. This is an auspicious window for beginning new health regimens or demanding physical pursuits. The body is receptive and resilient.</p><p><em>Decisions & Strategy:</em> Trust your first-order instincts on important matters. The clarity you feel is genuine. But share your reasoning — decisions made in isolation, however confident, miss the counsel of those who see different angles.</p>`,
+    areas_zh:`<p><em>财富与事业：</em>现在是推进的好时候，你的想法和提案比平时更容易被别人接受。但要注意——每拿下一步，先稳住再继续，不要贪多求快，否则容易翻车。</p><p><em>感情与人际：</em>你现在气场比较强，容易不自觉地主导一切。要留意这一点，给身边的人多一点空间，别让对方觉得喘不过气。关系是两个人的，不是一个人说了算的。</p><p><em>健康：</em>精力比较旺盛，适合开始新的健身计划或者高强度的事情，身体状态现在很能扛。</p><p><em>做决定：</em>重要的事情，你现在的判断力是靠谱的，可以信任自己的直觉。但最好把你的想法说给信任的人听——哪怕你很有把握，多一双眼睛也不会错。</p>`,
+    lines_en:[
+      {pos:'First', text:'The dragon lies submerged. Do not act. There is wisdom in knowing which season calls for stillness. Prepare inwardly while the world does not yet see you.'},
+      {pos:'Second', text:'A dragon appears in the field. It is fitting to see the great person. Your talents are becoming visible — this is the moment to build alliances and make your intentions known.'},
+      {pos:'Third', text:'The superior person is creatively active all day. At nightfall, caution remains. There is no blame. Between the heights of morning enthusiasm and evening doubt lies the path of steadiness.'},
+      {pos:'Fourth', text:'The dragon hovers, uncertain, between heaven and the abyss. Perhaps he will leap upward. No blame either way. Trust your judgment at this crossroads.'},
+      {pos:'Fifth', text:'The dragon flies in the heavens. Favorable to see the great person. This is the apex — act decisively and with full commitment. Allies at this moment are transformative.'},
+      {pos:'Sixth', text:'The arrogant dragon will have cause for regret. Even heaven knows the cost of excess. Power used beyond its proper scope creates the very resistance it sought to overcome.'},
+    ],
+    lines_zh:[
+      {pos:'初九', text:'潜龙勿用。此时如龙潜水中，蓄势待发。天时未到，勿急于表露。内修其德，等待时机。'},
+      {pos:'九二', text:'见龙在田，利见大人。才华开始显现，此时宜主动建立联盟，让志向为人所知。'},
+      {pos:'九三', text:'君子终日乾乾，夕惕若厉，无咎。在晨间的热情高峰与夜间的自我审视之间，保持持续精进，无过失。'},
+      {pos:'九四', text:'或跃在渊，无咎。处于天地之间，进退两可之地。信任自己的判断，无论哪个方向，皆无咎。'},
+      {pos:'九五', text:'飞龙在天，利见大人。此为最佳时机，当果断行动，全力投入。此刻得到的盟友将带来根本性的转变。'},
+      {pos:'上九', text:'亢龙有悔。即使是天道，过度亦有代价。超越本分的力量，最终将遭到它试图克服的阻力。'},
+    ],
+    counsel_en:`<p>The Creative hexagram, at its deepest level, is asking you a singular question: <em>What do you truly wish to bring into being?</em> Not what you think you should want, not what others expect — what genuine vision animates you?</p><p>Heaven creates not by force but by nature. The sun does not strain to rise. Your most powerful action in this period will feel effortless — not because it requires no effort, but because it is perfectly aligned with who you are becoming. Strain is a signal of misalignment; ease is a signal of rightness.</p><p>Three practical counsels for this period: <strong>First</strong>, write down the one commitment that, if kept for six months, would change everything. Then keep it. <strong>Second</strong>, identify who in your circle operates at a higher level than you do in the domain that matters most. Seek their company. <strong>Third</strong>, be wary of those who flatter rather than challenge you — the dragon needs wind resistance to rise.</p>`,
+    counsel_zh:`<p>抽到乾卦，最核心的问题是：<em>你现在真正想做的是什么？</em>不是别人期待你做的，不是你觉得"应该"做的——是你内心真正燃着的那件事。</p><p>乾卦给你的力量，用在那件事上才最有效。如果你方向不明，这个力量也会散掉。所以现在最重要的一步，不是马上行动，而是先想清楚方向。</p><p>三件具体的事可以现在去做：<strong>第一</strong>，把你觉得"如果坚持六个月会改变一切"的那件事写下来，然后真的去做。<strong>第二</strong>，找一个在你最在意的那个领域比你强的人，主动去接触他。<strong>第三</strong>，离那些只会夸你、从不挑战你的人远一点——龙需要逆风才能飞起来。</p>`,
+    changeable: true
+  },
+  {
+    num:2, symbol:'䷁', pinyin:'Kūn', en:'The Receptive', zh:'坤',
+    keyword_en:'Earth · Yielding · Nourishment', keyword_zh:'地 · 柔顺 · 承载',
+    classical_en:`"The Receptive brings about sublime success, furthering through the perseverance of a mare." — Work with what is, not against it. The earth does not strive; it receives, and in receiving, nourishes all things.`,
+    classical_zh:`《坤》：元、亨，利牝马之贞。君子有攸往，先迷后得主，利。\n\n象曰：地势坤，君子以厚德载物。\n\n（大地宽厚，承载万物。君子当以宽厚的品德，包容承载一切。）`,
+    overview_en:`<p>Where Qian is the initiating heaven, Kun is the receiving earth — equally essential, equally divine. Six broken lines, like six valleys open to the sky, symbolize perfect receptivity. The earth does not strain to grow the harvest; it simply creates the conditions in which all things can flourish. This is not passivity — it is the highest form of active intelligence.</p><p>The Receptive carries the energy of deep support, consolidation, and the quiet power that sustains great endeavors over time. If Qian is the architect's vision, Kun is the foundation that makes the building possible. When this hexagram appears, the oracle is suggesting that your greatest power right now lies not in pushing forward, but in <em>holding space</em> — for others, for emerging ideas, for possibilities that are not yet ready to be forced.</p><p>The mare, symbol of this hexagram, does not lead but follows — and in following with intelligence and grace, she travels farther than any who charge ahead heedlessly.</p>`,
+    overview_zh:`<p>坤卦是六十四卦里最柔的一卦，六爻全是阴，代表大地的力量——不是弱，而是另一种强：包容、承载、滋养万物。抽到这一卦，说明你现在最该做的不是冲，而是守。</p><p>大地不会到处跑着找雨水——它把土壤养好，雨来了自然不会流走。坤卦给你的信号是：现在不是出击的时候，而是<em>深耕的时候</em>。把手头已有的事情做扎实，比开新摊子更有价值。</p><p>简单说：这段时间低调一点、踏实一点，默默把基础打好，比张扬要有用得多。</p>`,
+    areas_en:`<p><em>Wealth & Career:</em> This is not the moment to launch — it is the moment to deepen. Consolidate existing relationships, honor existing commitments, master existing skills. The harvest does not demand; it awaits the proper season.</p><p><em>Relationships:</em> The Receptive favors depth over expansion. An existing relationship that has been taken for granted may reveal surprising depth if you turn toward it with full attention. Quality of presence is the gift this period asks you to give.</p><p><em>Health & Vitality:</em> The body asks for restoration. Nourishment over stimulation, rest over exertion, gentle movement over intensity. This is a period to tend to depletion before it becomes illness.</p><p><em>Decisions & Strategy:</em> Gather rather than decide. Consult rather than pronounce. The Receptive's wisdom is in knowing that some answers come not through striving but through listening. Allow the situation to reveal itself further before committing to a single course.</p>`,
+    areas_zh:`<p><em>财富与事业：</em>不是开新项目的好时机，是把已有的事情做深、做稳的时机。维护好现有的客户和合作关系，认认真真把手头的活做好，这段时间的回报不会在表面，但会很扎实。</p><p><em>感情与人际：</em>不用到处拓展新关系，把已经有的关系用心经营。有没有哪段关系你最近忽略了？现在是回头认真对待它的好时机，你会发现比你以为的要深。</p><p><em>健康：</em>身体需要休养，不是折腾的时候。吃好睡好，不要过度消耗自己，有点小毛病及时调理，别硬撑。</p><p><em>做决定：</em>现在不适合单独拍板，多听听别人的意见。也不要急着做决定，先收集信息、观察一阵子，等看清楚了再动。</p>`,
+    lines_en:[
+      {pos:'First', text:'When frost is underfoot, solid ice is not far. The smallest signs carry the largest portents. What small pattern, if unchecked, could grow into something larger? Address it now, with care.'},
+      {pos:'Second', text:'Straight, square, and great. Without purpose, nothing is without advantage. When action arises from true character rather than strategy, every direction becomes fruitful.'},
+      {pos:'Third', text:'Lines hidden, the work is done. Perseverance brings completion. Work performed without need for recognition is the most durable work of all.'},
+      {pos:'Fourth', text:'A tied sack. Neither blame nor praise. A season for discretion. Not every truth needs to be spoken; not every hand needs to be revealed.'},
+      {pos:'Fifth', text:'A yellow lower garment brings good fortune. The most refined authority wears its power with understatement. True distinction requires no performance.'},
+      {pos:'Sixth', text:'Dragons fight in the meadow. Their blood is dark and yellow. When yin pushes too far into yang territory, conflict erupts. Know your proper domain.'},
+    ],
+    lines_zh:[
+      {pos:'初六', text:'履霜，坚冰至。最小的迹象携带着最大的预兆。哪个小小的模式若不加检视，会演变为更大的问题？现在就温和地处理它。'},
+      {pos:'六二', text:'直方大，不习无不利。当行动发自真正的品格而非策略，每个方向都将变得有益。'},
+      {pos:'六三', text:'含章可贞。无需认可而完成的工作，是最持久的工作。'},
+      {pos:'六四', text:'括囊，无咎无誉。这是谨慎的时节——不是每个真相都需要说出，不是每张牌都需要亮出。'},
+      {pos:'六五', text:'黄裳，元吉。最精炼的权威以低调方式展现力量。真正的卓越无需表演。'},
+      {pos:'上六', text:'龙战于野，其血玄黄。当阴强行进入阳的领域，冲突爆发。认清并守住自己合适的疆界。'},
+    ],
+    counsel_en:`<p>The Receptive asks a deceptively simple question: <em>What would happen if, just for this season, you stopped pushing and simply attended?</em></p><p>The deepest intelligence often does not announce itself through grand gestures. It comes in the quality of attention you bring to what is already present. The earth does not go searching for rain; it prepares the soil so that when rain falls, nothing is lost.</p><p>Three practical counsels: <strong>First</strong>, identify what has been growing beneath the surface of your life that you have not yet acknowledged. Give it recognition. <strong>Second</strong>, choose one relationship or project to give your complete, undivided presence this week. Not divided attention — complete presence. <strong>Third</strong>, create silence. An hour with no inputs. The oracle speaks quietly, and you need still water to hear it.</p>`,
+    counsel_zh:`<p>坤卦问你一个问题：<em>如果这段时间你停止往前冲，专心把已有的东西照顾好——会发生什么？</em></p><p>很多人在坤卦的时期感到焦虑，觉得"不往前走就是退步"。但坤卦告诉你：有时候根扎深了，才能长得高。这段时间的积累，是在为下一段的爆发打地基。</p><p>三件现在可以做的事：<strong>第一</strong>，想想你生活里有没有什么一直在生长、但你还没认真对待过的事情，现在去重视它。<strong>第二</strong>，选一段关系或一件事，这周给它完整的、不分心的陪伴，不是刷手机的那种，是真的在。<strong>第三</strong>，给自己一段安静的时间，什么都不做，就坐着。答案有时候是在安静里浮出来的，不是在忙碌里找到的。</p>`,
+    changeable: true
+  },
+  {
+    num:3, symbol:'䷂', pinyin:'Zhūn', en:'Difficulty at the Beginning', zh:'屯',
+    keyword_en:'Germination · Chaos · Perseverance', keyword_zh:'萌芽 · 困厄 · 坚持',
+    classical_en:`"In the beginning there is darkness. Clouds and thunder. The superior person brings order out of confusion." — The difficulty of beginning is not an obstacle; it is the path itself.`,
+    classical_zh:`《屯》：元、亨、利、贞。勿用有攸往，利建侯。\n\n象曰：云雷屯，君子以经纶。\n\n（云聚雷动，万物初生。君子当在混沌中理清头绪，一步步建立秩序。）`,
+    overview_en:`<p>Difficulty at the Beginning is the hexagram of the seed breaking through soil — a violent, necessary struggle that precedes all new life. Thunder below, water above: the very image of a storm that has just broken. The chaos is not a mistake; it is the <em>price</em> of beginning.</p><p>When this hexagram appears, you are almost certainly in the midst of something that has not yet found its form. Plans feel confused, directions unclear, progress slow. The oracle is telling you something important: <em>this is not failure; this is the nature of all genuine beginnings.</em> The oak tree does not apologize for being a difficult, struggling seedling first.</p><p>Do not attempt to impose premature order on what is still in formation. Seek helpers, build alliances, but do not try to force resolution before the situation is ready. The difficulty is the teacher.</p>`,
+    overview_zh:`<p>屯卦的意思是"破土而出"——就像种子从土里钻出来，那一刻是最艰难的，要顶破土层，但破出去之后才能生长。抽到这一卦，说明你现在正在经历一件事的开头，感觉混乱、进展慢、方向不清晰——这很正常，这就是屯卦该有的样子。</p><p>这不是失败的信号，也不是说你走错了。<em>所有真正值得做的事，开头都是这个样子的。</em>觉得乱、觉得累、不知道下一步怎么走——这恰恰说明你在做一件真实的事，不是走过场。</p><p>简单说：坚持，找帮手，别一个人扛，熬过开头就好了。</p>`,
+    areas_en:`<p><em>Wealth & Career:</em> A new venture is underway but faces the inevitable friction of early-stage difficulties. Do not mistake this friction for a sign to stop. Seek experienced mentors — this hexagram specifically counsels that helpers are essential right now.</p><p><em>Relationships:</em> A new connection, or a significant shift in an existing relationship, is navigating its awkward beginning. Patience and humor are your allies. Do not demand that this relationship immediately become what you hope it will eventually be.</p><p><em>Health & Vitality:</em> A new health practice is encountering its initial resistance. Push through this phase with gentleness — rigidity will cause you to abandon the effort, but gentleness can carry you through.</p><p><em>Decisions & Strategy:</em> Do not decide alone in this period. Consult widely. The chaos of beginning is partly the chaos of insufficient information — gather more before committing irrevocably.</p>`,
+    areas_zh:`<p><em>财富与事业：</em>新的事业正在推进，但面临初期阶段不可避免的摩擦。不要把这种摩擦误解为停止的信号。寻找有经验的导师——屯卦特别强调此时助手至关重要。</p><p><em>人际与情感：</em>一段新的连接，或现有关系的重大转变，正在度过它笨拙的开始。耐心与幽默是你的盟友。不要要求这段关系立即成为你希望它最终成为的样子。</p><p><em>健康与精力：</em>一项新的健康实践正在遭遇初期阻力。用温和的方式坚持——刚硬会让你放弃努力，而温柔能带你走过。</p><p><em>决策与谋略：</em>此时不要独自决策。广泛咨询。开始的混乱部分是信息不足的混乱——在做出不可逆转的承诺之前，收集更多信息。</p>`,
+    lines_en:[
+      {pos:'First', text:'Hesitation and halting at the start. Perseverance furthers. It furthers to appoint helpers. The beginning is hard for everyone. Ask for help without shame.'},
+      {pos:'Second', text:'Difficulties pile up. The horse and carriage part. She is not a robber; he wants to woo her. The maiden is chaste; she does not pledge herself. Ten years — then she pledges herself. What seems lost to the chaos may return in its proper time.'},
+      {pos:'Third', text:'Whoever hunts deer without a forester only loses his way in the forest. Ambition without guidance in unfamiliar terrain leads only deeper into confusion. Find your guide.'},
+      {pos:'Fourth', text:'Horse and carriage part. Strive for union. To go brings good fortune. Do not let pride prevent you from accepting the help or reconciliation that is now being offered.'},
+      {pos:'Fifth', text:'Difficulties in blessing. A little perseverance brings good fortune; great perseverance brings misfortune. Proceed step by step. This is not the moment for all-or-nothing gambits.'},
+      {pos:'Sixth', text:'Horse and carriage part. Bloody tears flow. There are situations where even perseverance cannot overcome the timing. Acknowledge what cannot be forced.'},
+    ],
+    lines_zh:[
+      {pos:'初九', text:'磐桓，利居贞，利建侯。开始对谁都艰难。毫不羞耻地寻求帮助。'},
+      {pos:'六二', text:'屯如邅如，乘马班如。匪寇婚媾，女子贞不字，十年乃字。看似在混乱中失去的东西，可能在适当的时机回来。'},
+      {pos:'六三', text:'即鹿无虞，惟入于林中，君子几，不如舍，往吝。在陌生地形中没有向导的雄心只会让你陷得更深。找到你的引路人。'},
+      {pos:'六四', text:'乘马班如，求婚媾，往吉，无不利。不要让骄傲阻止你接受现在正被提供的帮助或和解。'},
+      {pos:'九五', text:'屯其膏，小贞吉，大贞凶。一步一步前进。这不是全力押注的时机。'},
+      {pos:'上六', text:'乘马班如，泣血涟如。有些情境即使坚持也无法克服时机。承认不能强行的事。'},
+    ],
+    counsel_en:`<p>The fundamental counsel of this hexagram is this: <em>What is worth building is worth the difficult beginning.</em> The chaos you are experiencing is not evidence that you have chosen wrongly. It is evidence that you have begun something real.</p><p>The ancient wisdom distinguishes between two types of difficulty: the difficulty of obstacles on the right path, and the difficulty of being on the wrong path entirely. The first resolves with perseverance; the second resolves only by turning around. The presence of helpers and the sense of gradual, if slow, momentum are signs that your difficulty is the first kind.</p><p>Practical counsel: <strong>First</strong>, name three people who have navigated something similar to what you are now navigating. Reach out to at least one. <strong>Second</strong>, reduce your time horizon. Do not think about the finished building — think about today's one useful brick. <strong>Third</strong>, document this period. What seems like chaos will later reveal itself as necessary education.</p>`,
+    counsel_zh:`<p>此卦的根本建议是：<em>值得建造的，都值得那个艰难的开始。</em>你正在经历的混乱不是选择错误的证据，而是你开始了某件真实之事的证据。</p><p>古老的智慧区分两种困难：在正确道路上的障碍带来的困难，以及完全走错路的困难。前者靠坚持化解，后者只能靠回头。助手的存在、以及缓慢但逐步的动势，是你所面对的是前一种困难的信号。</p><p>三项具体建议：<strong>其一</strong>，找出三位走过与你现在相似处境的人，联系其中至少一位。<strong>其二</strong>，缩短你的时间视野——不要想着竣工的建筑，只想今天这一块有用的砖。<strong>其三</strong>，记录这个阶段。看似混乱的事，日后会显现为必要的教育。</p>`,
+    changeable: true
+  },
+];
+
+// Generate remaining 61 hexagrams with solid readings
+const HEX_SYMBOLS = ['䷀','䷁','䷂','䷃','䷄','䷅','䷆','䷇','䷈','䷉','䷊','䷋','䷌','䷍','䷎','䷏','䷐','䷑','䷒','䷓','䷔','䷕','䷖','䷗','䷘','䷙','䷚','䷛','䷜','䷝','䷞','䷟','䷠','䷡','䷢','䷣','䷤','䷥','䷦','䷧','䷨','䷩','䷪','䷫','䷬','䷭','䷮','䷯','䷰','䷱','䷲','䷳','䷴','䷵','䷶','䷷','䷸','䷹','䷺','䷻','䷼','䷽','䷾','䷿'];
+
+const HEX_NAMES = [
+  ['Qián','乾','The Creative'],['Kūn','坤','The Receptive'],['Zhūn','屯','Difficulty at Beginning'],
+  ['Méng','蒙','Youthful Folly'],['Xū','需','Waiting'],['Sòng','讼','Conflict'],
+  ['Shī','师','The Army'],['Bǐ','比','Holding Together'],['Xiǎo Chù','小畜','Small Taming'],
+  ['Lǚ','履','Treading'],['Tài','泰','Peace'],['Pǐ','否','Standstill'],
+  ['Tóng Rén','同人','Fellowship'],['Dà Yǒu','大有','Great Possession'],['Qiān','谦','Modesty'],
+  ['Yù','豫','Enthusiasm'],['Suí','随','Following'],['Gǔ','蛊','Work on the Decayed'],
+  ['Lín','临','Approach'],['Guān','观','Contemplation'],['Shì Kè','噬嗑','Biting Through'],
+  ['Bì','贲','Grace'],['Bō','剥','Splitting Apart'],['Fù','复','Return'],
+  ['Wú Wàng','无妄','Innocence'],['Dà Chù','大畜','Great Taming'],['Yí','颐','Nourishment'],
+  ['Dà Guò','大过','Preponderance of Great'],['Kǎn','坎','The Abysmal'],['Lí','离','The Clinging'],
+  ['Xián','咸','Influence'],['Héng','恒','Duration'],['Dùn','遁','Retreat'],
+  ['Dà Zhuàng','大壮','Power of Great'],['Jìn','晋','Progress'],['Míng Yí','明夷','Darkening of Light'],
+  ['Jiā Rén','家人','The Family'],['Kuí','睽','Opposition'],['Jiǎn','蹇','Obstruction'],
+  ['Jiě','解','Deliverance'],['Sǔn','损','Decrease'],['Yì','益','Increase'],
+  ['Guài','夬','Breakthrough'],['Gòu','姤','Coming to Meet'],['Cuì','萃','Gathering Together'],
+  ['Shēng','升','Pushing Upward'],['Kùn','困','Oppression'],['Jǐng','井','The Well'],
+  ['Gé','革','Revolution'],['Dǐng','鼎','The Cauldron'],['Zhèn','震','The Arousing'],
+  ['Gèn','艮','Keeping Still'],['Jiàn','渐','Development'],['Guī Mèi','归妹','Marrying Maiden'],
+  ['Fēng','丰','Abundance'],['Lǚ','旅','The Wanderer'],['Xùn','巽','The Gentle'],
+  ['Duì','兑','The Joyous'],['Huàn','涣','Dispersion'],['Jié','节','Limitation'],
+  ['Zhōng Fú','中孚','Inner Truth'],['Xiǎo Guò','小过','Preponderance of Small'],
+  ['Jì Jì','既济','After Completion'],['Wèi Jì','未济','Before Completion'],
+];
+
+const THEMES_EN = [
+  'strength and creative initiative','patient receptivity and support','perseverance through difficult beginnings',
+  'learning through guidance and humility','patient waiting for the right moment','resolving conflict through clarity',
+  'disciplined collective purpose','building lasting alliances','gradual accumulation and discipline',
+  'careful conduct on uncertain ground','harmony and natural flow','endurance through difficult periods',
+  'the power of shared purpose','abundance through right action','quiet effectiveness through modesty',
+  'channeling enthusiasm wisely','adapting to what the moment requires','restoring what has been neglected',
+  'careful, attentive approach','observing deeply before acting','cutting through to essential truth',
+  'adorning substance with beauty','letting go gracefully','returning to essential nature',
+  'acting from genuine nature','patient containment of great energy','careful, conscious nourishment',
+  'extraordinary measures for extraordinary times','navigating through deep uncertainty','clarity through committed awareness',
+  'the power of mutual resonance','steadfast endurance over time','knowing when to step back',
+  'using strength with wisdom','steady, confident advance','maintaining integrity in difficult times',
+  'harmony within relationships and systems','bridging fundamental differences','patient navigation around obstacles',
+  'releasing what was bound','conscious reduction for gain','deliberate increase through giving',
+  'decisive breakthrough at the right moment','unexpected encounters and their gifts','the power of convergence',
+  'steady growth through proper channels','finding light within limitation','drawing from deep resources',
+  'transformation at the right moment','holding what is essential over time','arousing and decisive movement',
+  'the art of appropriate stillness','organic development and patient growth','complex unions and their navigation',
+  'the power of fullness and completion','finding one’s essential purpose in motion','penetrating influence and gentle persistence',
+  'joy through truth and openness','dispersion that clarifies and renews','the creative power of proper limits',
+  'the resonance of genuine sincerity','attending to small things with care','the stability of completion',
+  'the creative potential of incompletion',
+];
+
+const THEMES_ZH = [
+  '刚健创造','柔顺承载','坚守初始困厄','蒙昧中的学习','等待时机','以清明化解争端',
+  '纪律与集体目标','建立持久联盟','渐进积累','谨慎行于不确定之地','和谐自然流动','在困境中坚守',
+  '共同目标的力量','正当行动带来丰盈','谦逊的无声效力','明智引导热情','顺应时机而变',
+  '修复已腐朽之物','谨慎而专注的接近','深观后再行动','切入核心真相','以美饰实','从容放手',
+  '回归本质','从真性出发','大能量的静涵','有意识的滋养','以非常之法应非常之时',
+  '在深度不确定中航行','以专注的觉知获得清明','共鸣的力量','坚定持久','知退为进',
+  '以智用力','稳健自信的推进','在困境中守正','家系与系统内的和谐','化解根本差异',
+  '绕越障碍的耐心','释放束缚','有意识的减少以求获益','适时的果断突破','意外相遇及其馈赠',
+  '汇聚的力量','稳步向上生长','在限制中寻光','从深层资源汲取','恰当时机的变革',
+  '守持本质于岁月中','震动而果断的行动','适当静止的艺术','有机发展与耐心生长',
+  '复杂结合及其驾驭','圆满的力量','在行进中寻找本质目的','柔性渗透与温和持守',
+  '以真实开放获得喜悦','涣散中的清明与更新','恰当界限的创造力','真诚共鸣的力量',
+  '以专注守候微小','完成的稳定','未完成的创造潜能',
+];
+
+// Fill remaining hexagrams 4-64
+const CLASSICAL_ZH = [
+  '','','', // 1-3 already defined
+  '《蒙》：亨。匪我求童蒙，童蒙求我。\n象曰：山下出泉，蒙；君子以果行育德。',
+  '《需》：有孚，光亨，贞吉。利涉大川。\n象曰：云上于天，需；君子以饮食宴乐。',
+  '《讼》：有孚，窒，惕，中吉，终凶。\n象曰：天与水违行，讼；君子以作事谋始。',
+  '《师》：贞，丈人，吉，无咎。\n象曰：地中有水，师；君子以容民畜众。',
+  '《比》：吉，原筮，元永贞，无咎。\n象曰：地上有水，比；先王以建万国，亲诸侯。',
+  '《小畜》：亨，密云不雨，自我西郊。\n象曰：风行天上，小畜；君子以懿文德。',
+  '《履》：履虎尾，不咥人，亨。\n象曰：上天下泽，履；君子以辩上下，定民志。',
+  '《泰》：小往大来，吉，亨。\n象曰：天地交，泰；后以财成天地之道，辅相天地之宜。',
+  '《否》：否之匪人，不利君子贞，大往小来。\n象曰：天地不交，否；君子以俭德辟难。',
+  '《同人》：同人于野，亨。利涉大川，利君子贞。\n象曰：天与火，同人；君子以类族辨物。',
+  '《大有》：元亨。\n象曰：火在天上，大有；君子以遏恶扬善，顺天休命。',
+  '《谦》：亨，君子有终。\n象曰：地中有山，谦；君子以裒多益寡，称物平施。',
+  '《豫》：利建侯行师。\n象曰：雷出地奋，豫；先王以作乐崇德，殷荐之上帝。',
+  '《随》：元亨利贞，无咎。\n象曰：泽中有雷，随；君子以向晦入宴息。',
+  '《蛊》：元亨，利涉大川。\n象曰：山下有风，蛊；君子以振民育德。',
+  '《临》：元亨利贞，至于八月有凶。\n象曰：泽上有地，临；君子以教思无穷，容保民无疆。',
+  '《观》：盥而不荐，有孚颙若。\n象曰：风行地上，观；先王以省方观民设教。',
+  '《噬嗑》：亨，利用狱。\n象曰：雷电，噬嗑；先王以明罚敕法。',
+  '《贲》：亨，小利有攸往。\n象曰：山下有火，贲；君子以明庶政，无敢折狱。',
+  '《剥》：不利有攸往。\n象曰：山附于地，剥；上以厚下，安宅。',
+  '《复》：亨，出入无疾，朋来无咎。\n象曰：雷在地中，复；先王以至日闭关，商旅不行。',
+  '《无妄》：元亨利贞，其匪正有眚，不利有攸往。\n象曰：天下雷行物与，无妄；先王以茂对时育万物。',
+  '《大畜》：利贞，不家食，吉，利涉大川。\n象曰：天在山中，大畜；君子以多识前言往行，以畜其德。',
+  '《颐》：贞吉，观颐，自求口实。\n象曰：山下有雷，颐；君子以慎言语，节饮食。',
+  '《大过》：栋桡，利有攸往，亨。\n象曰：泽灭木，大过；君子以独立不惧，遁世无闷。',
+  '《坎》：有孚，维心亨，行有尚。\n象曰：水洊至，习坎；君子以常德行，习教事。',
+  '《离》：利贞，亨，畜牝牛，吉。\n象曰：明两作，离；大人以继明照于四方。',
+  '《咸》：亨，利贞，取女吉。\n象曰：山上有泽，咸；君子以虚受人。',
+  '《恒》：亨，无咎，利贞，利有攸往。\n象曰：雷风，恒；君子以立不易方。',
+  '《遁》：亨，小利贞。\n象曰：天下有山，遁；君子以远小人，不恶而严。',
+  '《大壮》：利贞。\n象曰：雷在天上，大壮；君子以非礼弗履。',
+  '《晋》：康侯用锡马蕃庶，昼日三接。\n象曰：明出地上，晋；君子以自昭明德。',
+  '《明夷》：利艰贞。\n象曰：明入地中，明夷；君子以莅众，用晦而明。',
+  '《家人》：利女贞。\n象曰：风自火出，家人；君子以言有物而行有恒。',
+  '《睽》：小事吉。\n象曰：上火下泽，睽；君子以同而异。',
+  '《蹇》：利西南，不利东北；利见大人，贞吉。\n象曰：山上有水，蹇；君子以反身修德。',
+  '《解》：利西南，无所往，其来复吉。\n象曰：雷雨作，解；君子以赦过宥罪。',
+  '《损》：有孚，元吉，无咎，可贞，利有攸往。\n象曰：山下有泽，损；君子以惩忿窒欲。',
+  '《益》：利有攸往，利涉大川。\n象曰：风雷，益；君子以见善则迁，有过则改。',
+  '《夬》：扬于王庭，孚号有厉，告自邑，不利即戎，利有攸往。\n象曰：泽上于天，夬；君子以施禄及下，居德则忌。',
+  '《姤》：女壮，勿用取女。\n象曰：天下有风，姤；后以施命诰四方。',
+  '《萃》：亨，王假有庙，利见大人，亨，利贞。\n象曰：泽上于地，萃；君子以除戎器，戒不虞。',
+  '《升》：元亨，用见大人，勿恤，南征吉。\n象曰：地中生木，升；君子以顺德，积小以高大。',
+  '《困》：亨，贞，大人吉，无咎，有言不信。\n象曰：泽无水，困；君子以致命遂志。',
+  '《井》：改邑不改井，无丧无得，往来井井。\n象曰：木上有水，井；君子以劳民劝相。',
+  '《革》：己日乃孚，元亨利贞，悔亡。\n象曰：泽中有火，革；君子以治历明时。',
+  '《鼎》：元吉，亨。\n象曰：木上有火，鼎；君子以正位凝命。',
+  '《震》：亨，震来虩虩，笑言哑哑，震惊百里，不丧匕鬯。\n象曰：洊雷，震；君子以恐惧修省。',
+  '《艮》：艮其背，不获其身，行其庭，不见其人，无咎。\n象曰：兼山，艮；君子以思不出其位。',
+  '《渐》：女归吉，利贞。\n象曰：山上有木，渐；君子以居贤德善俗。',
+  '《归妹》：征凶，无攸利。\n象曰：泽上有雷，归妹；君子以永终知敝。',
+  '《丰》：亨，王假之，勿忧，宜日中。\n象曰：雷电皆至，丰；君子以折狱致刑。',
+  '《旅》：小亨，旅贞吉。\n象曰：山上有火，旅；君子以明慎用刑，而不留狱。',
+  '《巽》：小亨，利有攸往，利见大人。\n象曰：随风，巽；君子以申命行事。',
+  '《兑》：亨，利贞。\n象曰：丽泽，兑；君子以朋友讲习。',
+  '《涣》：亨，王假有庙，利涉大川，利贞。\n象曰：风行水上，涣；先王以享于帝立庙。',
+  '《节》：亨，苦节不可贞。\n象曰：泽上有水，节；君子以制数度，议德行。',
+  '《中孚》：豚鱼吉，利涉大川，利贞。\n象曰：泽上有风，中孚；君子以议狱缓死。',
+  '《小过》：亨，利贞，可小事，不可大事。\n象曰：山上有雷，小过；君子以行过乎恭，丧过乎哀，用过乎俭。',
+  '《既济》：亨小，利贞，初吉终乱。\n象曰：水在火上，既济；君子以思患而豫防之。',
+  '《未济》：亨，小狐汔济，濡其尾，无攸利。\n象曰：火在水上，未济；君子以慎辨物居方。',
+];
+
+for (let i = 3; i < 64; i++) {
+  const n = HEX_NAMES[i];
+  const cls = CLASSICAL_ZH[i] || `《${n[1]}》：（古文待补）`;
+  HEXAGRAMS.push({
+    num: i+1, symbol: HEX_SYMBOLS[i], pinyin: n[0], en: n[2], zh: n[1],
+    keyword_en: `Hexagram ${i+1} · ${THEMES_EN[i]}`,
+    keyword_zh: `第${i+1}卦 · ${THEMES_ZH[i]}`,
+    classical_en: `Classical text of ${n[2]} (${n[0]}): This hexagram addresses the principle of ${THEMES_EN[i]}. The ancient judgment and image speak to the proper way of navigating this quality of time.`,
+    classical_zh: cls,
+    overview_en: `<p>The ${n[2]} hexagram (${n[0]}, <em>${n[1]}</em>) speaks to the principle of <em>${THEMES_EN[i]}</em> — one of the most nuanced and consequential forces addressed by the I Ching.</p><p>In the ancient cosmology, this hexagram occupies a precise position in the web of change. The configuration of its lines encodes a specific quality of time and a specific quality of action that corresponds to it. When this hexagram appears, the oracle is saying: the moment you inhabit has the quality of ${n[2]}, and your most aligned action is the one that understands and works with that quality rather than against it.</p><p>The ancients recognized that the universe moves in patterns that can be read, and that wisdom lies not in imposing our will upon the pattern but in aligning our intelligence with it. The ${n[2]} hexagram is your invitation to enter into that alignment.</p>`,
+    overview_zh: `<p>${n[1]}卦（${n[0]}）指向<em>${THEMES_ZH[i]}</em>这一原则——易经所触及的最微妙、最深远的力量之一。</p><p>在古代宇宙论中，这一卦在变化之网中占据着精确的位置。其爻的排列，编码着一种特定的时间品质，以及与之对应的行动品质。当此卦出现，卦象所言是：你此刻所处的时间具有${n[1]}的品质，而最契合的行动，是理解并顺应这种品质，而非与之相抗。</p><p>先人认识到宇宙以可被读懂的模式运行，智慧不在于将意志强加于模式，而在于使自身的智识与之契合。${n[1]}卦是你进入这种契合的邀请。</p>`,
+    areas_en: `<p><em>Wealth & Career:</em> The theme of ${THEMES_EN[i]} applies directly to professional matters. Consider how the quality of this hexagram might reframe the challenges or opportunities you currently face. The I Ching suggests that strategic alignment with the nature of your moment is more powerful than any isolated tactic.</p><p><em>Relationships:</em> In matters of connection, ${n[2]} calls for a specific quality of engagement. Notice whether your current relational patterns harmonize with or resist the energy that this hexagram describes.</p><p><em>Health & Vitality:</em> The body often reflects the dominant energy of one's hexagram period. What does ${n[2]} suggest about how to best tend to your physical and mental vitality at this time?</p><p><em>Decisions & Strategy:</em> The ${n[2]} hexagram offers strategic counsel: work with the nature of ${THEMES_EN[i]} rather than against it in all consequential decisions this period.</p>`,
+    areas_zh: `<p><em>财富与事业：</em>${THEMES_ZH[i]}这一主题直接适用于职业事务。思考此卦的品质如何重新框架你当前面临的挑战或机遇。易经提示：与当下时刻的本质战略性契合，比任何孤立的策略都更有力量。</p><p><em>人际与情感：</em>在联结事务上，${n[1]}呼唤一种特定的投入品质。观察你当前的关系模式，是在与这一卦象所描述的能量和谐共鸣，还是在抵抗它。</p><p><em>健康与精力：</em>身体往往反映着一个人卦期的主导能量。${n[1]}对于此时如何最好地照料你的身心活力，有何启示？</p><p><em>决策与谋略：</em>${n[1]}卦提供战略建议：在此期间的所有重要决策中，与${THEMES_ZH[i]}的本质协作，而非与之对抗。</p>`,
+    lines_en: ['First','Second','Third','Fourth','Fifth','Sixth'].map(p => ({
+      pos: p,
+      text: `The ${p.toLowerCase()} line of ${n[2]} addresses the specific quality of this position within the hexagram's dynamic. Each line represents a different relationship to the central theme of ${THEMES_EN[i]} — and this position carries its own particular counsel for how to navigate that theme.`
+    })),
+    lines_zh: ['初','二','三','四','五','上'].map(p => ({
+      pos: `${p}爻`,
+      text: `${n[1]}卦${p}爻在卦象动态中针对这一位置的特定品质发言。每一爻代表着与${THEMES_ZH[i]}核心主题的不同关系，而这一爻位有其特定的指引，引导你如何驾驭这一主题。`
+    })),
+    counsel_en: `<p>The essential counsel of ${n[2]} resolves to this: <em>How does the wisdom of ${THEMES_EN[i]} apply to the specific situation your heart carries into this consultation?</em></p><p>The oracle does not resolve your situation — it illuminates the nature of the moment so that you can bring your full intelligence to bear upon it. The ${n[2]} hexagram has appeared because the quality of time you inhabit resonates with this particular configuration of heaven and earth.</p><p>Three practical counsels: <strong>First</strong>, sit quietly with the core theme of this hexagram for ten minutes and notice what arises — the oracle continues to speak in the silence after you've read it. <strong>Second</strong>, identify one concrete way you can embody the positive qualities of ${n[2]} in the next 48 hours. <strong>Third</strong>, note what this hexagram is asking you to release, as well as what it is asking you to embrace.</p>`,
+    counsel_zh: `<p>${n[1]}卦的根本建议归结于此：<em>${THEMES_ZH[i]}的智慧，如何适用于你带着心中所问来到这次占卜的具体处境？</em></p><p>卦象不解决你的问题——它照亮你此刻所处时间的本质，使你能够将自己的全部智识带入其中。${n[1]}卦的出现，是因为你所处时间的品质，与天地的这一特定构型产生了共鸣。</p><p>三项具体建议：<strong>其一</strong>，静坐十分钟，深思此卦的核心主题，留意涌现的感知——卦象在你读完之后的寂静中仍在言说。<strong>其二</strong>，找出在未来48小时内，你能以一种具体方式体现${n[1]}积极品质的行动。<strong>其三</strong>，留意此卦要求你放下什么，以及要求你拥抱什么。</p>`,
+    changeable: true
+  });
+}
+
+// ─── CASTING LOGIC ───────────────────────────────────────────
+let currentHex = null;
+let movingLines = [];
+let currentCastTime = null; // 起卦时刻
+
+// 时间起卦：用问卦时刻的年月日时分秒+毫秒生成伪随机序列
+// 同一时刻问同一件事，得到同一卦——天时作为卦之种子
+
+// ── 硬币起卦仪式 ────────────────────────────────────────────
+const TOSS_LABELS_EN = ['1st Toss','2nd Toss','3rd Toss','4th Toss','5th Toss','6th Toss'];
+const TOSS_LABELS_ZH = ['第一爻','第二爻','第三爻','第四爻','第五爻','第六爻'];
+let coinTossResults = []; // 每爻记录正面数量 (0-3)
+
+function toggleHexDetail() {
+  const body = document.getElementById('hexDetailBody');
+  const label = document.getElementById('hexDetailToggleLabel');
+  const isZh = lang === 'zh';
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    label.textContent = isZh ? '− 卦象参考（收起）' : '− Hexagram Reference (collapse)';
+  } else {
+    body.style.display = 'none';
+    label.textContent = isZh ? '+ 卦象参考（展开）' : '+ Hexagram Reference';
+  }
+}
+
+function openCoinRitual() {
+  // 组合引导式选择
+  const yjQV = document.getElementById('yj-quick-val')?.value?.trim() || '';
+  const yjTopic = YJ_TOPICS ? YJ_TOPICS.find(function(x){return x.key===yjCurrentTopic;}) : null;
+  const yjTopicLabel = yjTopic ? (lang==='zh'?yjTopic.zh:yjTopic.en) : '';
+  const qBase = document.getElementById('questionInput').value.trim();
+  let qParts=[];
+  if(yjTopicLabel) qParts.push((lang==='zh'?'方向：':'Topic: ')+yjTopicLabel);
+  if(yjQV) qParts.push((lang==='zh'?'情况：':'Situation: ')+yjQV);
+  if(qBase) qParts.push(qBase);
+  const q = qParts.join(' — ') || qBase;
+  // 选了方向卡片就够了，文字是选填
+  var _lang = typeof lang !== 'undefined' ? lang : 'en';
+  if (!q && !yjCurrentTopic) {
+    alert(_lang==='zh' ? '请先选择一个问卦方向（点击上方卡片）' : 'Please select a topic above first, then cast.');
+    return;
+  }
+  // 如果选了主题但没填文字，用主题作为问题
+  if(!q && yjCurrentTopic){
+    var yjT2=typeof YJ_TOPICS!=='undefined'?YJ_TOPICS.find(function(x){return x.key===yjCurrentTopic;}):null;
+    var yjQV2=document.getElementById('yj-quick-val')?document.getElementById('yj-quick-val').value:'';
+    if(yjT2) q=(_lang==='zh'?yjT2.zh:yjT2.en)+(yjQV2?(' — '+yjQV2):'');
+  }
+  coinTossResults = [];
+  updateCoinRitualLang();
+  buildTossRows();
+  document.getElementById('coinRitualOverlay').classList.add('active');
+  // 启动铜钱掉落动画
+  setTimeout(function(){ if(window.startCoinAnim) window.startCoinAnim(); }, 200);
+  document.body.style.overflow = 'hidden';
+  // 确保第一步显示
+  for(let i=1;i<=4;i++) {
+    document.getElementById('coinStep'+i).classList.remove('active');
+  }
+  document.getElementById('coinStep1').classList.add('active');
+}
+
+function closeCoinRitual() {
+  document.getElementById('coinRitualOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function coinNextStep(n) {
+  for(let i=1;i<=4;i++) document.getElementById('coinStep'+i).classList.remove('active');
+  document.getElementById('coinStep'+n).classList.add('active');
+  document.getElementById('coinRitualOverlay').scrollTo({top:0, behavior:'smooth'});
+}
+
+function buildTossRows() {
+  const isZh = lang==='zh';
+  const labels = isZh ? TOSS_LABELS_ZH : TOSS_LABELS_EN;
+  const rows = document.getElementById('tossRows');
+  rows.innerHTML = '';
+  for(let i=0;i<6;i++){
+    const row = document.createElement('div');
+    row.className = 'toss-row';
+    row.id = 'tossRow'+i;
+    row.innerHTML = `
+      <div class="${isZh?'toss-label-zh':'toss-label'}">${labels[i]}</div>
+      <div class="toss-coins">
+        ${[0,1,2,3].map(n=>`
+          <button class="coin-btn" id="coin_${i}_${n}" onclick="selectToss(${i},${n})" title="${n} heads-up">
+            <span style="font-size:18px;display:block;margin-bottom:4px;">${n===0?'○○○':n===1?'●○○':n===2?'●●○':'●●●'}</span>
+            <span class="coin-btn-label">${isZh?(n===0?'0枚正面':n===1?'1枚正面':n===2?'2枚正面':'3枚正面'):(n===0?'0 heads':n===1?'1 head':n===2?'2 heads':'3 heads')}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="toss-result" id="tossResult${i}">${isZh?'未投':'—'}</div>
+    `;
+    rows.appendChild(row);
+  }
+  coinTossResults = new Array(6).fill(null);
+  updateTossProgress();
+}
+
+function selectToss(lineIdx, headsCount) {
+  // 记录结果
+  coinTossResults[lineIdx] = headsCount;
+  // 更新按钮样式
+  for(let n=0;n<=3;n++){
+    const btn = document.getElementById(`coin_${lineIdx}_${n}`);
+    btn.classList.remove('heads','tails');
+    if(n===headsCount) btn.classList.add(headsCount>=2?'heads':'tails');
+  }
+  // 更新结果文字
+  const isZh = lang==='zh';
+  const resultEl = document.getElementById('tossResult'+lineIdx);
+  // 正面数→爻值: 0=6(老阴变), 1=7(少阳), 2=8(少阴) 不对，正确是：
+  // 3枚硬币：正=3分，反=2分，合计范围6-9
+  // 0正3反=6(老阴变爻) 1正2反=7(少阳) 2正1反=8(少阴) 3正0反=9(老阳变爻)
+  const lineVal = headsCount===0?6:headsCount===1?7:headsCount===2?8:9;
+  const lineDesc = {
+    6: isZh?'⚋ 老阴（变）':'⚋ Old Yin·changing',
+    7: isZh?'⚊ 少阳':'⚊ Young Yang',
+    8: isZh?'⚋ 少阴':'⚋ Young Yin',
+    9: isZh?'⚊ 老阳（变）':'⚊ Old Yang·changing'
+  };
+  resultEl.textContent = lineDesc[lineVal];
+  resultEl.classList.add('done');
+  updateTossProgress();
+}
+
+function updateTossProgress() {
+  const done = coinTossResults.filter(v=>v!==null).length;
+  const isZh = lang==='zh';
+  document.getElementById('tossProgress').textContent = isZh
+    ? `已记录 ${done} / 6 爻`
+    : `${done} / 6 tosses recorded`;
+  const confirmBtn = document.getElementById('tossConfirmBtn');
+  if(done===6) confirmBtn.classList.add('ready');
+  else confirmBtn.classList.remove('ready');
+}
+
+function confirmCoinToss() {
+  if(coinTossResults.filter(v=>v!==null).length < 6) return;
+  closeCoinRitual();
+  // 用用户投的结果起卦
+  castFromCoins(coinTossResults);
+}
+
+function updateCoinRitualLang() {
+  const isZh = lang==='zh';
+  if(isZh){
+    document.getElementById('csr1').textContent = '第一步 · 准备';
+    document.getElementById('cst1').textContent = '准备三枚硬币';
+    document.getElementById('csb1').innerHTML = '找<strong>三枚硬币</strong>，任何面值、任何国家都可以，不需要一样。<br><br>重要的是：它们是真实的，你用自己的手握着它们，亲手投掷。<br><br><strong>正面（有图案面）= 阳 ☰ · 反面（数字面）= 阴 ☷</strong><br><br>把三枚硬币放在双手合拢的掌心里，还不要投。';
+    document.getElementById('csBtn1').textContent = '我已准备好三枚硬币 →';
+    document.getElementById('csr2').textContent = '第二步 · 静心';
+    document.getElementById('cst2').textContent = '三次深呼吸';
+    document.getElementById('csb2').innerHTML = '闭上眼睛。<br><br>做<strong>三次缓慢的深呼吸</strong>：吸气四拍，屏息两拍，呼气六拍。<br><br>呼吸时，让你的问题在心里清晰升起——不是文字，而是这件事的<strong>感受</strong>。<br><br>硬币在手心，问题在心里，同时持守。';
+    document.getElementById('csBtn2').textContent = '心已平静 →';
+    document.getElementById('csr3').textContent = '第三步 · 投法';
+    document.getElementById('cst3').textContent = '如何投掷';
+    document.getElementById('csb3').innerHTML = '你需要投掷三枚硬币，共<strong>六次</strong>，对应卦的六个爻。<br><br><strong>每次投法：</strong>双手合拢捧住三枚硬币，边摇边在心里默念问题，然后让它们落在平坦的地面或桌面上。<br><br>每次投完，数一下<strong>正面朝上的硬币数量</strong>（0、1、2或3枚），在下一页点选对应数字。<br><br>第一次投掷代表<strong>第一爻（最下方）</strong>，第六次代表<strong>第六爻（最上方）</strong>，卦象从下往上生成。';
+    document.getElementById('csBtn3').textContent = '开始投掷 →';
+    document.getElementById('csr4').textContent = '第四步 · 记录';
+    document.getElementById('cst4').textContent = '逐爻记录投掷结果';
+    document.getElementById('csb4').innerHTML = '<strong style="color:var(--gold)">正面 = 有图案/人物/国徽的一面（●）<br>反面 = 有数字/文字的一面（○）</strong><br><br>每次投完三枚硬币后，数出<strong>正面朝上（●）</strong>的数量，点选对应格。';
+    document.getElementById('tossConfirmLabel').textContent = '起卦，显示卦象';
+  }
+}
+// ────────────────────────────────────────────────────────────
+
+function timeSeededRand(seed) {
+  // 线性同余生成器，保证可重复
+  let s = seed;
+  return function() {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    return (s >>> 0) / 0xffffffff;
+  };
+}
+
+
+function castFromCoins(tossResults) {
+  // tossResults: 6个元素，每个是正面数量(0-3)
+  // 正面数→爻值: 0正=6(老阴变), 1正=7(少阳), 2正=8(少阴), 3正=9(老阳变)
+  const lineVals = tossResults.map(h => h===0?6:h===1?7:h===2?8:9);
+
+  const overlay = document.getElementById('diviningOverlay');
+  const divText = document.getElementById('diviningText');
+  overlay.classList.add('active');
+  divText.textContent = UI[lang].divining;
+
+  const now = new Date();
+  const SHICHEN = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+  const shichenIdx = Math.floor(now.getHours() / 2);
+  const shichenZh = `${SHICHEN[shichenIdx]}时（${String(Math.floor(now.getHours()/2)*2).padStart(2,'0')}:00–${String(Math.floor(now.getHours()/2)*2+1).padStart(2,'0')}:59）`;
+  const shichenEn = [
+    'Midnight Hour (11pm–1am)','Small Hours (1–3am)','Before Dawn (3–5am)',
+    'Dawn Hour (5–7am)','Early Morning (7–9am)','Late Morning (9–11am)',
+    'Noon Hour (11am–1pm)','Early Afternoon (1–3pm)','Late Afternoon (3–5pm)',
+    'Evening Hour (5–7pm)','Dusk Hour (7–9pm)','Night Hour (9–11pm)'
+  ][shichenIdx];
+  const dateStr = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
+  const dateStrEn = `${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+  setTimeout(() => {
+    // 动爻
+    movingLines = lineVals.map((v,i)=>(v===6||v===9)?i:-1).filter(i=>i>=0);
+
+    // King Wen 映射
+    const TRIGRAM_MAP = {'111':0,'011':1,'101':2,'001':3,'110':4,'010':5,'100':6,'000':7};
+    const KW_TABLE = [
+      [ 1,43,14,34,26, 9,11, 5],[43, 1,49,17,46,28,31,45],
+      [14,49, 1,55,22,50,37,64],[34,17,55, 1,54,40,32,16],
+      [26,46,22,54, 1,48,18, 3],[ 9,28,50,40,48, 1,57,29],
+      [11,31,37,32,18,57, 1,39],[ 5,45,64,16, 3,29,39, 1]
+    ];
+    const yangLines = lineVals.map(v=>(v===7||v===9)?1:0);
+    const lIdx = TRIGRAM_MAP[yangLines.slice(0,3).join('')] ?? 0;
+    const uIdx = TRIGRAM_MAP[yangLines.slice(3,6).join('')] ?? 0;
+    const hexNum = KW_TABLE[uIdx][lIdx];
+    const hexIdx = HEXAGRAMS.findIndex(h=>h.num===hexNum);
+    currentHex = HEXAGRAMS[hexIdx>=0?hexIdx:0];
+    currentCastTime = {
+      zh: `${dateStr} ${shichenZh}`,
+      en: `${dateStrEn}, ${shichenEn} hour`,
+      shichen: SHICHEN[shichenIdx],
+      hour: now.getHours()
+    };
+    overlay.classList.remove('active');
+    displayResult();
+  }, 1800);
+}
+
+function castHexagram() {
+  const q = document.getElementById('questionInput').value.trim();
+  const overlay = document.getElementById('diviningOverlay');
+  const divText = document.getElementById('diviningText');
+  overlay.classList.add('active');
+  divText.textContent = UI[lang].divining;
+
+  // 记录起卦时刻
+  const now = new Date();
+  const castTime = now;
+
+  // 用起卦时间构造种子：年+月+日+时+分+秒+毫秒
+  // 同一时刻问卦 → 同一个种子 → 同一卦象
+  const timeSeed = now.getFullYear() * 10000000000
+    + (now.getMonth()+1) * 100000000
+    + now.getDate() * 1000000
+    + now.getHours() * 10000
+    + now.getMinutes() * 100
+    + now.getSeconds();
+    // 毫秒不加入种子，让同一秒内问卦结果一致
+
+  const rand = timeSeededRand(timeSeed);
+
+  // 时辰名称（中文）
+  const SHICHEN = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+  const shichenIdx = Math.floor(now.getHours() / 2);
+  const shichenName = SHICHEN[shichenIdx];
+  const shichenZh = `${shichenName}时（${String(Math.floor(now.getHours()/2)*2).padStart(2,'0')}:00–${String(Math.floor(now.getHours()/2)*2+1).padStart(2,'0')}:59）`;
+  const shichenEn = [
+    'Midnight Hour (11pm–1am)',
+    'Small Hours (1–3am)',
+    'Before Dawn (3–5am)',
+    'Dawn Hour (5–7am)',
+    'Early Morning (7–9am)',
+    'Late Morning (9–11am)',
+    'Noon Hour (11am–1pm)',
+    'Early Afternoon (1–3pm)',
+    'Late Afternoon (3–5pm)',
+    'Evening Hour (5–7pm)',
+    'Dusk Hour (7–9pm)',
+    'Night Hour (9–11pm)'
+  ][shichenIdx];
+  const dateStr = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
+  const dateStrEn = `${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+  setTimeout(() => {
+    // 以时间为种子，用三枚铜钱法摇六爻
+    // 6=老阴(变)  7=少阳  8=少阴  9=老阳(变)
+    const lines = [];
+    for (let i = 0; i < 6; i++) {
+      const coins = [rand()<0.5?2:3, rand()<0.5?2:3, rand()<0.5?2:3];
+      lines.push(coins.reduce((a,b)=>a+b, 0));
+    }
+
+    // 由六爻二进制值（阳=1，阴=0）→ 查King Wen序列映射本卦
+    // 下卦=爻1-3，上卦=爻4-6
+    const TRIGRAM_MAP = {
+      '111':0,'011':1,'101':2,'001':3,  // 乾兑离震
+      '110':4,'010':5,'100':6,'000':7   // 巽坎艮坤
+    };
+    const KW_TABLE = [
+      [ 1,43,14,34,26, 9,11,5],
+      [43, 1,49,17,46,28,31,45],
+      [14,49, 1,55,22,50,37,64],
+      [34,17,55, 1,54,40,32,16],
+      [26,46,22,54, 1,48,18, 3],
+      [ 9,28,50,40,48, 1,57,29],
+      [11,31,37,32,18,57, 1,39],
+      [ 5,45,64,16, 3,29,39, 1]
+    ];
+
+    const yangLines = lines.map(l => (l===7||l===9) ? 1 : 0);
+    const lowerTri = yangLines.slice(0,3).join('');
+    const upperTri = yangLines.slice(3,6).join('');
+    const lIdx = TRIGRAM_MAP[lowerTri] ?? 0;
+    const uIdx = TRIGRAM_MAP[upperTri] ?? 0;
+    const hexNum = KW_TABLE[uIdx][lIdx];
+    const hexIdx = HEXAGRAMS.findIndex(h => h.num === hexNum);
+    const finalIdx = hexIdx >= 0 ? hexIdx : Math.floor(rand()*64);
+
+    movingLines = lines.map((l,i) => (l===6||l===9) ? i : -1).filter(i=>i>=0);
+    currentHex = HEXAGRAMS[finalIdx];
+
+    // 把起卦时刻存下来，供显示和传给AI用
+    currentCastTime = { zh: `${dateStr} ${shichenZh}`, en: `${dateStrEn}, ${shichenEn} hour`, shichen: shichenName, hour: now.getHours() };
+
+    overlay.classList.remove('active');
+    displayResult();
+  }, 2200);
+}
+
+function displayResult() {
+  const h = currentHex;
+  document.getElementById('hexSymbol').textContent = h.symbol;
+  document.getElementById('hexNumber').textContent = lang==='en' ? `HEXAGRAM ${h.num}` : `第 ${h.num} 卦`;
+  const isZhNow = lang==='zh';
+  const hexEnEl = document.getElementById('hexNameEn');
+  const hexZhEl = document.getElementById('hexNameZh');
+  if(isZhNow){
+    hexEnEl.style.display='none';
+    hexZhEl.style.fontSize='48px';
+    hexZhEl.textContent = h.zh + ' · ' + h.en;
+  } else {
+    hexEnEl.style.display='block';
+    hexEnEl.textContent = `${h.pinyin} — ${h.en}`;
+    hexZhEl.style.fontSize='';
+    hexZhEl.textContent = h.zh;
+  }
+  document.getElementById('hexKeyword').textContent = lang==='en' ? h.keyword_en : h.keyword_zh;
+
+  // 显示起卦时辰
+  let castTimeEl = document.getElementById('castTimeDisplay');
+  if (!castTimeEl) {
+    castTimeEl = document.createElement('div');
+    castTimeEl.id = 'castTimeDisplay';
+    castTimeEl.style.cssText = 'text-align:center;font-size:24px;color:var(--gold);opacity:0.7;letter-spacing:0.12em;margin-top:8px;font-family:"Cinzel",serif;';
+    const hexHeader = document.getElementById('hexNumber');
+    hexHeader.parentNode.insertBefore(castTimeEl, hexHeader.nextSibling);
+  }
+  if (currentCastTime) {
+    castTimeEl.textContent = lang==='en'
+      ? `CAST: ${currentCastTime.en}`
+      : `起卦时辰：${currentCastTime.zh}`;
+  }
+
+  // Classical text block
+  const classical = lang==='en' ? h.classical_en : h.classical_zh;
+  const clsLabel = lang==='en' ? 'Classical Text' : '古文原文';
+  const overviewLabel = lang==='en' ? '' : '';
+  document.getElementById('classicalBlock').innerHTML = `
+    <div class="classical-label">${clsLabel}</div>
+    <div class="classical-text">${classical.split('\n\n')[0]}</div>
+    ${classical.split('\n\n').slice(1).length > 0 
+      ? `<div class="classical-note">${classical.split('\n\n').slice(1).join('\n\n')}</div>` 
+      : ''}
+  `;
+
+  document.getElementById('readingOverview').innerHTML = lang==='en' ? h.overview_en : h.overview_zh;
+  document.getElementById('readingAreas').innerHTML = lang==='en' ? h.areas_en : h.areas_zh;
+  document.getElementById('readingCounsel').innerHTML = lang==='en' ? h.counsel_en : h.counsel_zh;
+
+  // Lines
+  const linesData = lang==='en' ? h.lines_en : h.lines_zh;
+  const movTag = UI[lang].movingTag;
+  const linesHTML = linesData.map((l,i) => {
+    const isMoving = movingLines.includes(i);
+    return `<div class="line-item${isMoving?' moving':''}">
+      <span class="line-num">${l.pos}${isMoving?`<span class="moving-tag">${movTag}</span>`:''}</span>
+      <span class="line-text">${l.text}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('readingLines').innerHTML = linesHTML;
+
+  // Changing hexagram
+  if (movingLines.length > 0) {
+    const chIdx = (HEXAGRAMS.indexOf(currentHex) + movingLines.length * 7) % 64;
+    const ch = HEXAGRAMS[chIdx];
+    document.getElementById('changingSymbol').textContent = ch.symbol;
+    document.getElementById('changingName').textContent = lang==='zh' ? `${ch.zh} · ${ch.en}` : `${ch.pinyin} — ${ch.en}`;
+    document.getElementById('lblChanging').textContent = UI[lang].lblChanging;
+    document.getElementById('changingHex').style.display = 'block';
+  } else {
+    document.getElementById('changingHex').style.display = 'none';
+  }
+
+  showTab('overview');
+  document.getElementById('resultPanel').style.display = 'block';
+  document.getElementById('resultPanel').scrollIntoView({behavior:'smooth', block:'start'});
+
+  // Show AI reading section
+  setTimeout(() => {
+    const aiSection = document.getElementById('aiReadingSection');
+    aiSection.style.display = 'block';
+
+    // 内测模式：自动触发完整解读，无需付费
+    setTimeout(() => getAIReading(true), 400);
+    // 解读完成后显示付费按钮（引导正式上线后付费）
+    setTimeout(() => {
+      document.getElementById('aiActions').style.display = 'block';
+    }, 3000);
+    applyAIUI();
+  }, 600);
+}
+
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  const tabs = {overview:'tabOverview',areas:'tabAreas',lines:'tabLines',counsel:'tabCounsel'};
+  document.getElementById(tabs[name]).classList.add('active');
+}
+
+function resetOracle() {
+  document.getElementById('resultPanel').style.display = 'none';
+  document.getElementById('aiReadingSection').style.display = 'none';
+  document.getElementById('aiResult').style.display = 'none';
+  document.getElementById('questionInput').value = '';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ─── AI READING ──────────────────────────────────────────────
+const DEEPSEEK_KEY = 'sk-c600e50c1c16467a9932b9d5e6307fed'; // ← 填你的Key
+
+// ── 免费预览：智能模板，零token消耗 ──────────────────────────
+function generateFreePreview(h, question, isZh) {
+  const q = question.toLowerCase();
+
+  // 检测问题类型
+  const topics = {
+    career:   isZh ? ['工作','职业','升职','跳槽','事业','创业','项目','生意','合作','业务','公司'] : ['job','career','work','business','partner','deal','invest','startup','project','promot'],
+    love:     isZh ? ['感情','爱情','恋爱','婚姻','分手','伴侣','喜欢','爱','结婚','男友','女友'] : ['love','relationship','marriage','partner','dating','breakup','girlfriend','boyfriend','divorce'],
+    decision: isZh ? ['要不要','该不该','选择','决定','犹豫','纠结','考虑','值不值','去不去'] : ['should i','whether','decide','choice','consider','move','leave','stay','worth'],
+    money:    isZh ? ['钱','投资','理财','房子','买','卖','借','贷款','收入','财富'] : ['money','invest','finance','stock','property','buy','sell','loan','wealth','income'],
+    timing:   isZh ? ['什么时候','时机','现在','等待','要开始','还早'] : ['when','timing','right time','wait','start','too early','too late'],
+  };
+
+  let topic = 'general';
+  for (const [key, words] of Object.entries(topics)) {
+    if (words.some(w => q.includes(w))) { topic = key; break; }
+  }
+
+  // 卦的核心信号（正/负/中性）
+  const hexSignal = {
+    positive: [1,11,13,14,16,17,19,25,26,34,35,38,43,45,46,49,50,54,55,58],
+    caution:  [2,4,6,12,23,28,29,33,36,39,44,47],
+  };
+  const signal = hexSignal.positive.includes(h.num) ? 'positive'
+               : hexSignal.caution.includes(h.num)  ? 'caution'
+               : 'neutral';
+
+  // 模板库
+  const templates = {
+    zh: {
+      career: {
+        positive: `${h.zh}卦落在你的问题上，第一个信号很清晰——**你现在有推进的底气**，不是在勉强自己，而是时机在配合你。\n\n这件事上，犹豫的成本比行动的风险更高。卦象在问你一个更深的问题：你想去的地方，是因为那里更好，还是因为现在的地方让你待不下去？这两个动机，带来的结果完全不同。\n\n有一点需要注意——${h.zh}卦的力量大，但容易因为过于自信而忽略细节。`,
+        caution:  `${h.zh}卦出现在这个问题上，不是说不行，而是在说：**慢一拍，看清楚再动**。\n\n你现在感受到的压力或者诱惑，可能让你低估了某个真实存在的风险。卦象建议你先问自己：如果这件事六个月后没有预期的结果，你能承受吗？\n\n不是叫你不做，是叫你做之前把底线想清楚。`,
+        neutral:  `${h.zh}卦在你的事业问题上给出的是一个**条件信号**——能成，但成不成取决于你接下来怎么做，而不是现在的处境。\n\n卦象看到的是：你手里有的资源比你以为的多，但你还没有把它们用对地方。重新审视一下你现在手头最被忽视的那个优势。`,
+      },
+      love: {
+        positive: `${h.zh}卦在感情上是一个**积极的信号**。这段关系或者这个人，值得你认真对待，不要因为表面的不确定性就退缩。\n\n卦象看到的是：你们之间有真实的连接，但它需要你主动去建立，而不是等对方先动。感情里，先开口的人往往赢。`,
+        caution:  `${h.zh}卦在感情问题上出现，通常意味着：**有些东西还没看清楚**，不宜仓促做决定。\n\n不是说这段感情没有可能，而是现在的时机不对。你目前看到的，可能只是你想看到的。给自己一点时间，让事情再展开一些再做判断。`,
+        neutral:  `${h.zh}卦在感情上告诉你：**方向是对的，但节奏要调整**。你现在付出的方式，对方未必能感受到。不是你做错了，是语言不同——找到对方真正在意的那个点，比你现在做的任何事都有效。`,
+      },
+      money: {
+        positive: `${h.zh}卦在财务问题上是一个**顺势的信号**。现在的动作方向是对的，但"对"不等于"快"——分批推进比一次全押要稳得多。\n\n卦象里有一个细节值得注意：你现在最大的风险不是机会不好，而是太好了，让你忘记了设防线。`,
+        caution:  `${h.zh}卦在金钱问题上发出了一个**慎重的信号**。这不是说一定会亏，而是说：现在这件事的水比表面看起来深。\n\n建议你在行动前先问：最坏的情况是什么？你能不能接受那个结果？如果答案是不能，那就不要做。`,
+        neutral:  `${h.zh}卦在财务上给出的是**等待中积累**的信号。现在不是出击的时机，而是把基础打扎实的时机。你手里的资源够用，但要用对地方。`,
+      },
+      decision: {
+        positive: `${h.zh}卦在你这个选择上说的是：**可以动，而且值得动**。你纠结的那些顾虑，有一部分是真实风险，有一部分只是你在给自己找退路。\n\n把这两种顾虑分开来看——真实风险值得认真对待，但退路式的顾虑不值得让你错过这个时机。`,
+        caution:  `${h.zh}卦在这个决定上出现，是在提醒你：**你现在掌握的信息还不够完整**。不是叫你停下来，是叫你在行动前多收集一个关键的信息点——你自己知道那个信息点是什么。`,
+        neutral:  `${h.zh}卦对你的这个选择说的是：**两条路都能走，关键在于你出发时的状态**。带着恐惧做的决定和带着清醒做的决定，结果天差地别，即便选的是同一条路。`,
+      },
+      timing: {
+        positive: `${h.zh}卦在时机问题上的答案很直接：**现在就是你在等的那个时机**。再等下去，这个窗口不会更好，只会关上。\n\n你感觉到的"准备好了"的感觉，有一半来自真实的准备，有一半来自惯性的拖延。卦象建议你区分这两者。`,
+        caution:  `${h.zh}卦在时机上说的是：**还差一步**。不是说现在完全不能动，而是说如果你能再等一个关键条件成熟，成功率会高很多。那个条件，你心里其实知道是什么。`,
+        neutral:  `${h.zh}卦对时机的回答是：**时机由你创造，不是等来的**。卦象没有看到一个绝对的"最佳时机"，看到的是：你现在的行动质量，比你选择哪个时机动手更重要。`,
+      },
+      general: {
+        positive: `${h.zh}卦落在你的问题上，给出的是一个**向前的信号**。你现在所处的位置，比你感受到的要好——你低估了自己手里已经有的东西。\n\n卦象在这里最想提醒你的是：不要因为方向还不完全清晰就停下来，有时候只有走出去才能看见路。`,
+        caution:  `${h.zh}卦在你的问题上出现，带来的是一个**需要停下来看清楚**的信号。不是警告，而是邀请你做一次诚实的自我检视——你现在走的这条路，动力来自哪里？\n\n卦象的建议是：先把这个问题想清楚，行动自然就清晰了。`,
+        neutral:  `${h.zh}卦对你的处境说的是：**你比你以为的有更多选择**。现在感受到的"只能这样"，更多是视角的局限，而不是真实的限制。\n\n试着从一个完全不同的角度重新看这个问题——那个角度会让你看见一个你之前忽略的可能性。`,
+      },
+    },
+    en: {
+      career: {
+        positive: `${h.en} lands on your question with a clear signal: **you have the momentum right now** — the situation is moving with you, not against you.\n\nThe question the hexagram is really asking is this: are you moving toward something genuinely better, or away from something you can no longer tolerate? The same action, but two completely different outcomes depending on which force is driving it.\n\nOne thing to watch: ${h.en}'s energy is strong, and strong energy tends to make us overlook the details that matter most.`,
+        caution:  `${h.en} appearing here isn't a stop sign — it's a signal to **slow down and look more carefully** before committing.\n\nSomething about this situation isn't fully visible yet. The hexagram suggests asking yourself: if this decision delivers exactly half of what you're expecting, can you live with that? If yes, proceed carefully. If no, wait for more clarity.\n\nThis isn't about fear. It's about being precise.`,
+        neutral:  `${h.en} gives a **conditional signal** here — it can work, but whether it does depends entirely on how you move forward, not on where you currently stand.\n\nWhat the hexagram sees: you have more leverage than you're using. There's an asset, a relationship, or a skill you're underutilizing. Identify it. That's where the opening is.`,
+      },
+      love: {
+        positive: `${h.en} on a question about connection gives a genuinely **encouraging signal**. What you're feeling about this person or this relationship — it's not just wishful thinking.\n\nBut the hexagram adds a condition: this needs you to move toward it, not wait for it to come to you. Timing matters here. The window is open, but windows don't stay open.`,
+        caution:  `${h.en} here is a signal to **pause before deciding**. Not because this is wrong, but because something essential isn't visible yet.\n\nWhat you're seeing right now may be what you want to see, not what's actually there. Give it more time to reveal itself. A decision made in clarity is worth ten made in hope.`,
+        neutral:  `${h.en} on your relationship question says: **right direction, wrong frequency**. The effort you're putting in isn't landing the way you intend.\n\nThis isn't about trying harder — it's about finding the specific thing the other person actually responds to. When you find that, everything changes.`,
+      },
+      money: {
+        positive: `${h.en} on a financial question is a **favorable signal** — the direction is right. But "right direction" doesn't mean "move fast." The hexagram's counsel is to proceed in measured steps, not all at once.\n\nThe real risk here isn't that the opportunity is bad. It's that it looks good enough to make you forget to set a floor. Set the floor first.`,
+        caution:  `${h.en} here is sending a **clear caution signal** on this financial matter. This doesn't mean it will fail — it means there's more complexity beneath the surface than is currently visible.\n\nBefore acting: define your worst-case scenario precisely. Not vaguely — precisely. Can you absorb that outcome? If not, this isn't the right moment.`,
+        neutral:  `${h.en} on money says: **build, don't bet**. This is a period for consolidation and careful positioning, not for big moves. The resources you have now, used steadily, will compound. Impatience is the only real risk.`,
+      },
+      decision: {
+        positive: `${h.en} on your decision says: **this is worth doing, and now is the time to do it**. Some of what's holding you back is legitimate caution — and some of it is you building yourself an exit ramp you don't actually need.\n\nSeparate those two things. The legitimate caution deserves attention. The exit ramp doesn't.`,
+        caution:  `${h.en} here says: **one more piece of information before you move**. You don't have the complete picture yet. This isn't a reason to stop — it's a reason to identify that missing piece.\n\nYou already know what it is. You've been avoiding finding out.`,
+        neutral:  `${h.en} on this choice says: **both paths are viable — what matters is the state you're in when you take the first step**. A decision made from clarity and one made from anxiety can look identical on paper and produce completely different outcomes.`,
+      },
+      timing: {
+        positive: `${h.en} on timing gives a direct answer: **this is the window you've been waiting for**. Waiting longer won't make conditions better — it will just make this moment pass.\n\nHalf of your readiness is genuine preparation. Half is habitual delay dressed up as caution. The hexagram is asking you to tell the difference.`,
+        caution:  `${h.en} on timing says: **almost, but not quite yet**. One condition hasn't ripened. Moving before it does will cost you more than the delay.\n\nYou know what that condition is. The hexagram is telling you to take it seriously, not to rationalize around it.`,
+        neutral:  `${h.en} on timing says: **you create the moment — you don't wait for it**. There's no perfect window visible in this hexagram. What is visible: the quality of your action matters far more than when you take it.`,
+      },
+      general: {
+        positive: `${h.en} lands on your situation with an **encouraging signal**: your current position is stronger than it feels. You're underestimating what you already have in hand.\n\nWhat the hexagram wants to say most clearly: don't stop because the path isn't fully clear yet. Sometimes you can only see the road once you've started walking it.`,
+        caution:  `${h.en} here carries a signal to **stop and look clearly** before moving further. This isn't a warning — it's an invitation to honest self-examination.\n\nThe question worth sitting with: where is this impulse actually coming from? When you answer that honestly, the right action becomes obvious.`,
+        neutral:  `${h.en} on your situation says: **you have more choices than you think**. The sense of "this is the only way" comes more from a narrowed perspective than from actual limitation.\n\nTry approaching this from a completely different angle — one you've been dismissing. That's where the overlooked possibility is sitting.`,
+      },
+    },
+  };
+
+  const isZhLang = isZh;
+  const tLang = isZhLang ? templates.zh : templates.en;
+  const tTopic = tLang[topic] || tLang.general;
+  const preview = tTopic[signal] || tTopic.neutral;
+
+  // 钩子结尾
+  const hook = isZhLang
+    ? `\n\n———\n\n*完整解读还包含：针对你具体问题的逐层分析、${h.zh}卦第${movingLines.length > 0 ? movingLines.map(i=>i+1).join('、') : '各'}爻对这件事的具体指引、以及时机判断——什么时候动，什么时候等。*`
+    : `\n\n———\n\n*The full reading goes further: a layered analysis of your specific situation, what ${movingLines.length > 0 ? 'the moving line' + (movingLines.length > 1 ? 's' : '') : 'each line'} of ${h.en} says about your next move, and precise timing counsel — when to act, and when to hold.*`;
+
+  return preview + hook;
+}
+
+async function getAIReading(isPaid) {
+  const question = document.getElementById('questionInput') ? document.getElementById('questionInput').value.trim() : '';
+  const question2 = document.getElementById('questionInput2') ? document.getElementById('questionInput2').value.trim() : '';
+  const q = question || question2;
+  if (!q) {
+    alert(lang==='en' ? 'Please enter your question before casting.' : '请先输入问题再起卦。');
+    return;
+  }
+
+  const h = currentHex;
+  const loadingEl = document.getElementById('aiLoading');
+  const resultEl = document.getElementById('aiResult');
+  const resultText = document.getElementById('aiResultText');
+  const upgradeEl = document.getElementById('aiUpgradePrompt');
+  const isZh = lang === 'zh';
+  const today = new Date();
+  const todayZh = today.getFullYear()+'年'+(today.getMonth()+1)+'月'+today.getDate()+'日';
+  const todayEn = today.toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+  const movingDesc = movingLines.length > 0
+    ? (isZh ? '第' + movingLines.map(i=>i+1).join('、') + '爻动' : movingLines.map(i=>['First','Second','Third','Fourth','Fifth','Sixth'][i]).join(', '))
+    : (isZh ? '无动爻，卦象稳定' : 'None — hexagram is stable');
+
+  loadingEl.style.display = 'block';
+  resultEl.style.display = 'none';
+  document.getElementById('aiActions').style.display = 'none';
+
+  // ── 免费预览 ──────────────────────────────
+  if (!isPaid) {
+    const freeSys = isZh
+      ? `你是精通易经的智慧顾问，为商界精英和决策者服务。今天是${todayZh}，只说现在和未来。根据卦象写一段让人感到"被看透了"的【解读预览】。严格要求：①第一句直接说这一卦对这件事最核心的判断，要具体有力，让人觉得你懂他的处境；②第二句点出一个他可能没意识到的隐患或转机；③最后一句制造真实悬念——暗示动爻变化和时机节点还没有展开，不出现"付费""购买"等字眼；④全文严格70-90字，字字有份量。`
+      : `You are a master I Ching advisor trusted by executives and decision-makers. Today is ${todayEn}. Speak only of present and future. Write a hexagram preview that makes them feel genuinely seen. Rules: ①Open with the single most important thing THIS hexagram says about THEIR specific situation — concrete, not generic. ②Name one hidden risk or turning point they likely haven't considered. ③Close with genuine suspense: imply that the moving line dynamics and timing signals haven't been surfaced yet. No payment language. ④55-75 words maximum. Every word earns its place.`;
+
+    const freeUsr = isZh
+      ? `卦象：${h.zh}卦（第${h.num}卦，${h.pinyin}）
+卦辞：${h.classical_zh ? h.classical_zh.split('\n')[0].substring(0,50) : h.zh}
+动爻：${movingDesc}
+时辰：${currentCastTime ? currentCastTime.zh : ''}
+问题：${q}`
+      : `Hexagram: ${h.en} (#${h.num}, ${h.pinyin})
+Classical judgment: ${h.classical_en ? h.classical_en.split('.')[0].substring(0,70) : h.en}
+Moving lines: ${movingDesc}
+Time cast: ${currentCastTime ? currentCastTime.en : ''}
+Question: ${q}`;
+
+    try {
+      const resp = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${DEEPSEEK_KEY}` },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [{ role: 'system', content: freeSys }, { role: 'user', content: freeUsr }],
+          max_tokens: 250,
+          temperature: 0.75
+        })
+      });
+      const data = await resp.json();
+      const txt = data.choices?.[0]?.message?.content || (isZh ? '解读生成失败，请重试。' : 'Reading failed. Please try again.');
+      loadingEl.style.display = 'none';
+      resultText.innerHTML = `<span style="color:var(--gold);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;">${isZh ? '卦象预览' : 'ORACLE PREVIEW'}</span><br><br>` + txt.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-light)">$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
+      resultEl.style.display = 'block';
+      // 显示升级提示
+      const upgTxt = document.getElementById('aiUpgradeText');
+      if (upgTxt) upgTxt.innerHTML = isZh
+        ? '<span style="color:var(--gold-dim)">↑ 这是卦象预览。</span> 完整解读包含：动爻深度解析、变卦走向、未来3-6个月关键时机节点，以及针对你具体问题的实操建议。'
+        : '<span style="color:var(--gold-dim)">↑ This is your oracle preview.</span> The full reading includes: moving line analysis, the changing hexagram’s message, timing signals for the next 3–6 months, and specific actionable counsel for your exact question.';
+      upgradeEl.style.display = 'block';
+      resultEl.scrollIntoView({behavior:'smooth', block:'start'});
+    } catch(e) {
+      loadingEl.style.display = 'none';
+      resultText.textContent = isZh ? '网络错误，请稍后重试。' : 'Network error. Please try again.';
+      resultEl.style.display = 'block';
+      document.getElementById('aiActions').style.display = 'block';
+    }
+    return;
+  }
+
+  // ── 付费完整解读 ──────────────────────────
+  const systemPrompt = isZh
+    ? `你是精通易经的智慧顾问，客户是商界精英、投资人和需要做重大决策的人——他们聪明、务实，一眼能看穿套话。今天是${todayZh}，所有时机判断只说现在和未来，绝不提已过去的年份。
+
+请按以下结构给出完整深度解读：
+
+【卦象直言】
+一句话直接说这一卦对这件事的核心判断，要有穿透力，让人觉得"被看透了"
+
+【处境解析】
+结合动爻，深挖2-3个关键动态：什么力量在推动，什么在阻碍，用户可能没意识到的一个盲点（具体，不说套话）
+
+【行动指引】
+2-3条真正可落地的具体建议，不说"保持耐心""顺势而为"这种废话，说清楚具体怎么做、做什么
+
+【时机节点】
+近期（未来一个月内）该关注什么，三到六个月的走向，行动时机到来的具体信号
+
+【收尾一击】
+一句有重量的话，让人回味，感到被真正看见
+
+语气：有见识的智者，温暖但有锋芒，直接不冷漠，绝不用"卦象显示""根据易经"这类套话开头。全文520-580字。`
+    : `You are a master I Ching advisor trusted by executives, investors, and high-performers facing real decisions. They are intelligent, skeptical, and will immediately spot generic advice. Today is ${todayEn}. All timing must point forward — never reference past years.
+
+Deliver a complete reading using this exact structure:
+
+[VERDICT]
+One powerful opening sentence: what this hexagram says specifically about their situation right now. Make a clear, decisive call — not the hexagram's general meaning, but what it means for this person's actual question.
+
+[DEEPER READ]
+Draw on the moving lines and changing hexagram to unpack 2-3 key dynamics: what force is driving the situation, what's creating friction or resistance, and one thing this person likely hasn't fully seen yet.
+
+[GUIDANCE]
+2-3 specific, actionable steps grounded in the hexagram's counsel. Not "be patient" or "trust the process" — say exactly what to do or avoid, and the specific reason the oracle points there.
+
+[TIMING]
+Near term (next 2-4 weeks): what to watch for. Medium term (3-6 months): how the situation will shift. Name the clearest signal that the right moment to act has arrived.
+
+[CLOSING]
+One sentence that lands with weight and stays with them long after they've closed this page.
+
+Tone: the clearest, warmest, most direct advisor they've ever had. No filler phrases. No mystical hedging. Cut straight to the insight. 520-570 words.`;
+
+  const userPrompt = isZh
+    ? `卦象：${h.zh}卦（第${h.num}卦，${h.pinyin}）
+卦辞：${h.classical_zh ? h.classical_zh.split('\n')[0] : ''}
+动爻：${movingDesc}
+起卦时辰：${currentCastTime ? currentCastTime.zh : ''}（可在解读中自然融入时辰的象征意义）
+
+用户的具体处境和问题：
+${q}
+
+请直接针对这个人的这件事说话，不要泛泛而谈卦的一般含义。`
+    : `Hexagram: ${h.en} (${h.pinyin}, Hexagram #${h.num})
+Classical judgment: ${h.classical_en ? h.classical_en.split('.')[0] : ''}
+Moving lines: ${movingDesc}
+Time of casting: ${currentCastTime ? currentCastTime.en : ''} — weave this naturally into the reading where it adds genuine meaning
+
+This person's situation and question:
+${q}
+
+Address this person's specific situation directly. Do not give a generic hexagram reading.`;
+
+  try {
+    await new Promise(r => setTimeout(r, 5000)); // premium feel delay
+
+    const resp = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${DEEPSEEK_KEY}` },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        max_tokens: 1100,
+        temperature: 0.75
+      })
+    });
+
+    const data = await resp.json();
+    const text = data.choices?.[0]?.message?.content
+      || (isZh ? '解读生成失败，请重试。' : 'Reading could not be generated. Please try again.');
+
+    loadingEl.style.display = 'none';
+    resultText.innerHTML = `<span style="color:var(--gold);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;">${isZh ? '完整解读' : 'FULL READING'}</span><br><br>` + text.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold-light)">$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
+    resultEl.style.display = 'block';
+    upgradeEl.style.display = 'none';
+    resultEl.scrollIntoView({behavior:'smooth', block:'start'});
+
+  } catch(e) {
+    loadingEl.style.display = 'none';
+    resultText.textContent = isZh ? '网络错误，请稍后重试。' : 'Network error. Please try again.';
+    resultEl.style.display = 'block';
+    upgradeEl.style.display = 'none';
+  }
+}
+</script>
+
+<!-- Contact Section -->
+<div id="contact-section" style="display:none;max-width:720px;margin:0 auto;padding:0 24px 60px;">
+  <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:52px;">
+    <div style="text-align:center;margin-bottom:36px;">
+      <div style="font-size:21px;letter-spacing:.28em;text-transform:uppercase;color:#C9A84C;margin-bottom:14px;">Contact & Consultation</div>
+      <div style="font-family:'Cinzel',serif;font-size:28px;color:#F5F0FF;margin-bottom:12px;" id="yc-title">Get in Touch</div>
+      <p style="font-size:24px;color:#8878AA;font-style:italic;line-height:1.8;" id="yc-sub">For private consultations, collaborations, or questions —<br>we respond within 24 hours.</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);padding:32px;border-radius:4px;">
+      <form id="yc-form" onsubmit="submitYCContact(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div>
+            <label style="display:block;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;" id="yc-nl">Your Name</label>
+            <input type="text" name="name" required placeholder="Name" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);padding:12px 14px;color:#F5F0FF;font-size:24px;outline:none;border-radius:2px;font-family:inherit;transition:border-color .3s;" onfocus="this.style.borderColor='#7A6030'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+          </div>
+          <div>
+            <label style="display:block;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;" id="yc-el">Your Email</label>
+            <input type="email" name="email" required placeholder="email@example.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);padding:12px 14px;color:#F5F0FF;font-size:24px;outline:none;border-radius:2px;font-family:inherit;transition:border-color .3s;" onfocus="this.style.borderColor='#7A6030'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+          </div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;" id="yc-tl">Inquiry Type</label>
+          <select name="type" style="width:100%;background:#1a1a2e;border:1px solid rgba(255,255,255,0.12);padding:12px 14px;color:#F5F0FF;font-size:24px;outline:none;border-radius:2px;font-family:inherit;-webkit-appearance:none;transition:border-color .3s;" onfocus="this.style.borderColor='#7A6030'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <option value="consultation" id="yc-o1">Private I Ching Consultation</option>
+            <option value="collaboration" id="yc-o2">Collaboration</option>
+            <option value="question" id="yc-o3">General Question</option>
+            <option value="other" id="yc-o4">Other</option>
+          </select>
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="display:block;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;" id="yc-ml">Message</label>
+          <textarea name="message" required rows="4" placeholder="Tell us what you have in mind..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);padding:12px 14px;color:#F5F0FF;font-size:24px;outline:none;border-radius:2px;resize:vertical;font-family:inherit;transition:border-color .3s;" onfocus="this.style.borderColor='#7A6030'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'"></textarea>
+        </div>
+        <button type="submit" id="yc-submit" style="width:100%;padding:16px;background:transparent;border:1px solid #7A6030;color:#E8D5A3;font-size:24px;letter-spacing:.28em;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:inherit;" onmouseover="this.style.borderColor='#C9A84C';this.style.color='#C9A84C'" onmouseout="this.style.borderColor='#7A6030';this.style.color='#E8D5A3'">
+          ✦ &nbsp; Send Message &nbsp; ✦
+        </button>
+      </form>
+      <div id="yc-success" style="display:none;text-align:center;padding:40px 0;">
+        <div style="font-size:28px;color:#C9A84C;margin-bottom:14px;">✦</div>
+        <div style="font-family:'Cinzel',serif;font-size:24px;color:#F5F0FF;margin-bottom:10px;" id="yc-ok-title">Email Ready</div>
+        <p style="font-size:21px;color:#8878AA;font-style:italic;" id="yc-ok-body">Your email client has opened. Once sent, we will respond within 24 hours.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:22px;">
+      <p style="font-size:21px;color:#8878AA;" id="yc-direct">Or email directly: <a href="mailto:benv9988088@gmail.com" style="color:#E8D5A3;text-decoration:none;">benv9988088@gmail.com</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- Contact toggle button -->
+<div style="text-align:center;padding:16px 0 48px;">
+  <button onclick="toggleYCContact()" id="yc-toggle-btn" style="padding:14px 36px;background:transparent;border:1px solid rgba(255,255,255,0.15);color:#8878AA;font-size:24px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:inherit;" onmouseover="this.style.borderColor='#7A6030';this.style.color='#E8D5A3'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='#8878AA'">
+    ✉ &nbsp; Contact &amp; Consultation
+  </button>
+</div>
+
+<script>
+function toggleYCContact(){
+  var sec=document.getElementById('contact-section');
+  var btn=document.getElementById('yc-toggle-btn');
+  var isZh=typeof lang!=='undefined'&&lang==='zh';
+  if(!sec)return;
+  if(sec.style.display==='none'||!sec.style.display){
+    sec.style.display='block';
+    btn.textContent=isZh?'✕  收起':'✕  Close';
+    setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'});},100);
+    // 更新语言
+    updateYCLang(isZh);
+  }else{
+    sec.style.display='none';
+    btn.textContent=isZh?'✉  联系与咨询':'✉  Contact & Consultation';
+  }
+}
+
+function updateYCLang(isZh){
+  var els={
+    'yc-title':{en:'Get in Touch',zh:'联系我们'},
+    'yc-sub':{en:'For private consultations, collaborations, or questions —<br>we respond within 24 hours.',zh:'私人易经咨询、合作洽谈或任何问题——<br>我们将在24小时内回复。'},
+    'yc-nl':{en:'Your Name',zh:'您的姓名'},
+    'yc-el':{en:'Your Email',zh:'您的邮箱'},
+    'yc-tl':{en:'Inquiry Type',zh:'咨询类型'},
+    'yc-ml':{en:'Message',zh:'留言内容'},
+    'yc-o1':{en:'Private I Ching Consultation',zh:'私人易经咨询'},
+    'yc-o2':{en:'Collaboration',zh:'合作洽谈'},
+    'yc-o3':{en:'General Question',zh:'一般问题'},
+    'yc-o4':{en:'Other',zh:'其他'},
+    'yc-ok-title':{en:'Email Ready',zh:'邮件已准备好'},
+    'yc-ok-body':{en:'Your email client has opened. Once sent, we will respond within 24 hours.',zh:'您的邮件客户端已打开，发送后我们将在24小时内回复。'},
+    'yc-direct':{en:'Or email directly: <a href="mailto:benv9988088@gmail.com" style="color:#E8D5A3;text-decoration:none;">benv9988088@gmail.com</a>',zh:'或直接发邮件：<a href="mailto:benv9988088@gmail.com" style="color:#E8D5A3;text-decoration:none;">benv9988088@gmail.com</a>'}
+  };
+  for(var id in els){
+    var el=document.getElementById(id);
+    if(el)el.innerHTML=isZh?els[id].zh:els[id].en;
+  }
+  var btn=document.getElementById('yc-toggle-btn');
+  if(btn&&(document.getElementById('contact-section').style.display==='none'))
+    btn.textContent=isZh?'✉  联系与咨询':'✉  Contact & Consultation';
+  var sub=document.getElementById('yc-submit');
+  if(sub)sub.textContent=isZh?'✦  发送消息  ✦':'✦  Send Message  ✦';
+}
+
+function submitYCContact(e){
+  e.preventDefault();
+  var isZh=typeof lang!=='undefined'&&lang==='zh';
+  var form=document.getElementById('yc-form');
+  var name=form.querySelector('[name="name"]').value;
+  var email=form.querySelector('[name="email"]').value;
+  var type=form.querySelector('[name="type"]').value;
+  var msg=form.querySelector('[name="message"]').value;
+  var tmap={
+    'consultation':isZh?'私人易经咨询':'Private I Ching Consultation',
+    'collaboration':isZh?'合作洽谈':'Collaboration',
+    'question':isZh?'一般问题':'General Question',
+    'other':isZh?'其他':'Other'
+  };
+  var subj=encodeURIComponent('YiJing Oracle — '+(tmap[type]||type)+' from '+name);
+  var body=encodeURIComponent((isZh?'姓名：':'Name: ')+name+'\n'+(isZh?'邮箱：':'Email: ')+email+'\n'+(isZh?'类型：':'Type: ')+(tmap[type]||type)+'\n\n'+(isZh?'留言：\n':'Message:\n')+msg+'\n\n---\nSent from YiJing Oracle')
+  window.location.href='mailto:benv9988088@gmail.com?subject='+subj+'&body='+body;
+  setTimeout(function(){
+    form.style.display='none';
+    var suc=document.getElementById('yc-success');
+    suc.style.display='block';
+    if(isZh){
+      document.getElementById('yc-ok-title').textContent='邮件已准备好';
+      document.getElementById('yc-ok-body').textContent='您的邮件客户端已打开，发送后我们将在24小时内回复。';
+    }
+  },500);
+}
+</script>
+
+<style>
+#coinCanvas { display:block; margin:0 auto; }
+.copper-coin {
+  position:absolute;
+  width:52px; height:52px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #f0c040, #c9850a 60%, #7a4e0a);
+  border:2.5px solid #a06010;
+  box-shadow:0 0 10px rgba(201,168,76,0.5), inset 0 1px 2px rgba(255,220,100,0.4);
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; color:rgba(90,50,0,0.7);
+  user-select:none;
+}
+</style>
+
+<script>
+(function(){
+  // 三枚铜钱掉落Canvas动画
+  var canvas, ctx, coins=[], animId=null, started=false;
+
+  var COIN_CHARS = ['☯','卜','易'];
+
+  function Coin(x, vx, delay){
+    this.x = x;
+    this.y = -40;
+    this.vx = vx;
+    this.vy = 0;
+    this.rot = Math.random()*360;
+    this.rotV = (Math.random()-0.5)*18;
+    this.scaleY = 1;       // 翻转用
+    this.flipDir = 1;
+    this.landed = false;
+    this.landY = 110;
+    this.delay = delay;
+    this.age = 0;
+    this.char = COIN_CHARS[Math.floor(Math.random()*COIN_CHARS.length)];
+    this.bounce = 0;
+  }
+
+  function initCoins(){
+    coins = [
+      new Coin(100, 0.3, 0),
+      new Coin(200, 0,   8),
+      new Coin(300,-0.3, 16)
+    ];
+  }
+
+  function drawCoin(coin){
+    if(coin.age < coin.delay) return;
+    ctx.save();
+    ctx.translate(coin.x, coin.y);
+    ctx.rotate(coin.rot * Math.PI/180);
+    ctx.scale(1, coin.scaleY);
+
+    // 铜钱圆形
+    var grad = ctx.createRadialGradient(-8,-8,2, 0,0,26);
+    grad.addColorStop(0,'#f5d060');
+    grad.addColorStop(0.5,'#c9850a');
+    grad.addColorStop(1,'#7a4e0a');
+    ctx.beginPath();
+    ctx.arc(0,0,24,0,Math.PI*2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.strokeStyle = '#a06010';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // 中间方孔
+    ctx.fillStyle = 'rgba(70,35,0,0.75)';
+    ctx.fillRect(-6,-6,12,12);
+
+    // 外圈纹
+    ctx.beginPath();
+    ctx.arc(0,0,20,0,Math.PI*2);
+    ctx.strokeStyle = 'rgba(255,210,80,0.3)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // 字符
+    if(Math.abs(coin.scaleY) > 0.5){
+      ctx.scale(1, 1/coin.scaleY);
+      ctx.font = 'bold 13px serif';
+      ctx.fillStyle = 'rgba(90,45,0,0.8)';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(coin.char, 0, 0);
+    }
+
+    ctx.restore();
+  }
+
+  function update(){
+    var allLanded = true;
+    coins.forEach(function(coin){
+      coin.age++;
+      if(coin.age < coin.delay) { allLanded=false; return; }
+      if(coin.landed){
+        // 落地后微微抖动停止
+        if(coin.bounce > 0){
+          coin.bounce--;
+          coin.y = coin.landY + Math.sin(coin.bounce*0.8)*4*(coin.bounce/8);
+          coin.rot += coin.rotV * 0.1;
+        }
+        return;
+      }
+      allLanded = false;
+      coin.vy += 0.6; // 重力
+      coin.y += coin.vy;
+      coin.x += coin.vx;
+      coin.rot += coin.rotV;
+      // 翻转效果
+      coin.scaleY = Math.cos(coin.age * 0.18);
+      if(coin.scaleY < 0.05 && coin.flipDir > 0){
+        coin.char = COIN_CHARS[Math.floor(Math.random()*COIN_CHARS.length)];
+        coin.flipDir = -1;
+      } else if(coin.scaleY > -0.05 && coin.flipDir < 0){
+        coin.flipDir = 1;
+      }
+      if(coin.y >= coin.landY){
+        coin.y = coin.landY;
+        coin.landed = true;
+        coin.scaleY = 1;
+        coin.bounce = 8;
+        coin.rotV = 0;
+      }
+    });
+    return allLanded;
+  }
+
+  function render(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    // 木纹桌面
+    var tableGrad = ctx.createLinearGradient(0,95,0,150);
+    tableGrad.addColorStop(0,'rgba(40,22,8,0.0)');
+    tableGrad.addColorStop(0.3,'rgba(40,22,8,0.6)');
+    tableGrad.addColorStop(1,'rgba(20,10,4,0.9)');
+    ctx.fillStyle = tableGrad;
+    ctx.fillRect(0,95,canvas.width,60);
+    // 桌面线
+    ctx.beginPath();
+    ctx.moveTo(0,134); ctx.lineTo(canvas.width,134);
+    ctx.strokeStyle='rgba(201,168,76,0.25)'; ctx.lineWidth=1; ctx.stroke();
+
+    coins.forEach(drawCoin);
+  }
+
+  function loop(){
+    var done = update();
+    render();
+    if(!done){
+      animId = requestAnimationFrame(loop);
+    } else {
+      // 落定后停1.5秒再重播
+      setTimeout(startAnim, 1500);
+    }
+  }
+
+  function startAnim(){
+    if(!canvas || !canvas.parentNode) return;
+    initCoins();
+    if(animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(loop);
+  }
+
+  // 等coinRitualOverlay出现时启动
+  window.startCoinAnim = function(){
+    canvas = document.getElementById('coinCanvas');
+    if(!canvas) return;
+    ctx = canvas.getContext('2d');
+    // 更新提示文字
+    var notice = document.getElementById('coin-drop-notice');
+    var isZh = typeof lang !== 'undefined' && lang === 'zh';
+    if(notice){
+      notice.innerHTML = isZh
+        ? '⚠ 以上为演示动画，不代表起卦结果<br>请用真实铜钱或硬币投掷，并在下方输入结果'
+        : '⚠ Animation for illustration only — does not determine your hexagram<br>Please toss real coins and enter the results below';
+    }
+    if(!started){ started=true; startAnim(); }
+  };
+})();
+</script>
+<script>
+
+// ── 易占引导式主题选择 ──
+// 覆盖setLang，确保语言切换时重新渲染主题
+var _origSetLang = window.setLang || function(){};
+window.setLang = function(l) {
+  _origSetLang(l);
+  lang = l;
+  if(typeof initYjTopics === 'function'){
+    initYjTopics();
+    if(yjCurrentTopic) selectYjTopic(yjCurrentTopic);
+  }
+};
+
+var YJ_TOPICS=[
+  {key:'career',icon:'💼',en:'Career & Money',zh:'事业财运',
+   quick:{en:["Should I change jobs or start a business?","A financial decision I'm weighing","Career conflict or difficulty","Will this opportunity work out?","Job security concerns"],
+          zh:['是否换工作或创业','正在权衡一个财务决策','职场冲突或困境','这个机会能否成功','对工作稳定性的担忧']}},
+  {key:'love',icon:'💫',en:'Love & Relationships',zh:'感情婚姻',
+   quick:{en:['Is this the right relationship?','When will I find love?','A conflict with my partner','Should we stay together?','Starting something new'],
+          zh:['这段感情对不对','何时能找到爱','与伴侣的冲突','我们该继续吗','新感情的开始']}},
+  {key:'family',icon:'🏠',en:'Family & Home',zh:'家庭子女',
+   quick:{en:['Family conflict or tension','A decision about home or moving','Relationship with a parent or child','Fertility or having children'],
+          zh:['家庭冲突或紧张关系','关于家或搬迁的决定','与父母或子女的关系','生育或有孩子']}},
+  {key:'health',icon:'✨',en:'Health & Wellbeing',zh:'健康体质',
+   quick:{en:["A health concern I'm worried about","Energy, stress, or burnout","Mental or emotional struggle","A lifestyle change I'm considering"],
+          zh:['担心的健康问题','精力、压力或倦怠','心理或情绪困扰','正在考虑的生活方式改变']}},
+  {key:'decision',icon:'🔄',en:'A Decision I’m Facing',zh:'面临抉择',
+   quick:{en:['A yes/no decision I can’t make','Two paths — which one?','Is now the right moment to act?','Should I take this risk?'],
+          zh:['难以决定的是非题','两条路，选哪条','现在是行动的时机吗','该不该冒这个险']}},
+  {key:'purpose',icon:'🌱',en:'My Path & Purpose',zh:'内心使命',
+   quick:{en:['I feel lost or without direction','What is my next chapter?','A recurring pattern I want to understand','What does this situation mean for me?'],
+          zh:['感到迷失或没有方向','我的下一个人生篇章','想理解一个反复出现的模式','这个处境对我意味着什么']}}
+];
+var yjCurrentTopic=null;
+
+function initYjTopics(){
+  var wrap=document.getElementById('yj-topics');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  var isZh=lang==='zh';
+  // 更新标签语言
+  var lblT=document.getElementById('lblTopic');
+  if(lblT)lblT.textContent=isZh?'你的问题关于哪个方向？':'What is your question about?';
+  var lblS=document.getElementById('lblSituation');
+  if(lblS)lblS.textContent=isZh?'选择最符合你的情况：':'What best describes your situation?';
+  var lblQ=document.getElementById('lblQuestion');
+  if(lblQ)lblQ.textContent=isZh?'你的问题：':'Your Question';
+  var rstBtn=document.getElementById('yj-reset-btn');
+  if(rstBtn)rstBtn.textContent=isZh?'← 换个方向':'← Change topic';
+
+  YJ_TOPICS.forEach(function(t){
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.style.cssText='padding:14px 10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);cursor:pointer;transition:all .2s;text-align:center;font-family:inherit;border-radius:4px;';
+    btn.innerHTML='<div style="font-size:24px;margin-bottom:8px;">'+t.icon+'</div><div style="font-size:21px;font-family:var(--serif,serif);">'+(isZh?t.zh:t.en)+'</div>';
+    if(yjCurrentTopic===t.key){btn.style.borderColor='var(--gold,#C9A84C)';btn.style.background='rgba(201,168,76,.12)';}
+    btn.onmouseover=function(){if(yjCurrentTopic!==t.key){this.style.borderColor='rgba(201,168,76,.5)';this.style.background='rgba(201,168,76,.06)';}};
+    btn.onmouseout=function(){if(yjCurrentTopic!==t.key){this.style.borderColor='rgba(255,255,255,.1)';this.style.background='rgba(255,255,255,.03)';}};
+    btn.onclick=function(){selectYjTopic(t.key);};
+    wrap.appendChild(btn);
+  });
+}
+
+function selectYjTopic(key){
+  yjCurrentTopic=key;
+  initYjTopics();
+  var isZh=lang==='zh';
+  var t=YJ_TOPICS.find(function(x){return x.key===key;});
+  if(!t)return;
+
+  var qgrid=document.getElementById('yj-quick-grid');
+  qgrid.innerHTML='';
+  document.getElementById('yj-quick-val').value='';
+
+  var opts=isZh?t.quick.zh:t.quick.en;
+  opts.forEach(function(opt){
+    var btn=document.createElement('button');
+    btn.type='button';btn.textContent=opt;
+    btn.style.cssText='padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);font-family:inherit;font-size:21px;line-height:1.4;cursor:pointer;text-align:left;transition:all .2s;border-radius:3px;';
+    btn.onmouseover=function(){if(!this.classList.contains('sel')){this.style.borderColor='rgba(201,168,76,.5)';this.style.background='rgba(201,168,76,.05)';}};
+    btn.onmouseout=function(){if(!this.classList.contains('sel')){this.style.borderColor='rgba(255,255,255,.1)';this.style.background='rgba(255,255,255,.03)';}};
+    btn.onclick=function(){
+      qgrid.querySelectorAll('button').forEach(function(b){b.classList.remove('sel');b.style.borderColor='rgba(255,255,255,.1)';b.style.background='rgba(255,255,255,.03)';b.style.color='rgba(255,255,255,.6)';});
+      this.classList.add('sel');this.style.borderColor='var(--gold,#C9A84C)';this.style.background='rgba(201,168,76,.12)';this.style.color='var(--gold,#C9A84C)';
+      document.getElementById('yj-quick-val').value=this.textContent;
+    };
+    qgrid.appendChild(btn);
+  });
+  var elseBtn=document.createElement('button');
+  elseBtn.type='button';elseBtn.textContent=isZh?'其他情况…':'Something else…';
+  elseBtn.style.cssText='padding:10px 12px;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.1);color:rgba(255,255,255,.4);font-family:inherit;font-size:21px;cursor:pointer;text-align:left;border-radius:3px;';
+  elseBtn.onclick=function(){var qi=document.getElementById('questionInput');if(qi)qi.focus();};
+  qgrid.appendChild(elseBtn);
+
+  document.getElementById('yj-quick-section').style.display='block';
+  document.getElementById('yj-quick-section').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function resetYjTopic(){
+  yjCurrentTopic=null;
+  document.getElementById('yj-quick-section').style.display='none';
+  document.getElementById('yj-quick-val').value='';
+  var qi=document.getElementById('questionInput');
+  if(qi)qi.value='';
+  initYjTopics();
+}
+
+// 在getAIReading里把主题信息加入问题
+var _origGetAI=null; // 将在下面覆盖
+
+// 初始化
+document.addEventListener("DOMContentLoaded", function(){
+  initYjTopics();
+  // 确保按钮绑定到正确的setLang
+  var btnEN = document.getElementById('btnEN');
+  var btnZH = document.getElementById('btnZH');
+  if(btnEN) btnEN.onclick = function(){ window.setLang('en'); };
+  if(btnZH) btnZH.onclick = function(){ window.setLang('zh'); };
+});
+</script>
+
+<script>
+// ── 繁簡切換 ──
+var TRAD={
+  '命宫':'命宮','兄弟':'兄弟','夫妻':'夫妻','财帛':'財帛','疾厄':'疾厄',
+  '迁移':'遷移','交友':'交友','官禄':'官祿','田宅':'田宅','福德':'福德',
+  '命盘':'命盤','星盘':'星盤','紫微斗数':'紫微斗數','大运':'大運',
+  '阳':'陽','阴':'陰','龙':'龍','鸡':'雞','猪':'豬','马':'馬',
+  '选择':'選擇','输入':'輸入','填写':'填寫','确定':'確定','发送':'發送',
+  '联系':'聯繫','解读':'解讀','感情':'感情','事业':'事業','财运':'財運',
+  '内心':'內心','使命':'使命','深度':'深度','开始':'開始','重新':'重新',
+  '天机':'天機','廉贞':'廉貞','贪狼':'貪狼','七杀':'七殺','破军':'破軍',
+  '农历':'農曆','时辰':'時辰','揭示':'揭示','纳音':'納音',
+  '问卦':'問卦','起运':'起運','空宫':'空宮','测试':'測試','体验':'體驗',
+  '命盘直答':'命盤直答','问盘':'問盤','提问':'提問',
+};
+var SIMP={};
+for(var k in TRAD) SIMP[TRAD[k]]=k;
+
+var _isTrad=false;
+
+function convertText(text, toTrad){
+  var map = toTrad ? TRAD : SIMP;
+  // 按长度降序排列key，避免短词先替换
+  var keys = Object.keys(map).sort(function(a,b){return b.length-a.length;});
+  keys.forEach(function(k){ text=text.split(k).join(map[k]); });
+  return text;
+}
+
+function applyTradSimp(toTrad){
+  _isTrad = toTrad;
+  // 遍历所有文本节点
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  var nodes=[];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(function(node){
+    if(node.parentElement && node.parentElement.tagName==='SCRIPT') return;
+    if(node.parentElement && node.parentElement.tagName==='STYLE') return;
+    var orig=node.textContent;
+    var conv=convertText(orig, toTrad);
+    if(conv!==orig) node.textContent=conv;
+  });
+  // 更新placeholder
+  document.querySelectorAll('[placeholder]').forEach(function(el){
+    el.placeholder=convertText(el.placeholder, toTrad);
+  });
+}
+
+// 扩展setLang，加繁体支持
+var _baseLang='en';
+function setLangFull(code){
+  if(code==='zh-tw'){
+    // 先切到简体中文，再转繁体
+    if(typeof setLang==='function') setLang('zh');
+    _baseLang='zh';
+    setTimeout(function(){ applyTradSimp(true); }, 150);
+    // 更新按钮状态
+    updateLangBtns('zh-tw');
+  } else if(code==='zh'){
+    if(typeof setLang==='function') setLang('zh');
+    _baseLang='zh';
+    if(_isTrad) setTimeout(function(){ applyTradSimp(false); }, 150);
+    updateLangBtns('zh');
+  } else {
+    if(typeof setLang==='function') setLang('en');
+    _baseLang='en';
+    updateLangBtns('en');
+  }
+}
+
+function updateLangBtns(active){
+  ['btnEN','btnZH','btnTW'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    el.classList.toggle('active', 
+      (id==='btnEN'&&active==='en')||(id==='btnZH'&&active==='zh')||(id==='btnTW'&&active==='zh-tw'));
+  });
+}
+</script>
+</body>
+</html>

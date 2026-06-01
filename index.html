@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHEN · Ancient Chinese Wisdom, Decoded</title>
+<meta name="description" content="Three pillars of ancient Chinese intelligence — Ba Zi, Zi Wei Dou Shu, and I Ching — decoded by AI for modern decisions.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cinzel:wght@300;400;500&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8D5A3;
+  --gold-dim: #7A5E28;
+  --gold-faint: rgba(201,168,76,0.08);
+  --ink: #08080E;
+  --deep: #0D0C1A;
+  --panel: #111020;
+  --text: #D6CDB8;
+  --text-dim: #6A6254;
+  --border: rgba(201,168,76,0.10);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── BACKGROUND ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 20%, rgba(201,168,76,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 85% 80%, rgba(139,111,192,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(201,168,76,0.03) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle grid */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.018) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(8,8,14,0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.nav-zh {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 24px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.nav-en {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.42em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-link {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 7px 14px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 32px 60px;
+}
+
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.45em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.2s both;
+}
+
+.hero-chinese {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: clamp(72px, 12vw, 120px);
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  animation: fadeUp 1.2s ease 0.4s both;
+  filter: drop-shadow(0 0 40px rgba(201,168,76,0.2));
+}
+
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 300;
+  color: var(--gold-light);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 1.2s ease 0.5s both;
+}
+
+.hero-rule {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
+  margin: 0 auto 36px;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.7s both;
+}
+
+.hero-sub {
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-dim);
+  max-width: 580px;
+  line-height: 2;
+  letter-spacing: 0.03em;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.8s both;
+}
+
+.hero-sub em {
+  color: var(--gold);
+  font-style: normal;
+}
+
+.hero-cta {
+  margin-top: 52px;
+  opacity: 0;
+  animation: fadeUp 1s ease 1s both;
+}
+
+.hero-cta a {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: var(--gold-dim);
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--gold-dim);
+  transition: all 0.4s;
+}
+
+.hero-cta a:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+  letter-spacing: 0.5em;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeIn 1s ease 1.8s both;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 0.8; transform: scaleY(1.1); }
+}
+
+/* ── SECTION COMMON ── */
+section {
+  position: relative;
+  z-index: 1;
+}
+
+.section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.45em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.section-label::before,
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-dim));
+}
+
+.section-label::after {
+  background: linear-gradient(to left, transparent, var(--gold-dim));
+}
+
+/* ── TOOLS SECTION ── */
+.tools {
+  padding: 80px 32px 120px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.tools-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.tools-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 300;
+  color: var(--gold-light);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.tools-sub {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+/* ── TOOL CARD ── */
+.tool-card {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 48px 36px 44px;
+  text-decoration: none;
+  display: block;
+  overflow: hidden;
+  transition: border-color 0.4s, background 0.4s;
+  cursor: pointer;
+}
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--gold-faint) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.tool-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.tool-card:hover {
+  border-color: var(--gold-dim);
+  background: rgba(17,16,32,0.9);
+}
+
+.tool-card:hover::before { opacity: 1; }
+.tool-card:hover::after { opacity: 1; }
+
+.tool-num {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  display: block;
+}
+
+.tool-glyph {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 56px;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 24px;
+  display: block;
+  transition: filter 0.4s;
+}
+
+.tool-card:hover .tool-glyph {
+  filter: drop-shadow(0 0 20px rgba(201,168,76,0.4));
+}
+
+.tool-name-en {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--gold-light);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.tool-name-zh {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 14px;
+  color: var(--gold-dim);
+  letter-spacing: 0.3em;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.tool-rule {
+  width: 32px;
+  height: 1px;
+  background: var(--gold-dim);
+  margin-bottom: 20px;
+  transition: width 0.4s;
+}
+
+.tool-card:hover .tool-rule { width: 56px; }
+
+.tool-desc {
+  font-size: 14px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-dim);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  margin-bottom: 32px;
+}
+
+.tool-features {
+  list-style: none;
+  margin-bottom: 36px;
+}
+
+.tool-features li {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(201,168,76,0.07);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.3s;
+}
+
+.tool-card:hover .tool-features li { color: rgba(201,168,76,0.5); }
+
+.tool-features li::before {
+  content: '◆';
+  font-size: 5px;
+  color: var(--gold-dim);
+  flex-shrink: 0;
+}
+
+.tool-cta {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.3em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+}
+
+.tool-card:hover .tool-cta {
+  color: var(--gold);
+  gap: 18px;
+}
+
+.tool-cta::after {
+  content: '→';
+  font-size: 12px;
+  transition: transform 0.3s;
+}
+
+.tool-card:hover .tool-cta::after {
+  transform: translateX(4px);
+}
+
+/* ── PHILOSOPHY SECTION ── */
+.philosophy {
+  padding: 100px 32px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.philosophy-quote {
+  font-size: clamp(20px, 3.5vw, 28px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.philosophy-quote::before {
+  content: '"';
+  position: absolute;
+  top: -20px; left: -20px;
+  font-size: 80px;
+  color: rgba(201,168,76,0.08);
+  font-style: normal;
+  line-height: 1;
+  font-family: Georgia, serif;
+}
+
+.philosophy-attr {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+}
+
+/* ── HOW IT WORKS ── */
+.how {
+  padding: 80px 32px 100px;
+  max-width: 900px;
+  margin: 0 auto;
+  border-top: 1px solid var(--border);
+}
+
+.how-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 300;
+  color: var(--gold-light);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.step {
+  text-align: center;
+}
+
+.step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.step-icon {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 36px;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 16px;
+}
+
+.step-title {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--text);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.step-desc {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+.step-connector {
+  display: none;
+}
+
+/* ── PRICING STRIP ── */
+.pricing {
+  padding: 80px 32px;
+  max-width: 900px;
+  margin: 0 auto;
+  border-top: 1px solid var(--border);
+}
+
+.pricing-inner {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.pricing-divider {
+  background: var(--border);
+}
+
+.pricing-tier {
+  padding: 48px 40px;
+  text-align: center;
+}
+
+.pricing-tier-name {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.pricing-price {
+  font-family: 'Cinzel', serif;
+  font-size: 36px;
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.pricing-per {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  display: block;
+}
+
+.pricing-features {
+  list-style: none;
+  text-align: left;
+}
+
+.pricing-features li {
+  font-size: 13px;
+  color: var(--text-dim);
+  padding: 6px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.6;
+}
+
+.pricing-features li::before {
+  content: '◆';
+  font-size: 5px;
+  color: var(--gold-dim);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.pricing-tier.featured {
+  background: rgba(201,168,76,0.04);
+  position: relative;
+}
+
+.pricing-featured-label {
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  background: var(--gold-dim);
+  color: var(--ink);
+  font-family: 'Cinzel', serif;
+  font-size: 7px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 4px 16px;
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 60px 32px 48px;
+  text-align: center;
+}
+
+.footer-glyph {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 32px;
+  color: rgba(201,168,76,0.25);
+  display: block;
+  margin-bottom: 16px;
+}
+
+.footer-tagline {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  margin-bottom: 28px;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 36px;
+}
+
+.footer-nav a {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+.footer-nav a:hover { color: var(--gold); }
+
+.footer-copy {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  color: rgba(106,98,84,0.4);
+  text-transform: uppercase;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.35s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .tools-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; gap: 32px; }
+  .pricing-inner { grid-template-columns: 1fr; }
+  .pricing-divider { display: none; }
+  .nav-links { display: none; }
+  .tool-card { padding: 36px 24px 32px; }
+  .hero { padding: 100px 24px 60px; }
+  .tools { padding: 60px 24px 80px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <span class="nav-zh">神</span>
+      <span class="nav-en">SHEN</span>
+    </a>
+    <div class="nav-links">
+      <a href="bazi_oracle.html" class="nav-link">Ba Zi</a>
+      <a href="purple-star.html" class="nav-link">Zi Wei</a>
+      <a href="YiJing_Oracle.html" class="nav-link">Yi Jing</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Ancient Chinese Wisdom · Decoded by AI</div>
+  <div class="hero-chinese">神</div>
+  <h1 class="hero-title">SHEN</h1>
+  <div class="hero-rule"></div>
+  <p class="hero-sub">
+    Three pillars of Chinese intelligence — each more than <em>5,000 years old</em> —
+    now decoded by AI for the decisions that actually matter.
+  </p>
+  <div class="hero-cta">
+    <a href="#tools">Explore the Three Systems ↓</a>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="tools" id="tools">
+  <div class="tools-header reveal">
+    <div class="section-label">The Three Systems</div>
+    <h2 class="tools-title">Choose Your Oracle</h2>
+    <p class="tools-sub">Each system reveals a different layer of intelligence about your situation</p>
+  </div>
+
+  <div class="tools-grid">
+
+    <!-- BA ZI -->
+    <a href="bazi_oracle.html" class="tool-card reveal reveal-delay-1">
+      <span class="tool-num">System I</span>
+      <span class="tool-glyph">命</span>
+      <span class="tool-name-en">Ba Zi</span>
+      <span class="tool-name-zh">八 字 命 盘</span>
+      <div class="tool-rule"></div>
+      <p class="tool-desc">
+        Your birth moment encodes a precise map of elemental forces. The Four Pillars reveal the structure of your nature, your career timing, and the cycles that govern your life.
+      </p>
+      <ul class="tool-features">
+        <li>Five Element constitutional analysis</li>
+        <li>Great Cycle (Da Yun) timing</li>
+        <li>Career, wealth & relationship mapping</li>
+        <li>AI deep reading · $9</li>
+      </ul>
+      <span class="tool-cta">Reveal My Chart</span>
+    </a>
+
+    <!-- ZI WEI -->
+    <a href="purple-star.html" class="tool-card reveal reveal-delay-2">
+      <span class="tool-num">System II</span>
+      <span class="tool-glyph">紫</span>
+      <span class="tool-name-en">Zi Wei Dou Shu</span>
+      <span class="tool-name-zh">紫 微 斗 數</span>
+      <div class="tool-rule"></div>
+      <p class="tool-desc">
+        The imperial court system — once reserved for Chinese emperors. 14 major stars mapped across 12 palaces reveal the full architecture of your life and destiny.
+      </p>
+      <ul class="tool-features">
+        <li>14 major stars · 12 destiny palaces</li>
+        <li>More nuanced than Western astrology</li>
+        <li>Career, relationships & hidden assets</li>
+        <li>AI deep reading · $9</li>
+      </ul>
+      <span class="tool-cta">Map My Destiny</span>
+    </a>
+
+    <!-- YI JING -->
+    <a href="YiJing_Oracle.html" class="tool-card reveal reveal-delay-3">
+      <span class="tool-num">System III</span>
+      <span class="tool-glyph">易</span>
+      <span class="tool-name-en">I Ching</span>
+      <span class="tool-name-zh">易 经 占 卜</span>
+      <div class="tool-rule"></div>
+      <p class="tool-desc">
+        Used by emperors, studied by Jung, cited by Leibniz. The I Ching doesn't predict the future — it reveals the hidden structure of the present moment, so you can act with clarity.
+      </p>
+      <ul class="tool-features">
+        <li>64 hexagrams · 384 changing lines</li>
+        <li>3,000-year-old decision framework</li>
+        <li>Specific counsel for your exact question</li>
+        <li>AI deep reading · $9</li>
+      </ul>
+      <span class="tool-cta">Cast the Oracle</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy reveal">
+  <div class="section-label">The Philosophy</div>
+  <blockquote class="philosophy-quote">
+    The ancient Chinese did not separate knowledge from decision. They built systems to read the pattern of any moment — and act accordingly.
+  </blockquote>
+  <div class="philosophy-attr">SHEN · 神 · Intelligence from the Pattern</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how reveal">
+  <div class="section-label">How It Works</div>
+  <h2 class="how-title">Three Steps to Clarity</h2>
+  <div class="steps">
+    <div class="step reveal reveal-delay-1">
+      <span class="step-num">Step I</span>
+      <span class="step-icon">命</span>
+      <span class="step-title">Enter Your Birth Data</span>
+      <p class="step-desc">Your birth date and time encodes everything the system needs. For I Ching, simply bring your question.</p>
+    </div>
+    <div class="step reveal reveal-delay-2">
+      <span class="step-num">Step II</span>
+      <span class="step-icon">算</span>
+      <span class="step-title">The Chart Is Cast</span>
+      <p class="step-desc">Ancient algorithms calculate your elemental configuration — the same computations used for five thousand years.</p>
+    </div>
+    <div class="step reveal reveal-delay-3">
+      <span class="step-num">Step III</span>
+      <span class="step-icon">悟</span>
+      <span class="step-title">AI Decodes the Pattern</span>
+      <p class="step-desc">Your chart is interpreted through your specific question — delivering precise, actionable intelligence, not generic horoscopes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing reveal">
+  <div class="section-label">Investment</div>
+  <div class="pricing-inner">
+    <div class="pricing-tier">
+      <span class="pricing-tier-name">Free Preview</span>
+      <span class="pricing-price">$0</span>
+      <span class="pricing-per">for every reading</span>
+      <ul class="pricing-features">
+        <li>Full chart calculation & display</li>
+        <li>Core elemental analysis</li>
+        <li>AI preview — the single most important signal</li>
+        <li>Genuine insight, not a teaser</li>
+      </ul>
+    </div>
+    <div class="pricing-divider"></div>
+    <div class="pricing-tier featured">
+      <div class="pricing-featured-label">Recommended</div>
+      <span class="pricing-tier-name">Full Reading</span>
+      <span class="pricing-price">$9</span>
+      <span class="pricing-per">per complete reading</span>
+      <ul class="pricing-features">
+        <li>Deep AI interpretation of your chart</li>
+        <li>Five-part structured analysis</li>
+        <li>Specific timing windows for next 12–18 months</li>
+        <li>Actionable counsel for your exact question</li>
+        <li>Moving line & cycle analysis included</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-glyph">神</span>
+  <p class="footer-tagline">The chart reveals the river's shape — how you navigate it is yours to choose.</p>
+  <div class="footer-nav">
+    <a href="bazi_oracle.html">Ba Zi · 八字</a>
+    <a href="purple-star.html">Zi Wei · 紫微</a>
+    <a href="YiJing_Oracle.html">Yi Jing · 易经</a>
+  </div>
+  <p class="footer-copy">SHEN · Ancient Chinese Wisdom, Decoded</p>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(el => {
+    if (el.isIntersecting) {
+      el.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Subtle parallax on hero glyph
+const heroGlyph = document.querySelector('.hero-chinese');
+if (heroGlyph) {
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    heroGlyph.style.transform = `translateY(${y * 0.15}px)`;
+    heroGlyph.style.opacity = Math.max(0, 1 - y / 500);
+  }, { passive: true });
+}
+</script>
+
+</body>
+</html>

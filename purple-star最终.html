@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>SHEN · Zi Wei Dou Shu — Imperial Chinese Astrology</title>
+<meta name="description" content="Reveal your Purple Star destiny chart — the 1,000-year-old system once reserved for Chinese emperors, now decoded by AI for modern life.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A84C;--gold-light:#E8D5A3;--gold-dim:#7A6030;--pd:#0D0A1A;--pm:#1A1330;--pc:#13102A;--pb:#2A2248;--sw:#F5F0FF;--tm:#8878AA;--tb:#C8BDE8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--pd);color:var(--tb);font-family:'Josefin Sans',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(1px 1px at 5% 8%,rgba(255,255,255,.9) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 12% 22%,rgba(201,168,76,.7) 0%,transparent 100%),radial-gradient(1px 1px at 18% 45%,rgba(255,255,255,.6) 0%,transparent 100%),radial-gradient(2px 2px at 22% 70%,rgba(255,255,255,.8) 0%,transparent 100%),radial-gradient(1px 1px at 28% 15%,rgba(201,168,76,.5) 0%,transparent 100%),radial-gradient(1px 1px at 33% 88%,rgba(255,255,255,.7) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 42% 35%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(2px 2px at 52% 78%,rgba(201,168,76,.6) 0%,transparent 100%),radial-gradient(1px 1px at 57% 28%,rgba(255,255,255,.7) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 65% 12%,rgba(201,168,76,.8) 0%,transparent 100%),radial-gradient(1px 1px at 70% 40%,rgba(255,255,255,.6) 0%,transparent 100%),radial-gradient(2px 2px at 78% 65%,rgba(201,168,76,.5) 0%,transparent 100%),radial-gradient(1px 1px at 82% 20%,rgba(255,255,255,.7) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 88% 75%,rgba(201,168,76,.6) 0%,transparent 100%),radial-gradient(1px 1px at 92% 33%,rgba(255,255,255,.8) 0%,transparent 100%),radial-gradient(2px 2px at 15% 80%,rgba(201,168,76,.5) 0%,transparent 100%),radial-gradient(1px 1px at 95% 58%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 48% 5%,rgba(255,255,255,.8) 0%,transparent 100%),radial-gradient(1px 1px at 3% 55%,rgba(255,255,255,.6) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 90% 90%,rgba(201,168,76,.7) 0%,transparent 100%);pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:80vw;height:60vh;background:radial-gradient(ellipse,rgba(90,50,160,.18) 0%,transparent 70%);pointer-events:none;z-index:0;}
+.page{position:relative;z-index:1;}
+/* LANG */
+.lang-bar{display:flex;justify-content:flex-end;padding:20px 32px 0;}
+.lang-toggle{display:flex;border:1px solid var(--pb);border-radius:2px;overflow:hidden;}
+.lang-btn{padding:7px 18px;background:transparent;border:none;color:var(--tm);font-family:'Josefin Sans',sans-serif;font-size:21px;letter-spacing:.15em;cursor:pointer;transition:all .3s;}
+.lang-btn.active{background:rgba(201,168,76,.1);color:var(--gold-light);}
+.lang-btn:first-child{border-right:1px solid var(--pb);}
+/* HERO */
+.hero{text-align:center;padding:56px 24px 44px;}
+.crown{font-size:24px;letter-spacing:.3em;color:var(--gold);margin-bottom:20px;opacity:0;animation:fadeUp 1s ease forwards .2s;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,9vw,100px);font-weight:300;color:var(--sw);line-height:1;letter-spacing:.05em;opacity:0;animation:fadeUp 1s ease forwards .4s;}
+.hero-title span{color:var(--gold);font-style:italic;}
+.hero-sub{font-size:21px;letter-spacing:.22em;text-transform:uppercase;color:var(--tm);margin-top:18px;opacity:0;animation:fadeUp 1s ease forwards .6s;}
+.divider{display:flex;align-items:center;gap:16px;max-width:360px;margin:26px auto;opacity:0;animation:fadeUp 1s ease forwards .7s;}
+.dl{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);}
+.dd{color:var(--gold);font-size:21px;}
+.hero-desc{font-family:'Cormorant Garamond',serif;font-size:24px;font-style:italic;color:var(--tb);max-width:520px;margin:0 auto;line-height:1.85;opacity:0;animation:fadeUp 1s ease forwards .9s;}
+/* FORM */
+.form-section{max-width:540px;margin:44px auto;padding:0 24px;opacity:0;animation:fadeUp 1s ease forwards 1.1s;}
+.form-card{background:var(--pc);border:1px solid var(--pb);border-radius:2px;padding:44px 40px;position:relative;}
+.form-card::before{content:'';position:absolute;top:-1px;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.fl{display:block;font-size:24px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fg{margin-bottom:24px;}
+.dr{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;}
+.fi{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--pb);border-radius:1px;padding:14px 16px;color:var(--sw);font-family:'Josefin Sans',sans-serif;font-size:21px;font-weight:300;outline:none;transition:border-color .3s;-webkit-appearance:none;}
+.fi:focus{border-color:var(--gold-dim);}
+.fi option{background:var(--pm);}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.submit-btn{width:100%;padding:18px;background:transparent;border:1px solid var(--gold-dim);color:var(--gold-light);font-family:'Josefin Sans',sans-serif;font-size:21px;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:all .4s;margin-top:6px;position:relative;overflow:hidden;}
+.submit-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.05));opacity:0;transition:opacity .4s;}
+.submit-btn:hover::before{opacity:1;}
+.submit-btn:hover{border-color:var(--gold);color:var(--gold);}
+/* RESULT */
+#result{display:none;max-width:800px;margin:0 auto;padding:0 24px 80px;}
+.rh{text-align:center;padding:48px 0 40px;border-bottom:1px solid var(--pb);margin-bottom:48px;}
+.rn{font-size:21px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.rs{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3.5vw,44px);font-weight:300;color:var(--sw);line-height:1.15;}
+.rs em{color:var(--gold);font-style:italic;}
+.rt{font-size:21px;letter-spacing:.18em;text-transform:uppercase;color:var(--tm);margin-top:12px;}
+.sl{font-size:21px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.sl::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent);}
+/* WHEEL */
+.wheel-wrap{width:460px;height:460px;margin:16px auto 16px;opacity:0;animation:fadeUp .8s ease forwards;}
+.wheel-hint{text-align:center;font-size:21px;letter-spacing:.12em;color:var(--tm);margin-bottom:44px;text-transform:uppercase;}
+/* READING */
+.rsec{margin-bottom:44px;padding-bottom:44px;border-bottom:1px solid var(--pb);}
+.stag{font-size:21px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+.stag::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent);}
+.stit{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--sw);margin-bottom:18px;line-height:1.2;}
+.sbod{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:1.95;color:var(--tb);}
+.sbod p{margin-bottom:16px;}
+.sbod strong{color:var(--gold-light);font-weight:400;}
+.pills{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;}
+.pill{padding:6px 15px;border:1px solid var(--gold-dim);border-radius:1px;font-size:24px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);}
+/* UNIQUE INSIGHTS */
+.insight-box{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);padding:24px 28px;margin-bottom:44px;border-radius:1px;}
+.insight-item{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.9;color:var(--tb);margin-bottom:12px;padding-left:16px;border-left:2px solid var(--gold-dim);}
+/* PALACE ACCORDION */
+.acc-item{border:1px solid var(--pb);margin-bottom:1px;}
+.acc-head{padding:18px 22px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;background:var(--pc);transition:background .2s;}
+.acc-head:hover,.acc-head.open{background:rgba(201,168,76,.05);}
+.acc-left{display:flex;align-items:center;gap:14px;}
+.acc-badge{font-size:21px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-dim);padding:4px 10px;white-space:nowrap;}
+.acc-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--sw);}
+.acc-arrow{color:var(--tm);font-size:24px;transition:transform .3s;}
+.acc-arrow.open{transform:rotate(180deg);}
+.acc-body{display:none;padding:22px 26px;background:var(--pd);}
+.acc-body.open{display:block;}
+.acc-read{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:2;color:var(--tb);}
+.acc-read p{margin-bottom:14px;}
+.acc-read strong{color:var(--gold-light);font-weight:400;}
+/* DAYUN */
+.dy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:18px;}
+.dy-card{background:var(--pc);border:1px solid var(--pb);padding:20px;position:relative;}
+.dy-card.cur{border-color:var(--gold-dim);}
+.dy-card.cur::after{content:'NOW';position:absolute;top:10px;right:12px;font-size:9px;letter-spacing:.2em;color:var(--gold);}
+.dy-age{font-size:24px;letter-spacing:.15em;text-transform:uppercase;color:var(--tm);margin-bottom:8px;}
+.dy-pal{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--sw);margin-bottom:6px;}
+.dy-theme{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--tm);line-height:1.55;}
+/* AI PAYWALL */
+.ai-gate{border:1px solid var(--gold-dim);padding:44px 40px;text-align:center;background:rgba(201,168,76,.04);position:relative;margin:48px 0;}
+.ai-gate::before{content:'';position:absolute;top:-1px;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.ai-feats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:500px;margin:0 auto 28px;text-align:left;}
+.ai-feat{font-size:21px;color:var(--tb);padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid var(--pb);display:flex;align-items:flex-start;gap:8px;line-height:1.5;}
+.ai-feat-icon{color:var(--gold);font-size:10px;margin-top:3px;flex-shrink:0;}
+.unlock-btn{padding:18px 56px;background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.08));border:1px solid var(--gold);color:var(--gold-light);font-family:'Josefin Sans',sans-serif;font-size:21px;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:all .3s;margin-bottom:14px;}
+.unlock-btn:hover{background:linear-gradient(135deg,rgba(201,168,76,.3),rgba(201,168,76,.15));color:var(--gold);}
+/* AI MODULE */
+.ai-section{max-width:800px;margin:0 auto;padding:0 24px 60px;display:none;}
+.ai-topics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:0;}
+.ai-topic-btn{padding:16px 12px;background:rgba(255,255,255,.03);border:1px solid var(--pb);color:var(--tb);cursor:pointer;transition:all .25s;text-align:center;font-family:inherit;}
+.ai-topic-btn:hover{border-color:var(--gold-dim);background:rgba(201,168,76,.06);}
+.ai-topic-btn.selected{border-color:var(--gold);background:rgba(201,168,76,.08);}
+.ai-topic-icon{font-size:24px;margin-bottom:8px;}
+.ai-topic-name{font-size:21px;color:var(--sw);margin-bottom:4px;font-family:'Cormorant Garamond',serif;}
+.ai-topic-desc{font-size:21px;color:var(--tm);letter-spacing:.05em;}
+.ai-field-label{display:block;font-size:21px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.ai-input{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--pb);padding:13px 16px;color:var(--sw);font-family:'Josefin Sans',sans-serif;font-size:24px;outline:none;border-radius:1px;transition:border-color .3s;}
+.ai-input:focus{border-color:var(--gold-dim);}
+.ai-submit{width:100%;padding:17px;background:transparent;border:1px solid var(--gold-dim);color:var(--gold-light);font-family:'Josefin Sans',sans-serif;font-size:24px;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:all .3s;}
+.ai-submit:hover{border-color:var(--gold);color:var(--gold);}
+.ai-result-box{border:1px solid var(--pb);background:var(--pc);padding:32px 36px;position:relative;}
+.ai-result-box::before{content:'';position:absolute;top:-1px;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+/* CONTACT */
+.contact-section{max-width:800px;margin:0 auto;padding:0 24px 60px;display:none;}
+.contact-form-card{background:rgba(255,255,255,.03);border:1px solid var(--pb);padding:32px;}
+.ci{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--pb);padding:12px 14px;color:var(--sw);font-size:24px;outline:none;border-radius:2px;font-family:inherit;transition:border-color .3s;}
+.ci:focus{border-color:var(--gold-dim);}
+.ci option{background:var(--pm);}
+/* FOOTER */
+.footer-note{text-align:center;padding:40px 0 16px;}
+.footer-note p{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--tm);font-style:italic;line-height:1.9;}
+/* UTILS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes rotateSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes rotateCCW{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}
+@keyframes twinkle{0%,100%{opacity:.12}35%{opacity:1}70%{opacity:.35}}
+@keyframes pulseGlow{0%,100%{opacity:.25}50%{opacity:.95}}
+.fi-in{animation:fadeUp .7s ease forwards;}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--pd)}::-webkit-scrollbar-thumb{background:var(--pb)}
+@media(max-width:640px){.form-card{padding:28px 20px}.dr{grid-template-columns:1fr 1fr 1fr}.wheel-wrap{width:320px;height:320px}.ai-feats{grid-template-columns:1fr}.ai-topics{grid-template-columns:repeat(2,1fr)}}
+
+/* ── 移动端优化 ── */
+@media (max-width: 768px) {
+  body { font-size: 17px; }
+  /* 手机上网格变单列或双列 */
+  #yj-topics, #bz-topics, .ai-topics { grid-template-columns: repeat(2,1fr) !important; }
+  #yj-quick-grid, #bz-quick-grid, .ai-feats { grid-template-columns: 1fr !important; }
+  /* 按钮更大更易点击 */
+  button { min-height: 44px; }
+  .lang-btn { min-height: unset !important; height: auto !important; }
+  .cast-btn, .submit-btn, .unlock-btn { padding: 18px !important; font-size: 14px !important; }
+  /* 输入框更大 */
+  input, select, textarea { font-size: 16px !important; padding: 14px !important; }
+}
+@media (max-width: 480px) {
+  #yj-topics, #bz-topics, .ai-topics { grid-template-columns: 1fr 1fr !important; }
+}
+
+/* Select option深色背景修复 */
+select option { background:#0D0A1A; color:#E8D5A3; }
+select { color-scheme: dark; }
+</style>
+</head>
+<body>
+<!-- SHEN BRAND NAV -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,10,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.12);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px;">
+    <a href="index.html" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span style="font-family:'Ma Shan Zheng',serif;font-size:22px;color:#C9A84C;line-height:1;">神</span>
+      <span style="font-family:'Josefin Sans',sans-serif;font-size:12px;letter-spacing:0.38em;color:#E8D5A3;text-transform:uppercase;font-weight:300;">SHEN</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <a href="bazi_oracle.html" style="font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.18em;color:#8878AA;text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='#C9A84C';this.style.borderColor='var(--gold-dim,#7A6030)'" onmouseout="this.style.color='#8878AA';this.style.borderColor='transparent'">Ba Zi</a>
+      <a href="purple-star.html" style="font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.18em;color:#C9A84C;text-decoration:none;padding:6px 14px;border:1px solid #7A6030;border-radius:2px;text-transform:uppercase;background:rgba(201,168,76,0.08);">Zi Wei</a>
+      <a href="YiJing_Oracle.html" style="font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.18em;color:#8878AA;text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='#C9A84C';this.style.borderColor='#7A6030'" onmouseout="this.style.color='#8878AA';this.style.borderColor='transparent'">Yi Jing</a>
+    </div>
+  </div>
+</nav>
+<div style="height:52px;"></div>
+
+<div class="page">
+<div class="lang-bar">
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btnEN" onclick="setLangFull('en')">EN</button>
+    <button class="lang-btn" id="btnTW" onclick="setLangFull('zh-tw')">繁體</button>
+    <button class="lang-btn" id="btnZH" onclick="setLangFull('zh')">简体</button>
+  </div>
+</div>
+<section class="hero">
+  <div class="crown">✦ ✦ ✦</div>
+  <h1 class="hero-title">Purple<br><span>Star</span></h1>
+  <p class="hero-sub" id="h-sub">Imperial Chinese Astrology · 紫微斗數</p>
+  <div class="divider"><div class="dl"></div><div class="dd">◆</div><div class="dl"></div></div>
+  <p class="hero-desc" id="h-desc">The system Chinese emperors relied on for a thousand years.<br>More nuanced than Western astrology, more personalized than Ba Zi —<br>mapped to your exact birth moment and decoded by AI.</p>
+</section>
+<section class="form-section">
+  <div class="form-card">
+    <div class="fg">
+      <label class="fl" id="l-date">Date of Birth</label>
+      <div class="dr" id="date-selects"></div>
+    </div>
+    <div class="fg">
+      <label class="fl" id="l-time">Time of Birth</label>
+      <div class="fr">
+        <select class="fi" id="bh">
+          <option value="">Hour 时辰</option>
+          <option value="23">23-01 子 Rat</option>
+          <option value="1">01-03 丑 Ox</option>
+          <option value="3">03-05 寅 Tiger</option>
+          <option value="5">05-07 卯 Rabbit</option>
+          <option value="7">07-09 辰 Dragon</option>
+          <option value="9">09-11 巳 Snake</option>
+          <option value="11">11-13 午 Horse</option>
+          <option value="13">13-15 未 Goat</option>
+          <option value="15">15-17 申 Monkey</option>
+          <option value="17">17-19 酉 Rooster</option>
+          <option value="19">19-21 戌 Dog</option>
+          <option value="21">21-23 亥 Pig</option>
+        </select>
+        <select class="fi" id="bg">
+          <option value="">Gender 性别</option>
+          <option value="F">Female 女</option>
+          <option value="M">Male 男</option>
+        </select>
+      </div>
+    </div>
+    <button class="submit-btn" onclick="generate()" id="sub-btn">✦  Reveal My Chart  ✦</button>
+  </div>
+</section>
+<div id="result"></div>
+<!-- AI Section -->
+<div class="ai-section" id="ai-section">
+  <div style="border-top:1px solid var(--pb);padding-top:52px;">
+    <div style="text-align:center;margin-bottom:36px;">
+      <div class="sl" style="justify-content:center;" id="ai-label">Ask Your Chart</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--sw);margin-bottom:12px;" id="ai-title">Personalized Reading</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--tm);font-style:italic;line-height:1.8;" id="ai-sub">Choose a topic, share your situation,<br>and your chart will speak directly to your life.</p>
+    </div>
+    <div id="ai-step1">
+      <div style="font-size:21px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;" id="ai-s1-label">① Choose a Topic</div>
+      <div class="ai-topics" id="ai-topics"></div>
+    </div>
+    <div id="ai-step2" style="display:none;margin-top:24px;">
+      <div style="font-size:21px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;" id="ai-s2-label">② Your Situation</div>
+      <div id="ai-fields"></div>
+      <textarea id="ai-extra" rows="3" class="ai-input" style="margin-top:10px;resize:vertical;" placeholder="Any specific question? (optional)"></textarea>
+    </div>
+    <div id="ai-submit-wrap" style="display:none;margin-top:20px;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button style="flex:1;padding:14px;background:transparent;border:1px solid var(--pb);color:var(--tm);font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .3s;border-radius:1px;" onmouseover="this.style.borderColor='var(--gold-dim)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--pb)';this.style.color='var(--tm)'" onclick="doAI(false)" id="ai-preview-btn">✦ Free Preview</button>
+        <button style="flex:2;padding:14px;background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.08));border:1px solid var(--gold-dim);color:var(--gold-light);font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:.28em;text-transform:uppercase;cursor:pointer;transition:all .3s;border-radius:1px;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--gold-dim)';this.style.color='var(--gold-light)'" onclick="doAI(true)" id="ai-sub-btn">⟡ Full Reading · $9</button>
+      </div>
+      <div style="text-align:center;margin-top:10px;"><button onclick="resetAI()" style="background:none;border:none;color:var(--tm);font-size:12px;cursor:pointer;text-decoration:underline;" id="ai-reset-btn">← Change topic</button></div>
+    </div>
+    <div id="ai-loading" style="display:none;text-align:center;padding:36px 0;">
+      <div style="font-size:28px;color:var(--gold);animation:pulseGlow 1.5s ease-in-out infinite;">✦</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--tm);margin-top:14px;font-style:italic;" id="ai-load-txt">Reading your chart...</p>
+    </div>
+    <div id="ai-result" style="display:none;">
+      <div class="ai-result-box">
+        <div style="font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;" id="ai-res-label">Your Reading</div>
+        <div id="ai-res-text" class="acc-read"></div>
+        <div id="ai-upgrade-note" style="display:none;margin-top:24px;padding-top:20px;border-top:1px solid var(--pb);">
+          <p style="font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--tm);font-style:italic;line-height:1.8;margin-bottom:14px;" id="ai-upgrade-txt"></p>
+          <button onclick="doAI(true)" style="width:100%;padding:15px;background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.08));border:1px solid var(--gold-dim);color:var(--gold-light);font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:.28em;text-transform:uppercase;cursor:pointer;transition:all .3s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--gold-dim)'">⟡ Unlock Full Reading · $9</button>
+        </div>
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--pb);text-align:center;">
+          <button onclick="resetAIFull()" style="background:transparent;border:1px solid var(--pb);color:var(--tm);padding:10px 24px;font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;" id="ai-another-btn">Ask Another Question</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Contact Section -->
+<div class="contact-section" id="contact-section">
+  <div style="border-top:1px solid var(--pb);padding-top:52px;">
+    <div style="text-align:center;margin-bottom:36px;">
+      <div style="font-size:21px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">Contact & Consultation</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--sw);margin-bottom:12px;" id="ct-title">Get in Touch</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--tm);font-style:italic;line-height:1.8;" id="ct-sub">For collaborations, private consultations, or questions —<br>we respond within 24 hours.</p>
+    </div>
+    <div class="contact-form-card">
+      <form id="ct-form" onsubmit="submitContact(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div><label class="fl" id="ct-nl">Your Name</label><input type="text" name="name" required class="ci" placeholder="Name"></div>
+          <div><label class="fl" id="ct-el">Your Email</label><input type="email" name="email" required class="ci" placeholder="email@example.com"></div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <label class="fl" id="ct-tl">Inquiry Type</label>
+          <select name="type" class="ci">
+            <option value="consultation" id="ct-o1">Private Consultation</option>
+            <option value="collaboration" id="ct-o2">Collaboration</option>
+            <option value="question" id="ct-o3">General Question</option>
+            <option value="other" id="ct-o4">Other</option>
+          </select>
+        </div>
+        <div style="margin-bottom:20px;">
+          <label class="fl" id="ct-ml">Message</label>
+          <textarea name="message" required rows="4" class="ci" style="resize:vertical;" placeholder="Tell us what you have in mind..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="ct-submit-btn">✦  Send Message  ✦</button>
+      </form>
+      <div id="ct-success" style="display:none;text-align:center;padding:40px 0;">
+        <div style="font-size:28px;color:var(--gold);margin-bottom:14px;">✦</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--sw);margin-bottom:10px;" id="ct-ok-title">Email Ready</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--tm);font-style:italic;" id="ct-ok-body">Your email client has opened. Once sent, we'll respond within 24 hours.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:22px;"><p style="font-size:21px;color:var(--tm);" id="ct-direct">Or email directly: <a href="mailto:benv9988088@gmail.com" style="color:var(--gold-light);text-decoration:none;">benv9988088@gmail.com</a></p></div>
+  </div>
+</div>
+<!-- Bottom buttons -->
+<div id="bottom-btns" style="display:none;text-align:center;padding:16px 0 20px;position:relative;z-index:1;">
+  <button onclick="toggleContact()" id="ct-toggle-btn" style="padding:14px 36px;background:transparent;border:1px solid var(--pb);color:var(--tm);font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s;" onmouseover="this.style.borderColor='var(--gold-dim)';this.style.color='var(--gold-light)'" onmouseout="this.style.borderColor='var(--pb)';this.style.color='var(--tm)'">✉  Contact & Consultation</button>
+</div>
+<div style="text-align:center;padding:20px 0 48px;">
+  <p style="font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.32em;color:rgba(201,168,76,0.3);text-transform:uppercase;">SHEN · Ancient Chinese Wisdom, Decoded</p>
+</div>
+</div>
+<script>
+var L='en', UNLOCKED=false, CHART=null;
+var DEEPSEEK_KEY='sk-c600e50c1c16467a9932b9d5e6307fed';
+
+// ── 语言文本 ──
+var UI={
+  'h-sub':{en:'Imperial Chinese Astrology · 紫微斗數',zh:'皇家命理 · 紫微斗數'},
+  'h-desc':{en:'The system Chinese emperors relied on for a thousand years.<br>More nuanced than Western astrology, more personalized than Ba Zi —<br>mapped to your exact birth moment and decoded by AI.',zh:'千年前专为天子所设的命理体系——<br>比西方占星更精准，比八字更立体——<br>如今为你打开。'},
+  'l-date':{en:'Date of Birth',zh:'出生日期'},
+  'l-time':{en:'Time of Birth',zh:'出生时辰'},
+  'sub-btn':{en:'✦  Reveal My Destiny Chart  ✦',zh:'✦  揭示我的命盘  ✦'},
+  'ai-label':{en:'Ask Your Chart',zh:'命盘直答'},
+  'ai-title':{en:'Chart Intelligence',zh:'命盘深度解读'},
+  'ai-sub':{en:'Your Purple Star chart holds answers your Western horoscope never could.<br>Choose a topic and let your chart speak directly to your situation.',zh:'选择方向，描述你的处境——命盘将直接回应。'},
+  'ai-s1-label':{en:'① Choose a Topic',zh:'① 选择问卦方向'},
+  'ai-s2-label':{en:'② Your Situation',zh:'② 填写你的背景情况'},
+  'ai-load-txt':{en:'Reading your chart...',zh:'命盘解读中...'},
+  'ai-res-label':{en:'Your Reading',zh:'命盘解读'},
+  'ai-another-btn':{en:'Ask Another Question',zh:'再问一个问题'},
+  'ai-reset-btn':{en:'← Change topic',zh:'← 重新选择'},
+  'ct-title':{en:'Get in Touch',zh:'联系我们'},
+  'ct-sub':{en:'For collaborations, private consultations, or questions —<br>we respond within 24 hours.',zh:'合作洽谈、私人咨询或任何问题——<br>我们将在24小时内回复。'},
+  'ct-nl':{en:'Your Name',zh:'您的姓名'},
+  'ct-el':{en:'Your Email',zh:'您的邮箱'},
+  'ct-tl':{en:'Inquiry Type',zh:'咨询类型'},
+  'ct-ml':{en:'Message',zh:'留言内容'},
+  'ct-o1':{en:'Private Consultation',zh:'私人咨询'},
+  'ct-o2':{en:'Collaboration',zh:'合作洽谈'},
+  'ct-o3':{en:'General Question',zh:'一般问题'},
+  'ct-o4':{en:'Other',zh:'其他'},
+  'ct-ok-title':{en:'Email Ready',zh:'邮件已准备好'},
+  'ct-ok-body':{en:'Your email client has opened. Once sent, we\'ll respond within 24 hours.',zh:'您的邮件客户端已打开，发送后我们将在24小时内回复。'},
+  'ct-direct':{en:'Or email directly: <a href="mailto:benv9988088@gmail.com" style="color:var(--gold-light);text-decoration:none;">benv9988088@gmail.com</a>',zh:'或直接发邮件：<a href="mailto:benv9988088@gmail.com" style="color:var(--gold-light);text-decoration:none;">benv9988088@gmail.com</a>'}
+};
+
+function setLang(ln){
+  L=ln;
+  document.querySelectorAll('.lang-btn').forEach(function(b,i){b.classList.toggle('active',(ln==='en'&&i===0)||(ln==='zh'&&i===1));});
+  for(var id in UI){var el=document.getElementById(id);if(el)el.innerHTML=UI[id][ln];}
+  buildDateSelects();
+  // 只有当命盘已生成时才重新渲染（不触发validate）
+  var res=document.getElementById('result');
+  if(res&&res.style.display!=='none'&&CHART) generate();
+  // 更新AI问卦分类语言
+  if(typeof renderTopics==='function') renderTopics();
+  if(typeof currentTopic!=='undefined'&&currentTopic) selectTopic(currentTopic);
+}
+
+// ── 日期下拉 ──
+var MONTHS_EN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+var MONTHS_ZH=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+
+function buildDateSelects(){
+  var wrap=document.getElementById('date-selects');
+  if(!wrap)return;
+  var byVal=document.getElementById('by')?document.getElementById('by').value:'';
+  var bmVal=document.getElementById('bm')?document.getElementById('bm').value:'';
+  var bdVal=document.getElementById('bd')?document.getElementById('bd').value:'';
+
+  var yOpts='<option value="">'+(L==='zh'?'年份':'Year')+'</option>';
+  for(var y=2005;y>=1920;y--) yOpts+='<option value="'+y+'"'+(byVal==y?' selected':'')+'>'+y+'</option>';
+
+  var mOpts='<option value="">'+(L==='zh'?'月份':'Month')+'</option>';
+  var mNames=L==='zh'?MONTHS_ZH:MONTHS_EN;
+  for(var m=1;m<=12;m++){
+    var mLabel=L==='zh'?(m+'月'):(m+' — '+mNames[m-1]);
+    mOpts+='<option value="'+m+'"'+(bmVal==m?' selected':'')+'>'+mLabel+'</option>';
+  }
+
+  var dOpts='<option value="">'+(L==='zh'?'日':'Day')+'</option>';
+  for(var d=1;d<=31;d++) dOpts+='<option value="'+d+'"'+(bdVal==d?' selected':'')+'>'+d+'</option>';
+
+  wrap.innerHTML=
+    '<select class="fi" id="by">'+yOpts+'</select>'+
+    '<select class="fi" id="bm">'+mOpts+'</select>'+
+    '<select class="fi" id="bd">'+dOpts+'</select>';
+}
+buildDateSelects();
+
+// ── 基础数据 ──
+var TG=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+var DZ=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+var AZ=['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'];
+var AE=['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
+var PZH=['命宫','兄弟','夫妻','子女','财帛','疾厄','迁移','交友','官禄','田宅','福德','父母'];
+var PEN=['Life','Siblings','Spouse','Children','Wealth','Health','Travel','Friends','Career','Property','Fortune','Parents'];
+var SEN={'紫微':'Emperor Star','天机':'Heavenly Secrets','太阳':'Sun Star','武曲':'Treasury Star','天同':'Harmony Star','廉贞':'Integrity Star','天府':'Celestial Vault','太阴':'Moon Star','贪狼':'Wolfstar','巨门':'Gate Star','天相':'Minister Star','天梁':'Elder Star','七杀':'Warrior Star','破军':'Pioneer Star'};
+var SK={'紫微':'Emperor','天机':'Heavenly','太阳':'Sun','武曲':'Treasury','天同':'Warrior','廉贞':'Twins','天府':'Vault','太阴':'Empress','贪狼':'Greed','巨门':'Gate','天相':'Minister','天梁':'Clam','七杀':'Execute','破军':'Broken'};
+var NT=['海中金','炉中火','大林木','路旁土','剑锋金','山头火','涧下水','城头土','白蜡金','杨柳木','泉中水','屋上土','霹雳火','松柏木','长流水','沙中金','山下火','平地木','壁上土','金箔金','覆灯火','天河水','大驿土','钗钏金','桑柘木','大溪水','沙中土','天上火','石榴木','大海水'];
+var NJ={'海中金':4,'炉中火':6,'大林木':3,'路旁土':5,'剑锋金':4,'山头火':6,'涧下水':2,'城头土':5,'白蜡金':4,'杨柳木':3,'泉中水':2,'屋上土':5,'霹雳火':6,'松柏木':3,'长流水':2,'沙中金':4,'山下火':6,'平地木':3,'壁上土':5,'金箔金':4,'覆灯火':6,'天河水':2,'大驿土':5,'钗钏金':4,'桑柘木':3,'大溪水':2,'沙中土':5,'天上火':6,'石榴木':3,'大海水':2};
+</script>
+<script>
+var LUNAR_YEARS = {
+1920:[2,20,[29,30,29,30,29,30,29,30,30,29,30,30],0],
+1921:[2,8,[29,30,29,30,29,30,29,30,30,29,30,29],0],
+1922:[1,28,[30,29,30,29,30,29,30,29,30,29,30,30,29],5],
+1923:[2,16,[29,30,30,29,30,29,30,29,30,29,30,29],0],
+1924:[2,5,[30,30,29,30,29,30,29,30,29,30,29,30],0],
+1925:[1,24,[30,29,30,30,29,30,29,29,30,29,30,29,30],4],
+1926:[2,13,[30,29,30,29,30,29,30,29,30,29,30,30],0],
+1927:[2,2,[29,30,29,30,29,30,29,30,29,30,29,30],0],
+1928:[1,23,[30,29,30,30,29,30,29,30,29,29,30,29,30],2],
+1929:[2,10,[30,29,30,29,30,30,29,30,29,30,29,30],0],
+1930:[1,30,[29,30,29,30,29,30,30,29,30,29,30,29],0],
+1931:[2,17,[30,29,30,29,30,29,30,30,29,30,29,30,29],6],
+1932:[2,6,[30,29,30,29,30,29,30,30,29,30,29,30],0],
+1933:[1,26,[29,30,29,30,29,30,29,30,30,29,30,30,29],5],
+1934:[2,14,[29,30,29,30,29,30,29,30,30,29,30,30],0],
+1935:[2,4,[29,30,29,30,29,30,29,30,29,30,30,30,29],4],
+1936:[1,24,[29,30,29,30,29,30,29,30,29,30,30,29],0],
+1937:[2,11,[30,29,30,29,30,29,30,29,30,29,30,30,29],3],
+1938:[1,31,[30,29,30,29,30,29,30,29,30,30,29,30],0],
+1939:[2,19,[29,30,29,30,29,30,29,30,29,30,30,29,30],7],
+1940:[2,8,[29,30,29,30,29,30,29,30,29,30,30,30],0],
+1941:[1,27,[29,30,29,30,29,30,29,30,29,30,30,29,30],6],
+1942:[2,15,[29,30,29,30,29,30,29,30,29,30,30,30],0],
+1943:[2,5,[29,30,29,30,29,29,30,30,29,30,29,30,30],5],
+1944:[1,25,[29,30,29,30,29,30,29,30,29,30,29,30],0],
+1945:[2,13,[30,29,30,29,30,29,30,29,30,29,30,29,30],4],
+1946:[2,2,[30,29,30,29,30,29,30,29,30,30,29,30],0],
+1947:[1,22,[30,29,30,29,30,29,30,29,30,30,29,30,29],2],
+1948:[2,10,[30,29,30,29,30,29,30,29,30,30,30,29],0],
+1949:[1,29,[30,29,30,29,30,29,30,29,30,29,30,30,30],7],
+1950:[2,17,[29,30,29,30,29,30,29,30,29,30,29,30],0],
+1951:[2,6,[30,29,30,29,30,29,30,29,30,29,30,29,30],5],
+1952:[1,27,[30,29,30,29,30,29,30,29,30,30,29,30],0],
+1953:[2,14,[29,30,29,30,29,30,29,30,29,30,30,30,29],4],
+1954:[2,3,[29,30,29,30,29,30,29,30,29,30,30,29],0],
+1955:[1,24,[30,29,30,29,30,29,30,29,30,29,30,30,29],3],
+1956:[2,12,[30,29,30,29,30,29,30,29,30,29,30,29],0],
+1957:[1,31,[30,30,29,30,29,30,29,30,29,30,29,29,30],8],
+1958:[2,18,[30,30,29,30,29,30,29,30,29,30,29,30],0],
+1959:[2,8,[29,30,30,29,30,29,30,29,30,29,30,29,30],6],
+1960:[1,28,[29,30,30,29,30,29,30,29,30,30,29,30],0],
+1961:[2,15,[29,29,30,30,29,30,29,30,29,30,30,30,29],5],
+1962:[2,5,[29,29,30,29,30,30,29,30,29,30,30,29],0],
+1963:[1,25,[30,29,29,30,30,29,30,29,30,29,30,29,30],4],
+1964:[2,13,[30,29,29,30,30,29,30,29,30,30,29,30],0],
+1965:[2,2,[29,30,29,30,29,30,29,30,29,30,30,30,29],2],
+1966:[1,21,[29,30,29,30,29,30,29,30,29,30,30,29],0],
+1967:[2,9,[30,29,30,29,30,29,30,29,30,29,30,29,30],6],
+1968:[1,30,[30,29,30,29,30,29,30,29,30,30,29,30],0],
+1969:[2,17,[29,30,29,30,29,30,29,30,29,30,30,29,30],5],
+1970:[2,6,[29,30,29,30,29,30,29,30,30,29,30,30],0],
+1971:[1,27,[29,29,30,29,30,29,30,29,30,30,30,29,30],3],
+1972:[2,15,[29,29,30,29,30,29,30,30,29,30,30,29],0],
+1973:[2,3,[30,29,29,30,29,30,29,30,30,29,30,30,29],8],
+1974:[1,23,[30,29,29,30,29,30,29,30,30,30,29,30],0],
+1975:[2,11,[29,30,29,29,30,30,29,30,29,30,30,30,29],4],
+1976:[1,31,[29,30,29,29,30,29,30,30,29,30,30,29],0],
+1977:[2,18,[30,29,30,29,29,30,29,30,30,29,30,29,30],2],
+1978:[2,7,[30,29,30,29,29,30,29,30,30,30,29,30],0],
+1979:[1,28,[29,30,29,30,29,29,30,29,30,30,30,29,30],6],
+1980:[2,16,[29,30,29,30,29,29,30,29,30,30,29,30],0],
+1981:[2,5,[29,30,29,30,30,29,29,30,29,30,29,30,29],5],
+1982:[1,25,[30,29,30,29,30,30,29,29,30,29,30,29],0],
+1983:[2,13,[30,30,29,30,29,30,30,29,29,30,29,30,29],4],
+1984:[2,2,[30,30,29,30,29,30,29,30,29,29,30,29],0],
+1985:[2,20,[30,30,29,30,30,29,30,29,30,29,29,30,29],8],
+1986:[2,9,[30,30,29,30,29,30,30,29,30,29,30,29],0],
+1987:[1,29,[29,30,30,29,30,29,30,30,29,30,29,30,29],6],
+1988:[2,17,[29,30,29,30,29,30,30,29,30,30,29,30],0],
+1989:[2,6,[29,30,29,29,30,30,29,30,30,29,30,30,29],5],
+1990:[1,27,[29,30,29,29,30,30,29,30,30,30,29,30],0],
+1991:[2,15,[29,29,30,29,29,30,30,29,30,30,30,29,30],3],
+1992:[2,4,[29,29,30,29,29,30,30,29,30,30,29,30],0],
+1993:[1,23,[30,29,29,30,29,29,30,30,29,30,30,29,30],8],
+1994:[2,10,[30,29,29,30,29,29,30,29,30,30,30,29],0],
+1995:[1,31,[30,30,29,29,30,29,29,30,29,30,30,30,29],6],
+1996:[2,19,[30,30,29,29,30,29,29,30,29,30,30,29],0],
+1997:[2,7,[30,30,30,29,29,30,29,29,30,29,30,29,30],5],
+1998:[1,28,[30,30,29,30,29,30,29,29,30,29,30,29],0],
+1999:[2,16,[30,30,29,30,30,29,30,29,29,30,29,30,29],4],
+2000:[2,5,[30,30,29,30,30,29,30,29,29,30,29,30],0],
+2001:[1,24,[29,30,30,29,30,30,29,30,29,29,30,29,30],8],
+2002:[2,12,[29,30,30,29,30,29,30,30,29,29,30,29],0],
+2003:[2,1,[30,29,30,30,29,30,29,30,30,29,29,30,29],5],
+2004:[1,22,[30,29,30,30,29,30,29,30,29,30,29,30],0],
+2005:[2,9,[29,30,29,30,30,29,30,29,30,29,30,29,30],3],
+2006:[1,29,[29,30,29,30,30,29,30,29,30,30,29,30],0],
+2007:[2,18,[29,29,30,29,30,30,29,30,29,30,30,29,30],7],
+2008:[2,7,[29,29,30,29,30,29,30,30,29,30,30,30],0],
+2009:[1,26,[29,29,30,29,29,30,30,29,30,30,30,29,30],5],
+2010:[2,14,[29,29,30,29,29,30,30,29,30,30,29,30],0]
+};
+var MR={
+'Emperor':{T:{en:"The Emperor's Soul",zh:'紫微入命——帝星之格'},S:{en:'Emperor Star · Life Palace',zh:'紫微星坐命宫'},E:{en:'You carry the energy of the Purple Star — the axis around which all other stars revolve. You were born with an innate authority that others sense before you speak.',zh:'紫微入命，为众星拱卫之格。你天生具有一种无需言说便令他人感知的威仪与主导力。'},P:{en:'<p>Your presence commands attention without demanding it. Where others see situations, you see <strong>systems</strong>. At your best, you are <strong>the person who makes everyone around them better</strong>.</p>',zh:'<p>你的气场不需要刻意彰显，却让周围的人自然臣服。在别人看到"情况"的地方，你看到的是<strong>体系</strong>。你最好的状态，是<strong>让身边所有人因你而变得更好</strong>。</p>'},L:{en:'<p>You seek a partner who is your equal. You are deeply loyal once committed. Your greatest lesson is learning to <strong>receive</strong> as gracefully as you give.</p>',zh:'<p>你寻找能与你势均力敌的伴侣。一旦确定心意，你的忠诚无可置疑。你最重要的功课是学会<strong>优雅地接受</strong>。</p>'},C:{en:'<p>Leadership roles find you. Your greatest satisfaction comes from <strong>building something that outlasts you</strong>.</p>',zh:'<p>领导者的位置会主动找上你。你最深的满足感来自于<strong>建造能超越你自身的东西</strong>。</p>'},TR:{en:['Natural Authority','Strategic Mind','High Standards','Deep Loyalty','Long-Term Vision','Inner Dignity'],zh:['天生权威','战略思维','高标准','深度忠诚','长远格局','内在尊严']}},
+'Heavenly':{T:{en:'The Quicksilver Mind',zh:'天机入命——机变之格'},S:{en:'Heavenly Secrets · Life Palace',zh:'天机星坐命宫'},E:{en:'The Heavenly Secrets Star marks you as someone whose mind never truly rests. You process the world through pattern, nuance, and sensitivity to what lies beneath the surface.',zh:'天机入命，心思敏锐，永不停转。你以独特的方式感知世界——通过模式、细节，以及洞见事物表象之下真实的敏感。'},P:{en:'<p>You are the person who notices what everyone else misses. This is your <strong>superpower and your burden</strong>. Your intelligence moves like water, finding its way around obstacles.</p>',zh:'<p>你是那个总能注意到别人忽视之处的人。这是你的<strong>超能力，也是你的重担</strong>。你的智识如流水般运作，绕过障碍而非穿越。</p>'},L:{en:'<p>You fall for minds before anything else. Your challenge is <strong>overthinking what should simply be felt</strong>.</p>',zh:'<p>你先被思想吸引，才会动心。你的挑战是<strong>将本应被感受之事过度分析</strong>。</p>'},C:{en:'<p>Research, strategy, advisory, creative problem-solving are made for you. <strong>Your depth is your edge.</strong></p>',zh:'<p>研究、战略、咨询是为你而生的。<strong>你的深度才是你真正的优势。</strong></p>'},TR:{en:['Analytical Brilliance','Quiet Adaptability','Pattern Recognition','Emotional Intelligence','Restless Curiosity','Hidden Depth'],zh:['分析天赋','低调适应力','模式识别','高情商','旺盛好奇心','隐藏的深度']}},
+'Sun':{T:{en:'The Radiant Force',zh:'太阳入命——光明之格'},S:{en:'Sun Star · Life Palace',zh:'太阳星坐命宫'},E:{en:'The Sun Star makes you a source of warmth that others gravitate toward naturally.',zh:'太阳入命，你是他人自然聚集的温暖之源。'},P:{en:'<p><strong>Pretense exhausts you.</strong> Your generosity is defining — but learn where your energy ends and someone else\'s responsibility begins.</p>',zh:'<p><strong>虚伪会让你筋疲力尽。</strong>慷慨是你最鲜明的特质——但你必须学会辨识自己能量的边界。</p>'},L:{en:'<p>Love is essential to you — not a luxury but oxygen. Choose partners who refuel you as naturally as you refuel them.</p>',zh:'<p>爱对你而言是必需品，不是奢侈品，是空气。请选择能像你滋养他们一样滋养你的伴侣。</p>'},C:{en:'<p>You thrive in roles with genuine human contact. The Sun Star favors work with <strong>visible impact</strong>.</p>',zh:'<p>你在与人真实接触的岗位上如鱼得水。太阳星偏爱有<strong>可见影响力</strong>的工作。</p>'},TR:{en:['Magnetic Warmth','Generous Spirit','Authentic Presence','Fierce Loyalty','Natural Optimism','Inspiring Energy'],zh:['温暖感召力','慷慨精神','真实存在感','深度忠诚','天然乐观','激励他人']}},
+'Treasury':{T:{en:'The Iron Will',zh:'武曲入命——刚毅之格'},S:{en:'Treasury Star · Life Palace',zh:'武曲星坐命宫'},E:{en:'The Treasury Star speaks of metal, discipline, and the will that quietly outlasts every obstacle.',zh:'武曲入命，金性刚毅。你天生为长期博弈而生。'},P:{en:'<p><strong>You execute.</strong> While others are still discussing, you are already implementing.</p>',zh:'<p><strong>你执行。</strong>当别人还在讨论时，你已经在落地了。</p>'},L:{en:'<p>Your love is felt in what you do: the stability you create, the way you simply <strong>show up without drama</strong>.</p>',zh:'<p>你的爱体现在你的行动中：你营造的稳定，你<strong>不带戏剧性地出现</strong>的方式。</p>'},C:{en:'<p>Finance, engineering, operations, medicine. Financial potential comes through <strong>sustained effort</strong>, not windfalls.</p>',zh:'<p>金融、工程、运营、医疗。财富潜力来自<strong>持续努力</strong>，而非横财。</p>'},TR:{en:['Iron Discipline','Quiet Confidence','Execution-Focused','Financial Acumen','Unshakeable Resolve','Trustworthy Depth'],zh:['铁的纪律','低调自信','执行导向','财务洞察力','坚不可摧的决心','值得信赖的深度']}},
+'Warrior':{T:{en:'The Still Water',zh:'天同入命——福寿之格'},S:{en:'Harmony Star · Life Palace',zh:'天同星坐命宫'},E:{en:'The Harmony Star carries the energy of water — adaptive, patient, capable of wearing down stone without announcing its intention.',zh:'天同入命，水性温和。你如水一般——柔韧、耐心，能在无声无息中磨穿顽石。'},P:{en:'<p>You have an extraordinary capacity to <strong>find peace inside chaos</strong>. Prize harmony — but be careful this does not slide into avoiding necessary conflict.</p>',zh:'<p>你拥有一种在混乱中<strong>找到内心平静</strong>的非凡能力。你重视和谐——但请小心，不要让这种倾向变成回避必要冲突的借口。</p>'},L:{en:'<p>You are a tender partner who creates a home wherever you are. Your romantic challenge is <strong>advocating clearly for your own needs</strong>.</p>',zh:'<p>你是一个温柔的伴侣，走到哪里都能营造出家的感觉。你在感情中的挑战是<strong>清晰地表达自己的需求</strong>。</p>'},C:{en:'<p>Counseling, diplomacy, education, the arts. <strong>You play the long game better than almost anyone.</strong></p>',zh:'<p>咨询、外交、教育、艺术。<strong>你比几乎任何人都更擅长打长期战役。</strong></p>'},TR:{en:['Quiet Resilience','Emotional Grace','Patient Wisdom','Natural Peacemaker','Adaptive Intelligence','Deep Empathy'],zh:['内敛的韧性','情感优雅','耐心的智慧','天然的调停者','适应性智识','深度共情']}},
+'Twins':{T:{en:'The Hidden Fire',zh:'廉贞入命——囚星之格'},S:{en:'Integrity Star · Life Palace',zh:'廉贞星坐命宫'},E:{en:'The Integrity Star carries a dual nature: discipline and desire, restraint and passion.',zh:'廉贞入命，性质双重：纪律与欲望并存，克制与热情共生。'},P:{en:'<p>There is a fire inside you carefully controlled. This makes you <strong>formidably effective</strong> when aligned.</p>',zh:'<p>你内心有一团被精心克制的火焰。这使得你在内外协调时<strong>极具威力</strong>。</p>'},L:{en:'<p>Once you commit, you are <strong>entirely committed</strong>. You need a partner who can handle the full range of you.</p>',zh:'<p>一旦你决定投入，你是<strong>全身心的投入</strong>。你需要一个能承接你全部面向的伴侣。</p>'},C:{en:'<p>Law, finance, governance, leadership. Your innate ethical compass guides your decisions even when no one is watching.</p>',zh:'<p>法律、金融、治理、领导。你内置的道德指南针，即使无人注视时也引导你的决策。</p>'},TR:{en:['Principled Ambition','Controlled Intensity','Strategic Intelligence','Deep Loyalty','Ethical Core','Hidden Passion'],zh:['有原则的野心','受控的强度','战略智识','深度忠诚','道德核心','隐藏的激情']}},
+'Vault':{T:{en:'The Abundant Ground',zh:'天府入命——富贵之格'},S:{en:'Celestial Vault · Life Palace',zh:'天府星坐命宫'},E:{en:'The Celestial Vault is the star of earthly abundance and stability. You are someone people can lean on — and you know it.',zh:'天府入命，主人间富足与稳定。你是人们可以依靠的那块磐石——你自己也清楚这一点。'},P:{en:'<p>You have a groundedness that is immediately felt. You build — relationships, resources, knowledge — slowly, deliberately, durably.</p>',zh:'<p>你的沉稳是人们立刻能感受到的。你在建造——关系、资源、知识——缓慢、审慎、持久。</p>'},L:{en:'<p>Your relationships are characterized by reliability and bedrock security. <strong>Your greatest gift in love is also your greatest risk.</strong></p>',zh:'<p>你的感情以可靠性和基础性安全感为特征。<strong>你在爱情中最大的天赋，也是你最大的风险。</strong></p>'},C:{en:'<p>Business, real estate, investment, administration. You understand that <strong>slow, lasting growth beats fast, fragile growth</strong>.</p>',zh:'<p>商业、房产、投资、行政管理。你深知<strong>缓慢持久的增长胜过快速脆弱的增长</strong>。</p>'},TR:{en:['Unshakeable Stability','Long-Term Builder','Resource Mastery','Quiet Generosity','Accumulated Wisdom','Trustworthy Anchor'],zh:['稳如磐石','长期建造者','资源掌控','低调慷慨','积累的智慧','可信赖的锚点']}},
+'Empress':{T:{en:'The Lunar Depth',zh:'太阴入命——清秀之格'},S:{en:'Moon Star · Life Palace',zh:'太阴星坐命宫'},E:{en:'The Moon Star marks you with a sensitivity that is both your most profound gift and your most tender vulnerability.',zh:'太阴入命，赋予你一种既是最深厚天赋、也是最柔软脆弱之处的敏感。'},P:{en:'<p>You read rooms, pick up undercurrents, sense what is unspoken. This gives you an almost <strong>uncanny emotional intelligence</strong>.</p>',zh:'<p>你能读懂房间，捕捉暗流，感知未言之物。这赋予你一种近乎<strong>超自然的情商</strong>。</p>'},L:{en:'<p>You make people feel truly known. What you need in return is emotional safety. <strong>Guard your heart wisely.</strong></p>',zh:'<p>你让人感到被真正了解。你需要的回报是情感安全感。<strong>请明智地守护你的心。</strong></p>'},C:{en:'<p>Psychology, writing, design, healing arts, teaching. You work best in environments that honor your need for <strong>quiet, reflective space</strong>.</p>',zh:'<p>心理学、写作、设计、治愈系艺术、教育。你在尊重你需要<strong>安静反思空间</strong>的环境中工作最好。</p>'},TR:{en:['Deep Intuition','Emotional Intelligence','Aesthetic Sensitivity','Rich Inner World','Empathic Presence','Quiet Strength'],zh:['深层直觉','高情商','审美敏感度','丰富的内心世界','共情的存在感','内敛的力量']}},
+'Greed':{T:{en:'The Magnetized Soul',zh:'贪狼入命——桃花之格'},S:{en:'Wolfstar · Life Palace',zh:'贪狼星坐命宫'},E:{en:'The Wolfstar is the star of desire, magnetism, and the full spectrum of human experience.',zh:'贪狼入命，主欲望、魅力与人类体验的全光谱。'},P:{en:'<p>You have a charisma that is immediately felt. You are <strong>fully alive</strong> in a way that is genuinely contagious. The challenge is always focus.</p>',zh:'<p>你拥有一种立刻被感知到的魅力。你以一种真正具有感染力的方式<strong>完全活着</strong>。挑战始终是专注。</p>'},L:{en:'<p>You are a passionate, alive romantic partner. Your growth edge is learning to <strong>sustain the slow burn</strong>.</p>',zh:'<p>你是一个充满激情、极度鲜活的恋人。你的成长边界是学会<strong>维持那团慢燃的火</strong>。</p>'},C:{en:'<p>The arts, entertainment, entrepreneurship, sales. <strong>Learn to manage resources as skillfully as you generate them.</strong></p>',zh:'<p>艺术、娱乐、创业、销售。<strong>学会像创造资源一样熟练地管理它们。</strong></p>'},TR:{en:['Natural Magnetism','Full-Spectrum Appetite','Creative Energy','Passionate Presence','Infectious Aliveness','Multifaceted Mind'],zh:['天然磁场','全光谱欲望','创造能量','热情的存在感','感染性的生命力','多面心智']}},
+'Gate':{T:{en:'The Honest Mind',zh:'巨门入命——是非之格'},S:{en:'Gate Star · Life Palace',zh:'巨门星坐命宫'},E:{en:'The Gate Star is the star of spoken truth and honest communication. You have a mind that goes straight to the heart of things.',zh:'巨门入命，主言语与直言之道。你的思维直指事物核心。'},P:{en:'<p>You see through pretense almost instantly. <strong>When you say something, you mean it.</strong></p>',zh:'<p>你几乎立刻就能看穿虚伪。<strong>你说出口的话，你是认真的。</strong></p>'},L:{en:'<p>You need direct, honest communication above all. Your directness comes from <strong>respect</strong>, not aggression.</p>',zh:'<p>你对感情中直接、诚实的沟通的需求高于一切。你的直接来自于<strong>尊重</strong>，而非攻击性。</p>'},C:{en:'<p>Law, journalism, research, coaching, medicine. Your intellectual rigor is an edge. <strong>Trust it.</strong></p>',zh:'<p>法律、新闻、研究、教练、医学。你的智识严谨性是你的优势。<strong>相信它。</strong></p>'},TR:{en:['Radical Honesty','Penetrating Mind','Incisive Communication','Pattern Breaker','Deep Integrity','Intellectual Courage'],zh:['彻底的诚实','穿透性思维','犀利的表达','打破惯例','深度正直','智识勇气']}},
+'Minister':{T:{en:'The Careful Architect',zh:'天相入命——印星之格'},S:{en:'Minister Star · Life Palace',zh:'天相星坐命宫'},E:{en:'The Minister Star is the star of administration and balance.',zh:'天相入命，主辅佐、平衡，以及以精准与关怀支撑宏大体系的罕见能力。'},P:{en:'<p>You have an extraordinary eye for what is missing and what could function better. You care that the thing <strong>actually works</strong>.</p>',zh:'<p>你有一双非凡的眼睛，能看出缺失之处以及可以更好运作之处。你在乎事情<strong>真正发挥作用</strong>。</p>'},L:{en:'<p>You express love through practical care. <strong>Make sure you are with someone who sees what you do</strong>, not just what you provide.</p>',zh:'<p>你通过实际的关怀表达爱。<strong>确保你身边的人看见你的付出本身</strong>，而不仅仅是你提供的东西。</p>'},C:{en:'<p>Operations, project management, consulting, design systems. <strong>Your reliability is your most valuable career asset.</strong></p>',zh:'<p>运营、项目管理、咨询、系统设计。<strong>你的可靠性是你最宝贵的职业资产。</strong></p>'},TR:{en:['Systems Intelligence','Practical Creativity','Reliable Precision','Organizational Mastery','Careful Attention','Steady Dedication'],zh:['系统智识','务实创造力','可靠的精准','组织掌控','细心专注','稳定的奉献']}},
+'Clam':{T:{en:'The Wise Elder',zh:'天梁入命——荫星之格'},S:{en:'Elder Star · Life Palace',zh:'天梁星坐命宫'},E:{en:'The Elder Star carries accumulated wisdom and protective strength.',zh:'天梁入命，承载积累的智慧与庇护的力量。你天生便有几分老者之风。'},P:{en:'<p>People come to you with their problems. You carry a strong sense of justice and instinctive protectiveness toward those who cannot protect themselves.</p>',zh:'<p>人们带着问题来找你。你有强烈的正义感，以及对无法自我保护者的本能庇护欲。</p>'},L:{en:'<p>You love with depth and maturity. This <strong>clear-eyed devotion</strong> is your greatest romantic gift.</p>',zh:'<p>你以深度和成熟去爱——看见伴侣真实的样子。这种<strong>清醒的爱恋</strong>是你最伟大的感情天赋。</p>'},C:{en:'<p>Medicine, law, counseling, mentorship, teaching. Your career has a <strong>service dimension</strong> central to your sense of meaning.</p>',zh:'<p>医学、法律、咨询、导师、教学。你的职业有一个<strong>服务的维度</strong>，它是你意义感的核心。</p>'},TR:{en:['Deep Wisdom','Protective Strength','Long View','Just Character','Calm in Crisis',"Elder's Grace"],zh:['深层智慧','庇护的力量','长远视野','正直的品格','危机中的冷静','长者的优雅']}},
+'Execute':{T:{en:'The Fierce Light',zh:'七杀入命——将星之格'},S:{en:'Warrior Star · Life Palace',zh:'七杀星坐命宫'},E:{en:'The Warrior Star is the star of decisive action and unyielding courage. You are a force of nature.',zh:'七杀入命，主决断、无畏之勇。你是一股自然之力。'},P:{en:'<p>You do not do things halfway. <strong>You are built for intensity.</strong> Setbacks clarify something in you — the next step, the reason to keep going.</p>',zh:'<p>你做事从不半途而废。<strong>你天生为高强度而生。</strong>挫折往往会在你身上澄清某些事。</p>'},L:{en:'<p>You are a passionate, fiercely loyal partner. Learn to <strong>soften inside the safety of real love.</strong></p>',zh:'<p>你是一个充满激情、绝对忠诚的伴侣。学会在真实爱情的安全感中<strong>柔软下来。</strong></p>'},C:{en:'<p>Entrepreneurship, competitive fields, high-stakes environments. You are made for roles where most people would fold.</p>',zh:'<p>创业、竞争性领域、高风险环境。你天生胜任那些大多数人会崩溃的角色。</p>'},TR:{en:['Fierce Courage','Decisive Force','Unstoppable Drive','Protective Power','Crisis Clarity','Warrior Spirit'],zh:['无畏的勇气','决断的力量','势不可挡的驱动力','庇护的力量','危机中的清醒','战士精神']}},
+'Broken':{T:{en:'The Pioneer',zh:'破军入命——开创之格'},S:{en:'Pioneer Star · Life Palace',zh:'破军星坐命宫'},E:{en:'The Pioneer Star is the star of transformation and creative destruction. You are here to create what does not yet exist.',zh:'破军入命，主变革、创造性破坏。你是来创造尚不存在之物的。'},P:{en:'<p>You have an instinctive relationship with change. You have lived through more transformations than most — and came through them more fully yourself.</p>',zh:'<p>你与变化有着本能的关系。你经历的转变比同龄人多得多——而每次你都从中走出，更完整地成为你自己。</p>'},L:{en:'<p>You need a partner open to growth. Your love is intense and transformative. <strong>When it is right, it is unforgettable.</strong></p>',zh:'<p>你需要一个真正对成长开放的伴侣。你的爱是强烈的、变革性的。<strong>当它对了，它是令人难忘的。</strong></p>'},C:{en:'<p>Entrepreneurship, innovation, social change, the arts. You are a <strong>category creator</strong>, not a follower.</p>',zh:'<p>创业、创新、社会变革、艺术。你是<strong>品类的开创者</strong>，不是跟随者。</p>'},TR:{en:['Transformative Energy','Pioneer Spirit','Creative Destruction','Fearless Innovation','Regenerative Power','Radical Originality'],zh:['变革能量','拓荒精神','创造性破坏','无畏创新','再生力量','彻底的独创性']}}
+};
+</script>
+<script>
+// ── 农历转换 ──
+function getLunarDate(year,month,day){
+  var data=LUNAR_YEARS[year];
+  if(!data)return{lM:month,lD:day};
+  var base=new Date(year,data[0]-1,data[1]);
+  var target=new Date(year,month-1,day);
+  var diff=Math.round((target-base)/86400000);
+  if(diff<0){
+    var pd=LUNAR_YEARS[year-1];
+    if(!pd)return{lM:month,lD:day};
+    base=new Date(year-1,pd[0]-1,pd[1]);
+    diff=Math.round((target-base)/86400000);
+    data=pd;
+  }
+  var months=data[2],cumul=0;
+  for(var i=0;i<months.length;i++){
+    if(diff<cumul+months[i])return{lM:i+1,lD:diff-cumul+1};
+    cumul+=months[i];
+  }
+  return{lM:month,lD:day};
+}
+
+// ── 星盘SVG ──
+function buildWheel(BP,mg){
+  var W=460,CX=230,CY=230,RO=218,RP=188,RI=78;
+  var PN=L==='zh'?PZH:PEN;
+  var svg='<svg viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">';
+  svg+='<defs>';
+  svg+='<radialGradient id="bgG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1E1540"/><stop offset="100%" stop-color="#0D0A1A"/></radialGradient>';
+  svg+='<radialGradient id="cG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#534AB7" stop-opacity="0.35"/><stop offset="100%" stop-color="#0D0A1A" stop-opacity="0"/></radialGradient>';
+  svg+='<filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+  svg+='<filter id="gglow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+  svg+='<style>';
+  svg+='.r1{animation:rotateSlow 50s linear infinite;transform-origin:230px 230px}';
+  svg+='.r2{animation:rotateCCW 80s linear infinite;transform-origin:230px 230px}';
+  svg+='.r3{animation:rotateSlow 130s linear infinite;transform-origin:230px 230px}';
+  svg+='.tw1{animation:twinkle 2.8s ease-in-out infinite}';
+  svg+='.tw2{animation:twinkle 4.2s ease-in-out infinite .9s}';
+  svg+='.tw3{animation:twinkle 3.5s ease-in-out infinite 1.7s}';
+  svg+='.tw4{animation:twinkle 2.1s ease-in-out infinite .4s}';
+  svg+='.gp{animation:pulseGlow 2.5s ease-in-out infinite}';
+  svg+='.gp2{animation:pulseGlow 3.8s ease-in-out infinite 1s}';
+  svg+='@keyframes rotateSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}';
+  svg+='@keyframes rotateCCW{from{transform:rotate(360deg)}to{transform:rotate(0deg)}}';
+  svg+='@keyframes twinkle{0%,100%{opacity:.12}35%{opacity:1}70%{opacity:.35}}';
+  svg+='@keyframes pulseGlow{0%,100%{opacity:.25}50%{opacity:.95}}';
+  svg+='</style></defs>';
+  svg+='<circle cx="230" cy="230" r="218" fill="url(#bgG)"/>';
+  // 旋转装饰环
+  svg+='<g class="r3"><circle cx="230" cy="230" r="214" fill="none" stroke="#C9A84C" stroke-width="0.4" stroke-dasharray="2 16" opacity="0.25"/></g>';
+  svg+='<g class="r1"><circle cx="230" cy="230" r="204" fill="none" stroke="#C9A84C" stroke-width="0.6" stroke-dasharray="4 10" opacity="0.4"/></g>';
+  svg+='<g class="r2"><circle cx="230" cy="230" r="206" fill="none" stroke="#534AB7" stroke-width="0.5" stroke-dasharray="3 14" opacity="0.35"/></g>';
+  // 随机星点
+  var bgs=[[230+130*Math.cos(0.3),230+130*Math.sin(0.3),'tw1'],[230+150*Math.cos(1.1),230+150*Math.sin(1.1),'tw2'],[230+120*Math.cos(2.0),230+120*Math.sin(2.0),'tw3'],[230+140*Math.cos(2.9),230+140*Math.sin(2.9),'tw1'],[230+110*Math.cos(3.8),230+110*Math.sin(3.8),'tw4'],[230+155*Math.cos(4.7),230+155*Math.sin(4.7),'tw2'],[230+125*Math.cos(5.5),230+125*Math.sin(5.5),'tw3']];
+  bgs.forEach(function(s){svg+='<circle cx="'+s[0].toFixed(1)+'" cy="'+s[1].toFixed(1)+'" r="1.2" fill="#C9A84C" class="'+s[2]+'" opacity="0.6"/>';});
+  // 12宫
+  for(var pi=0;pi<12;pi++){
+    var pDz=(mg+pi)%12,pst=BP[pDz]||[],isL=pi===0;
+    var sa=(-90+pi*30)*Math.PI/180,ea=(-90+(pi+1)*30)*Math.PI/180,ma=(-90+(pi+0.5)*30)*Math.PI/180;
+    var x1=230+RO*Math.cos(sa),y1=230+RO*Math.sin(sa),x2=230+RO*Math.cos(ea),y2=230+RO*Math.sin(ea);
+    var xi1=230+RI*Math.cos(sa),yi1=230+RI*Math.sin(sa),xi2=230+RI*Math.cos(ea),yi2=230+RI*Math.sin(ea);
+    var path='M'+xi1.toFixed(1)+' '+yi1.toFixed(1)+' L'+x1.toFixed(1)+' '+y1.toFixed(1)+' A'+RO+' '+RO+' 0 0 1 '+x2.toFixed(1)+' '+y2.toFixed(1)+' L'+xi2.toFixed(1)+' '+yi2.toFixed(1)+' A'+RI+' '+RI+' 0 0 0 '+xi1.toFixed(1)+' '+yi1.toFixed(1)+'Z';
+    svg+='<path d="'+path+'" fill="'+(isL?'rgba(83,74,183,0.22)':'rgba(19,16,42,0.7)')+'" stroke="'+(isL?'#C9A84C':'#2A2248')+'" stroke-width="'+(isL?1.5:0.5)+'"/>';
+    // 宫位名
+    var nr=RO-16,nx=230+nr*Math.cos(ma),ny=230+nr*Math.sin(ma),rot=pi*30-75;
+    if(rot>90&&rot<270)rot+=180;
+    svg+='<text x="'+nx.toFixed(1)+'" y="'+ny.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" font-family="Josefin Sans,sans-serif" font-size="12" fill="'+(isL?'#E8D5A3':'#8878AA')+'" letter-spacing="0.8" transform="rotate('+rot+','+nx.toFixed(1)+','+ny.toFixed(1)+')">'+PN[pi].toUpperCase()+'</text>';
+    // 星名
+    if(pst.length>0){
+      var sr=(RP+RI)/2+4,sx=230+sr*Math.cos(ma),sy=230+sr*Math.sin(ma),srot=pi*30-75;
+      if(srot>90&&srot<270)srot+=180;
+      // 英文星名缩写：取每个词首字母缩写，双星用·分隔
+  var ABBR={'紫微':'Emp','天机':'Hvn','太阳':'Sun','武曲':'Trea','天同':'Harm','廉贞':'Intg','天府':'Vlt','太阴':'Moon','贪狼':'Wolf','巨门':'Gate','天相':'Mini','天梁':'Eld','七杀':'War','破军':'Pio'};
+  var txt=L==='zh'?pst.join(' '):(pst.map(function(s){return ABBR[s]||(SEN[s]||s).substring(0,4);}).join('·'));
+      svg+='<text x="'+sx.toFixed(1)+'" y="'+sy.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" font-family="Cormorant Garamond,serif" font-size="'+(pst.length>1?11:12.5)+'" fill="'+(isL?'#E8D5A3':'#C8BDE8')+'" transform="rotate('+srot+','+sx.toFixed(1)+','+sy.toFixed(1)+')"'+(isL?' filter="url(#glow)"':'')+'>'+txt+'</text>';
+    }
+    if(isL){
+      var dr=RO-26,dx=230+dr*Math.cos(ma),dy=230+dr*Math.sin(ma);
+      svg+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="3.5" fill="#C9A84C" class="gp" filter="url(#gglow)"/>';
+      svg+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="1.5" fill="#fff" opacity="0.9"/>';
+    }
+  }
+  // 分隔线
+  for(var li=0;li<12;li++){var a=(-90+li*30)*Math.PI/180;svg+='<line x1="'+(230+RI*Math.cos(a)).toFixed(1)+'" y1="'+(230+RI*Math.sin(a)).toFixed(1)+'" x2="'+(230+RO*Math.cos(a)).toFixed(1)+'" y2="'+(230+RO*Math.sin(a)).toFixed(1)+'" stroke="#2A2248" stroke-width="0.6"/>';}
+  // 中心
+  svg+='<circle cx="230" cy="230" r="'+RI+'" fill="url(#cG)" stroke="#534AB7" stroke-width="1"/>';
+  // 北斗七星
+  var bd=[{dx:-18,dy:-38,r:3.2,tw:'gp'},{dx:-6,dy:-26,r:2.8,tw:'tw1'},{dx:8,dy:-32,r:2.4,tw:'tw2'},{dx:20,dy:-20,r:2.6,tw:'tw3'},{dx:28,dy:-4,r:2.9,tw:'tw1'},{dx:22,dy:16,r:2.4,tw:'tw2'},{dx:8,dy:32,r:2.0,tw:'tw4'}];
+  var lines=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6]];
+  svg+='<g class="r2">';
+  lines.forEach(function(p){var a=bd[p[0]],b=bd[p[1]];svg+='<line x1="'+(230+a.dx)+'" y1="'+(230+a.dy)+'" x2="'+(230+b.dx)+'" y2="'+(230+b.dy)+'" stroke="#C9A84C" stroke-width="0.6" opacity="0.35" stroke-dasharray="2 3"/>';});
+  bd.forEach(function(s){
+    var cx2=230+s.dx,cy2=230+s.dy;
+    svg+='<circle cx="'+cx2+'" cy="'+cy2+'" r="'+(s.r+3)+'" fill="none" stroke="#C9A84C" stroke-width="0.4" opacity="0.2" class="'+s.tw+'"/>';
+    svg+='<circle cx="'+cx2+'" cy="'+cy2+'" r="'+s.r+'" fill="#C9A84C" class="'+s.tw+'" filter="url(#gglow)"/>';
+    svg+='<circle cx="'+cx2+'" cy="'+cy2+'" r="'+(s.r*0.4)+'" fill="#fff" opacity="0.85"/>';
+  });
+  // 北极星
+  svg+='<circle cx="230" cy="228" r="4.5" fill="#C9A84C" class="gp" filter="url(#gglow)" opacity="0.9"/>';
+  svg+='<circle cx="230" cy="228" r="2" fill="#fff" opacity="0.95"/>';
+  svg+='<circle cx="230" cy="228" r="8" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.3" class="gp2"/>';
+  svg+='</g>';
+  svg+='</svg>';
+  return svg;
+}
+
+// ── 宫位个性化要点 ──
+function getInsights(BP,mg){
+  var res=[];
+  var spouseMap={'紫微':{en:'Spouse Palace: Emperor Star — your ideal partner carries natural authority and commands quiet respect.',zh:'夫妻宫坐紫微——你的另一半天生具有权威气场，强势而有主见。'},'天机':{en:'Spouse Palace: Heavenly Secrets — your partner is intellectually agile, curious, and ever-evolving.',zh:'夫妻宫坐天机——你的另一半思维敏锐，善变而充满智慧。'},'太阳':{en:'Spouse Palace: Sun Star — your partner radiates warmth and generosity, a socially magnetic presence.',zh:'夫妻宫坐太阳——你的另一半热情慷慨，在社交场合光彩照人。'},'武曲':{en:'Spouse Palace: Treasury Star — your partner is disciplined, financially capable, and practically minded.',zh:'夫妻宫坐武曲——你的另一半务实能干，有强烈的财务意识和执行力。'},'天同':{en:'Spouse Palace: Harmony Star — your partner brings gentleness, patience, and quiet emotional attunement.',zh:'夫妻宫坐天同——你的另一半温和耐心，感情细腻，是能给你安全感的人。'},'廉贞':{en:'Spouse Palace: Integrity Star — your relationship carries intensity, passion, and genuine complexity.',zh:'夫妻宫坐廉贞——你的感情关系充满激情与复杂性，不平淡。'},'天府':{en:'Spouse Palace: Celestial Vault — your partner is grounded, reliable, a long-term builder by nature.',zh:'夫妻宫坐天府——你的另一半稳重可靠，是能陪你走一辈子的人。'},'太阴':{en:'Spouse Palace: Moon Star — your partner is sensitive, intuitive, and emotionally rich.',zh:'夫妻宫坐太阴——你的另一半敏感细腻，情感世界丰富，懂你的心。'},'贪狼':{en:'Spouse Palace: Wolfstar — your relationships carry magnetic intensity and transformative passion.',zh:'夫妻宫坐贪狼——你的感情充满磁性与变化，桃花缘分颇为旺盛。'},'巨门':{en:'Spouse Palace: Gate Star — honest, direct communication is the foundation of your best relationships.',zh:'夫妻宫坐巨门——直言不讳的沟通是你感情的基石，也是考验。'},'天相':{en:'Spouse Palace: Minister Star — your partner expresses love through thoughtful, practical care.',zh:'夫妻宫坐天相——你的另一半以实际行动表达爱，体贴而稳重。'},'天梁':{en:'Spouse Palace: Elder Star — your partner tends to be wise, protective, and emotionally mature.',zh:'夫妻宫坐天梁——你的另一半往往成熟稳重，有保护欲，是你的精神依靠。'},'七杀':{en:'Spouse Palace: Warrior Star — your partner is decisive, independent, and powerfully present.',zh:'夫妻宫坐七杀——你的另一半果断独立，个性强烈，需要势均力敌的关系。'},'破军':{en:'Spouse Palace: Pioneer Star — your relationships evolve and transform significantly over time.',zh:'夫妻宫坐破军——你的感情经历变化较多，缘分来得强烈，也可能变化明显。'}};
+  var careerMap={'紫微':{en:'Career Palace: Emperor Star — you are built for leadership and high-visibility roles.',zh:'官禄宫坐紫微——你天生适合领导岗位，在权威性职位上最能发挥潜力。'},'天机':{en:'Career Palace: Heavenly Secrets — strategy, research, and advisory roles suit you best.',zh:'官禄宫坐天机——战略、研究、顾问类工作最能发挥你的才能。'},'太阳':{en:'Career Palace: Sun Star — public-facing, people-centered roles are where you shine.',zh:'官禄宫坐太阳——面向公众、与人打交道的职业是你的舞台。'},'武曲':{en:'Career Palace: Treasury Star — finance, operations, and execution-heavy roles are your domain.',zh:'官禄宫坐武曲——金融、运营、执行类工作是你的强项。'},'天同':{en:'Career Palace: Harmony Star — service-oriented, collaborative work brings you deep satisfaction.',zh:'官禄宫坐天同——服务型、协作性的工作让你获得最深的职业满足感。'},'廉贞':{en:'Career Palace: Integrity Star — structured institutions and ethical leadership suit you.',zh:'官禄宫坐廉贞——结构化机构和需要原则性的领导岗位适合你。'},'天府':{en:'Career Palace: Celestial Vault — you build slowly and durably; compound growth is your strength.',zh:'官禄宫坐天府——你的职业走的是厚积薄发路线，越做越稳，越做越强。'},'太阴':{en:'Career Palace: Moon Star — creative, healing, and emotionally intelligent work fits you best.',zh:'官禄宫坐太阴——创意类、治愈系、需要高情商的职业最适合你。'},'贪狼':{en:'Career Palace: Wolfstar — charisma-driven fields: arts, sales, entertainment, entrepreneurship.',zh:'官禄宫坐贪狼——艺术、销售、娱乐、创业——靠个人魅力出头的领域是你的战场。'},'巨门':{en:'Career Palace: Gate Star — law, journalism, research, truth-telling roles are your calling.',zh:'官禄宫坐巨门——法律、新闻、研究、讲真话的职业是你的使命所在。'},'天相':{en:'Career Palace: Minister Star — administration, operations, and coordination are your strengths.',zh:'官禄宫坐天相——行政、运营、协调类工作是你的强项，可靠是你的职业名片。'},'天梁':{en:'Career Palace: Elder Star — medicine, law, mentorship — your career deepens with experience.',zh:'官禄宫坐天梁——医学、法律、导师类职业，你的职业价值随经验积累而升华。'},'七杀':{en:'Career Palace: Warrior Star — entrepreneurship and high-stakes competitive fields are made for you.',zh:'官禄宫坐七杀——创业、高竞争领域——你在别人退缩的地方反而最能发光。'},'破军':{en:'Career Palace: Pioneer Star — you are a category creator; multiple reinventions define your path.',zh:'官禄宫坐破军——你是开拓者，职业道路会经历多次转型，每次都更强大。'}};
+  var wealthMap={'武曲':{en:'Wealth Palace: Treasury Star in its own palace — one of the strongest wealth placements in the chart.',zh:'财帛宫坐武曲——武曲坐本宫，是命盘中最强的财富宫位之一，财运极佳。'},'天府':{en:'Wealth Palace: Celestial Vault — long-term accumulation and material security are your destiny.',zh:'财帛宫坐天府——长期积累是你的财富密码，房产、储蓄、有形资产是你的强项。'},'太阴':{en:'Wealth Palace: Moon Star — your finances are cyclical and intuition-driven; trust your gut on money.',zh:'财帛宫坐太阴——财运起伏有规律，相信你对金钱的直觉，它往往是准的。'},'贪狼':{en:'Wealth Palace: Wolfstar — you generate wealth through charm and creativity; manage it wisely.',zh:'财帛宫坐贪狼——靠魅力和创意能创造财富，但也容易花得快，需要有意管理。'},'紫微':{en:'Wealth Palace: Emperor Star — your earning power is tied to authority and status.',zh:'财帛宫坐紫微——你的财运与地位和权力密切相关，越有地位越有钱。'},'太阳':{en:'Wealth Palace: Sun Star — your income grows with your reputation and relationships.',zh:'财帛宫坐太阳——你的收入随你的声誉和人脉增长，越被人信任越有财运。'},'天机':{en:'Wealth Palace: Heavenly Secrets — income through information, strategy, and advisory work.',zh:'财帛宫坐天机——靠信息、策略和顾问类工作赚钱，收入有起伏但智慧是财源。'},'天同':{en:'Wealth Palace: Harmony Star — steady, comfortable accumulation; you earn in environments you love.',zh:'财帛宫坐天同——财运稳定舒适，在你喜欢的环境里工作，财运自然来。'},'廉贞':{en:'Wealth Palace: Integrity Star — structured work and ethical conduct drive your financial growth.',zh:'财帛宫坐廉贞——在规矩的环境里、凭实力挣的钱才是你真正的财富。'},'巨门':{en:'Wealth Palace: Gate Star — you earn through communication, expertise, and the value of your knowledge.',zh:'财帛宫坐巨门——靠说话、专业知识、信息价值赚钱，口才是你的财源。'},'天相':{en:'Wealth Palace: Minister Star — reliable income through service, organization, and steady work.',zh:'财帛宫坐天相——靠服务和踏实工作积累财富，稳步增长是你的财运特色。'},'天梁':{en:'Wealth Palace: Elder Star — your earning power grows significantly with age and experience.',zh:'财帛宫坐天梁——财运随年龄和经验增长，越老越有钱，晚年财运更好。'},'七杀':{en:'Wealth Palace: Warrior Star — bold financial moves in competitive fields; build strong buffers.',zh:'财帛宫坐七杀——财运大起大落，敢拼敢搏，但需要建立稳固的财务缓冲。'},'破军':{en:'Wealth Palace: Pioneer Star — greatest gains come from pioneering new things.',zh:'财帛宫坐破军——财运起伏明显，开创新事物往往是你最大的财富来源。'}};
+  var sp=BP[(mg+2)%12]||[],cp=BP[(mg+8)%12]||[],wp=BP[(mg+4)%12]||[];
+  if(sp[0]&&spouseMap[sp[0]])res.push(spouseMap[sp[0]][L]);
+  if(cp[0]&&careerMap[cp[0]])res.push(careerMap[cp[0]][L]);
+  if(wp[0]&&wealthMap[wp[0]])res.push(wealthMap[wp[0]][L]);
+  return res;
+}
+
+// ── 宫位解读 ──
+function palaceRead(pKey,stars){
+  var ms=stars[0];
+  var extra=stars.slice(1).map(function(s){return L==='zh'?s:(SEN[s]||s);});
+  var extraNote=extra.length>0?('<p style="font-size:21px;color:var(--gold-light);margin-bottom:12px;">'+(L==='zh'?'同宫辅星：'+extra.join('、'):'Co-resident: '+extra.join(', '))+'</p>'):'';
+  var nEN={'紫微':'authority and leadership','天机':'intelligence and adaptability','太阳':'warmth and generous presence','武曲':'discipline and financial mastery','天同':'harmony and patient grace','廉贞':'controlled passion and principle','天府':'lasting abundance and stability','太阴':'deep sensitivity and intuition','贪狼':'magnetism, desire, and creativity','巨门':'truth-seeking and direct insight','天相':'reliability, balance, and care','天梁':'protective wisdom and the long view','七杀':'decisive courage and transformative force','破军':'pioneering spirit and renewal'};
+  var nZH={'紫微':'权威与领导力','天机':'智慧与适应力','太阳':'温暖与慷慨','武曲':'纪律与财务天赋','天同':'和谐与耐心','廉贞':'激情、原则与强度','天府':'富足与持久的稳定','太阴':'深层敏感与直觉','贪狼':'魅力、欲望与创造力','巨门':'追求真相与直接洞察','天相':'可靠、平衡与关怀','天梁':'庇护的智慧与长远视野','七杀':'果断的勇气与变革力量','破军':'拓荒精神与更新'};
+  var nat=L==='zh'?(nZH[ms]||'独特能量'):(nEN[ms]||'distinctive energy');
+  var sn=L==='zh'?ms:(SEN[ms]||ms);
+  var dEN={'Life':'your core identity','Siblings':'your siblings and peers','Spouse':'love and partnership','Children':'children and creativity','Wealth':'finances and earning power','Health':'vitality and constitution','Travel':'movement and external fortune','Friends':'your social world','Career':'career and achievement','Property':'home and property','Fortune':'your inner life and joy','Parents':'parents and your foundation'};
+  var dZH={'Life':'你的核心身份','Siblings':'你与兄弟姐妹及同辈','Spouse':'感情与亲密关系','Children':'子女与创造力','Wealth':'财运与赚钱能力','Health':'你的活力与体质','Travel':'流动与外部机缘','Friends':'你的社交世界','Career':'事业与职业成就','Property':'家与物质积累','Fortune':'你的内心世界与精神快乐','Parents':'父母与你的根基'};
+  var d=L==='zh'?(dZH[pKey]||'这个生命领域'):(dEN[pKey]||'this life area');
+  if(L==='zh') return '<div class="acc-read">'+extraNote+'<p>'+ms+'以<strong>'+nat+'</strong>的力量，深刻影响你在'+d+'方面的体验。这颗星的性质在这一宫位中充分表达，塑造你应对此生命领域的方式与命运走向。</p></div>';
+  return '<div class="acc-read">'+extraNote+'<p>The '+sn+' brings the energy of <strong>'+nat+'</strong> to '+d+'. Its nature expresses fully in this domain — shaping how you experience and navigate this area of life.</p></div>';
+}
+
+function getTZ(i){return['自我与身份','兄弟同辈','感情婚姻','子女创造','财富积累','健康体质','外缘贵人','社交人脉','事业成就','家业房产','精神享受','长辈庇荫'][i]||'';}
+function getTE(i){return['Self & Identity','Peers & Collaboration','Love & Marriage','Creativity & Children','Wealth & Resources','Vitality & Health','Travel & Opportunity','Social Circle','Career & Ambition','Property & Assets','Inner Life & Joy','Elders & Foundation'][i]||'';}
+
+// ── 主生成函数 ──
+function generate(){
+  var y=parseInt(document.getElementById('by').value);
+  var m=parseInt(document.getElementById('bm').value);
+  var d=parseInt(document.getElementById('bd').value);
+  var hv=document.getElementById('bh').value;
+  var gv=document.getElementById('bg').value;
+  if(!y||!m||!d||!hv||!gv){alert(L==='zh'?'请填写所有字段。':'Please fill in all fields.');return;}
+
+  // 农历转换
+  var lunar=getLunarDate(y,m,d);
+  var lM=lunar.lM, lD=lunar.lD;
+
+  // 农历年
+  var lunarYear=y;
+  var ld=LUNAR_YEARS[y];
+  if(ld&&new Date(y,m-1,d)<new Date(y,ld[0]-1,ld[1]))lunarYear=y-1;
+
+  // 天干地支
+  var si=((lunarYear-4)%10+10)%10, bi=((lunarYear-4)%12+12)%12;
+  var stem=TG[si], branch=DZ[bi];
+  var animal=L==='zh'?AZ[bi]:AE[bi];
+  var yy=si%2===0?(L==='zh'?'阳':'Yang'):(L==='zh'?'阴':'Yin');
+
+  // 五行局
+  var nyi=((lunarYear-4)%60+60)%60, ny=NT[Math.floor(nyi/2)], ju=NJ[ny]||5;
+
+  // 紫微位置（用农历日）
+  var q=Math.floor(lD/ju), r=lD%ju, zw;
+  if(r===0) zw=6;
+  else { var steps=(q%2===1)?(q+r):(q+ju-r); zw=steps%12; }
+  var tf=(6-zw+12)%12;
+
+  // 14主星
+  var SM={};
+  SM['紫微']=zw;SM['天机']=(zw+11)%12;SM['太阳']=(zw+2)%12;SM['武曲']=(zw+3)%12;SM['天同']=(zw+4)%12;SM['廉贞']=(zw+7)%12;
+  SM['天府']=tf;SM['太阴']=(tf+1)%12;SM['贪狼']=(tf+2)%12;SM['巨门']=(tf+3)%12;SM['天相']=(tf+4)%12;SM['天梁']=(tf+5)%12;SM['七杀']=(tf+6)%12;SM['破军']=(tf+9)%12;
+  var BP={};for(var k=0;k<12;k++)BP[k]=[];
+  for(var s in SM)BP[SM[s]].push(s);
+
+  // 命宫
+  var hmap={23:0,1:1,3:2,5:3,7:4,9:5,11:6,13:7,15:8,17:9,19:10,21:11};
+  var shi=hmap[parseInt(hv)]||0, mg=((2+shi)-lM+24)%12;
+  var ls=BP[mg], ms=ls&&ls.length>0?ls[0]:'天府';
+  var mk=SK[ms]||'Vault', R=MR[mk]||MR['Vault'];
+  var PN=L==='zh'?PZH:PEN;
+
+  // 存储命盘供AI使用
+  CHART={BP:BP,mg:mg,ms:ms,ny:ny,ju:ju,stem:stem,branch:branch,y:y,isFwd:isFwd};
+
+  // 日期字符串
+  var dateStr=L==='zh'
+    ?(y+'年'+m+'月'+d+'日 · '+yy+stem+branch+'年（'+animal+'） · 农历'+lM+'月'+lD+'日')
+    :(y+' · '+yy+' '+animal+' Year · '+stem+branch);
+
+  // 命宫主星显示
+  var allSN=ls&&ls.length>1
+    ?(L==='zh'?ls.join(' · '):ls.map(function(k){return SEN[k]||k;}).join(' · '))
+    :(L==='zh'?ms:(SEN[ms]||ms));
+
+  // 特质
+  var traits=R.TR[L].map(function(t){return '<span class="pill">'+t+'</span>';}).join('');
+
+  // 个性化要点
+  var insights=getInsights(BP,mg);
+  var insightHTML='';
+  if(insights.length>0){
+    insightHTML='<div class="insight-box fi-in"><div class="stag">'+(L==='zh'?'你的命盘独特之处':'What Makes Your Chart Unique')+'</div>';
+    insights.forEach(function(ins){insightHTML+='<div class="insight-item">'+ins+'</div>';});
+    insightHTML+='</div>';
+  }
+
+  // 大运
+  var isYang=si%2===0, isFwd=(isYang&&gv==='M')||(!isYang&&gv==='F');
+  var curAge=new Date().getFullYear()-y, dyCards='';
+  for(var di=0;di<8;di++){
+    var age=ju+di*10, endAge=age+9, palIdx=isFwd?di%12:(12-di%12)%12;
+    var isCur=curAge>=age&&curAge<=endAge;
+    dyCards+='<div class="dy-card'+(isCur?' cur':'')+'"><div class="dy-age">'+(L==='zh'?(age+'–'+endAge+'岁'):(age+'–'+endAge))+'</div><div class="dy-pal">'+PN[palIdx]+'</div><div class="dy-theme">'+(L==='zh'?getTZ(palIdx):getTE(palIdx))+'</div></div>';
+  }
+
+  // 12宫手风琴
+  var acc='';
+  for(var pi=0;pi<12;pi++){
+    var pDz=(mg+pi)%12, pst=BP[pDz]||[];
+    var pKey=PEN[pi];
+    var pDisp=pst.length===0
+      ?(L==='zh'?'空宫':'Empty palace')
+      :(L==='zh'?pst.join(' · '):pst.map(function(k){return SEN[k]||k;}).join(' · '));
+    var reading=pst.length>0
+      ?palaceRead(pKey,pst)
+      :'<div class="acc-read"><p>'+(L==='zh'?'此宫无主星。能量来自对宫映射——通常表现为这一领域有外部贵人助力，或外部因缘较强。':'No major star here — energy reflects from the opposing palace, often manifesting as helpful external influences in this life area.')+'</p></div>';
+    var isFirst=pi===0;
+    acc+='<div class="acc-item"><div class="acc-head'+(isFirst?' open':'')+'" id="ah'+pi+'" onclick="tAcc('+pi+')"><div class="acc-left"><div class="acc-badge">'+PN[pi]+'</div><div class="acc-title">'+pDisp+'</div></div><div class="acc-arrow'+(isFirst?' open':'')+'" id="aa'+pi+'">▼</div></div><div class="acc-body'+(isFirst?' open':'')+'" id="ab'+pi+'">'+reading+'</div></div>';
+  }
+
+  // AI付费区
+  var aiFeats=L==='zh'
+    ?['选择问卦方向：事业·感情·家庭·健康·运势·使命','输入你的真实背景：职业、处境、具体问题','深度解读，精准回应你的处境','千人千盘，每份解读独一无二']
+    :['Choose your topic: career, love, family, health, fortune or purpose','Share your situation: job, context, specific question','Deep reading from your actual chart configuration','Every chart is unique — so is every reading'];
+  var aiHTML=UNLOCKED?'':'<div class="ai-gate fi-in">'+
+    '<div style="font-size:28px;color:var(--gold);margin-bottom:16px;">✦</div>'+
+    '<div style="font-family:Cormorant Garamond,serif;font-size:30px;color:var(--sw);margin-bottom:14px;">'+(L==='zh'?'命盘直答':'Chart Oracle')+'</div>'+
+    '<p style="font-family:Cormorant Garamond,serif;font-size:21px;color:var(--tm);font-style:italic;line-height:1.85;max-width:500px;margin:0 auto 28px;">'+(L==='zh'?'12宫是你的星位地图。<br>现在告诉我你的处境——AI结合命盘，精准回应你的问题。':'The 12 palaces show your star map.<br>Tell us your situation — AI reads your chart<br>and speaks directly to your life.')+'</p>'+
+    '<div class="ai-feats">'+aiFeats.map(function(f){return '<div class="ai-feat"><span class="ai-feat-icon">✦</span>'+f+'</div>';}).join('')+'</div>'+
+    '<button class="unlock-btn" onclick="unlock()">'+(L==='zh'?'✦  开始问盘  ✦':'✦  Consult My Chart  ✦')+'</button>'+
+    '<div style="font-size:24px;color:var(--tm);margin-top:8px;">'+(L==='zh'?'🔓 测试模式：点击免费体验':'🔓 Test mode — free during testing')+'</div>'+
+    '</div>';
+
+  // 渲染
+  var html=
+    '<div class="rh fi-in"><div class="rn">'+dateStr+'</div>'+
+    '<div class="rs">'+(L==='zh'?'命宫主星为 <em>'+allSN+'</em>':'Life Palace holds <em>'+allSN+'</em>')+'</div>'+
+    '<div class="rt">'+R.S[L]+'</div></div>'+
+
+    '<div class="wheel-wrap fi-in">'+buildWheel(BP,mg)+'</div>'+
+    '<p class="wheel-hint">'+(L==='zh'?'命盘星位图 · 点击下方宫位展开解读':'Imperial chart · Expand palace readings below')+'</p>'+
+
+    // 命宫解读（免费）
+    '<div class="rsec fi-in"><div class="stag">'+(L==='zh'?'命宫本质':'Your Essence')+'</div>'+
+    '<div class="stit">'+R.T[L]+'</div><div class="sbod"><p>'+R.E[L]+'</p></div>'+
+    '<div class="pills">'+traits+'</div></div>'+
+
+    '<div class="rsec fi-in"><div class="stag">'+(L==='zh'?'性格特质':'Personality')+'</div>'+
+    '<div class="sbod">'+R.P[L]+'</div></div>'+
+
+    '<div class="rsec fi-in"><div class="stag">'+(L==='zh'?'感情与婚姻':'Love & Relationships')+'</div>'+
+    '<div class="sbod">'+R.L[L]+'</div></div>'+
+
+    '<div class="rsec fi-in"><div class="stag">'+(L==='zh'?'事业与使命':'Career & Purpose')+'</div>'+
+    '<div class="sbod">'+R.C[L]+'</div></div>'+
+
+    // 命盘独特之处
+    insightHTML+
+
+    // 12宫（免费）
+    '<div class="fi-in" style="margin-bottom:48px;"><div class="sl">'+(L==='zh'?'十二宫详解':'Twelve Palace Readings')+'</div>'+
+    '<p style="font-family:Cormorant Garamond,serif;font-size:21px;color:var(--tm);font-style:italic;margin-bottom:20px;line-height:1.8;">'+(L==='zh'?'每个宫位代表你人生的一个领域，点击展开看这颗星意味着什么。':'Each palace represents one area of your life. Click to expand and see what the stars say about it.')+'</p>'+
+    acc+'</div>'+
+
+    // 大运（免费）
+    '<div class="fi-in" style="margin-bottom:36px;"><div class="sl">'+(L==='zh'?'大运流年':'Decade Luck Cycles')+'</div>'+
+    '<p style="font-family:Cormorant Garamond,serif;font-size:24px;color:var(--tm);font-style:italic;margin-bottom:18px;">'+(L==='zh'?'起运年龄 '+ju+' 岁，每个大运十年。高亮为当前大运周期。':'Luck cycles begin at age '+ju+'. Each decade activates that palace\'s themes. Your current cycle is highlighted.')+'</p>'+
+    '<div class="dy-grid">'+dyCards+'</div></div>'+
+
+    // AI付费区
+    aiHTML+
+
+    '<div class="footer-note fi-in"><div style="font-size:24px;color:var(--gold);margin-bottom:14px;">✦ ✦ ✦</div>'+
+    '<p>'+(L==='zh'?'紫微斗数，千年之学。此命盘由传统算法生成，供探索与参考。':'Purple Star Astrology — a thousand years of imperial wisdom.<br>Generated by traditional algorithms for exploration and reflection.')+'</p></div>';
+
+  var res=document.getElementById('result');
+  res.style.display='block'; res.innerHTML=html;
+  document.getElementById('bottom-btns').style.display='block';
+  setTimeout(function(){res.scrollIntoView({behavior:'smooth',block:'start'});},100);
+
+  // 解锁后显示AI区
+  if(UNLOCKED){
+    document.getElementById('ai-section').style.display='block';
+    renderTopics();
+  }
+}
+
+function tAcc(idx){
+  var b=document.getElementById('ab'+idx),a=document.getElementById('aa'+idx),h=document.getElementById('ah'+idx);
+  if(!b)return;
+  var open=b.classList.contains('open');
+  b.classList.toggle('open',!open);
+  if(a)a.classList.toggle('open',!open);
+  if(h)h.classList.toggle('open',!open);
+}
+
+function unlock(){
+  UNLOCKED=true;
+  generate();
+  setTimeout(function(){
+    var ai=document.getElementById('ai-section');
+    if(ai){ai.style.display='block';ai.scrollIntoView({behavior:'smooth',block:'start'});}
+    renderTopics();
+  },300);
+}
+
+// ── AI问卦 ──
+var TOPICS={
+  career:{icon:'💼',
+    en:{label:'Career & Wealth',desc:'Work, business, money, timing'},
+    zh:{label:'事业财运',desc:'工作、创业、财富、时机'},
+    quick:{
+      en:['Should I change jobs?','Starting / growing a business','Career feels stuck','Salary & financial situation','A specific opportunity at work','Work conflict or difficulty'],
+      zh:['考虑换工作','创业或扩张生意','事业遇到瓶颈','收入和财务状况','一个具体的工作机会','职场冲突或困境']
+    },
+    fields:[
+      {id:'af-job',en:{l:'Your Occupation / Industry',p:'e.g. Marketing manager in tech, or nurse'},zh:{l:'你的职业/行业',p:'例：互联网产品经理，或护士'}},
+      {id:'af-stage',en:{l:'Anything to add? (optional)',p:'More context about your situation...'},zh:{l:'补充说明（选填）',p:'关于你处境的更多细节……'}}
+    ]
+  },
+  love:{icon:'💫',
+    en:{label:'Love & Relationships',desc:'Dating, marriage, compatibility'},
+    zh:{label:'感情婚姻',desc:'恋爱、婚姻、缘分'},
+    quick:{
+      en:['Am I with the right person?','When will I meet someone?','Relationship conflict or tension','Marriage — is the timing right?','Divorce or separation','Long-distance relationship'],
+      zh:['这段感情对不对','何时能遇到对的人','感情出现矛盾或紧张','婚姻时机到了吗','离婚或分手','异地恋']
+    },
+    fields:[
+      {id:'af-status',en:{l:'Relationship Status',p:'e.g. Single, in a relationship, married, divorced'},zh:{l:'目前感情状态',p:'例：单身，恋爱中，已婚，离异'}},
+      {id:'af-concern',en:{l:'Anything to add? (optional)',p:'More about your situation...'},zh:{l:'补充说明（选填）',p:'关于你处境的更多细节……'}}
+    ]
+  },
+  family:{icon:'🏠',
+    en:{label:'Family & Home',desc:'Parents, children, home, roots'},
+    zh:{label:'家庭子女',desc:'父母、子女、家庭关系'},
+    quick:{
+      en:['Relationship with my parents','Raising children or parenting','Family conflict or tension','Moving or relocation decision','Fertility & having children'],
+      zh:['与父母的关系','子女教育或养育','家庭矛盾或紧张','搬家或移居的决定','生育子女']
+    },
+    fields:[
+      {id:'af-focus',en:{l:'Anything to add? (optional)',p:'More about your family situation...'},zh:{l:'补充说明（选填）',p:'关于家庭情况的更多细节……'}}
+    ]
+  },
+  health:{icon:'✨',
+    en:{label:'Health & Vitality',desc:'Body, energy, wellness'},
+    zh:{label:'健康体质',desc:'身体状况、精力、养生'},
+    quick:{
+      en:['Low energy or chronic fatigue','Stress & anxiety','A specific health concern','Mental or emotional wellbeing','Lifestyle change I\'m considering'],
+      zh:['精力不足或长期疲劳','压力与焦虑','某个具体的健康问题','心理或情绪健康','正在考虑的生活方式改变']
+    },
+    fields:[
+      {id:'af-health',en:{l:'Anything to add? (optional)',p:'More about your health situation...'},zh:{l:'补充说明（选填）',p:'关于健康情况的更多细节……'}}
+    ]
+  },
+  fortune:{icon:'⭐',
+    en:{label:'Overall Fortune',desc:'Life path, current period, timing'},
+    zh:{label:'整体运势',desc:'人生方向、当前运程'},
+    quick:{
+      en:['What should I focus on this year?','A major life decision I\'m facing','I feel stuck — what\'s next?','Is now the right time to act?'],
+      zh:['今年应该专注什么','面临重大人生抉择','感到迷茫，下一步怎么走','现在是行动的好时机吗']
+    },
+    fields:[
+      {id:'af-age',en:{l:'Your Current Age',p:'e.g. 35'},zh:{l:'你目前的年龄',p:'例：35'}},
+      {id:'af-nav',en:{l:'Anything to add? (optional)',p:'More about your situation...'},zh:{l:'补充说明（选填）',p:'关于你处境的更多细节……'}}
+    ]
+  },
+  purpose:{icon:'🌟',
+    en:{label:'Inner Life & Purpose',desc:'Meaning, calling, growth'},
+    zh:{label:'内心使命',desc:'人生意义、天赋使命、内在成长'},
+    quick:{
+      en:['What is my life purpose?','I feel lost or without direction','A recurring pattern I can\'t break','What am I here to do?'],
+      zh:['我的人生使命是什么','感到迷失或没有方向','反复出现的问题模式','我来这世上是为了什么']
+    },
+    fields:[
+      {id:'af-seek',en:{l:'Anything to add? (optional)',p:'More about what you\'re seeking...'},zh:{l:'补充说明（选填）',p:'关于你在寻找什么的更多细节……'}}
+    ]
+  }
+};
+var currentTopic=null;
+
+function renderTopics(){
+  var wrap=document.getElementById('ai-topics');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  Object.keys(TOPICS).forEach(function(key){
+    var t=TOPICS[key],info=L==='zh'?t.zh:t.en;
+    var btn=document.createElement('button');
+    btn.className='ai-topic-btn'+(currentTopic===key?' selected':'');
+    btn.innerHTML='<div class="ai-topic-icon">'+t.icon+'</div><div class="ai-topic-name">'+info.label+'</div><div class="ai-topic-desc">'+info.desc+'</div>';
+    btn.onclick=function(){selectTopic(key);};
+    wrap.appendChild(btn);
+  });
+}
+
+function selectTopic(key){
+  currentTopic=key;
+  renderTopics();
+  var t=TOPICS[key],info=L==='zh'?t.zh:t.en;
+  var fw=document.getElementById('ai-fields');
+  fw.innerHTML='';
+
+  // 快速情境选项
+  var quickOpts=t.quick?( L==='zh'?t.quick.zh:t.quick.en ):[];
+  if(quickOpts.length>0){
+    var qDiv=document.createElement('div');
+    qDiv.style.marginBottom='16px';
+    var qLabel=document.createElement('div');
+    qLabel.className='ai-field-label';
+    qLabel.style.marginBottom='10px';
+    qLabel.textContent=L==='zh'?'选择最符合你情况的（点选即可）：':'What best describes your situation? (tap to select)';
+    qDiv.appendChild(qLabel);
+    var qGrid=document.createElement('div');
+    qGrid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:8px;';
+    quickOpts.forEach(function(opt){
+      var btn=document.createElement('button');
+      btn.type='button';
+      btn.textContent=opt;
+      btn.style.cssText='padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--pb);color:var(--tb);font-family:inherit;font-size:21px;line-height:1.4;cursor:pointer;text-align:left;transition:all .2s;border-radius:1px;';
+      btn.onmouseover=function(){if(!this.classList.contains('selected')){this.style.borderColor='var(--gold-dim)';this.style.background='rgba(201,168,76,.05)';}};
+      btn.onmouseout=function(){if(!this.classList.contains('selected')){this.style.borderColor='var(--pb)';this.style.background='rgba(255,255,255,.03)';}};
+      btn.onclick=function(){
+        qGrid.querySelectorAll('button').forEach(function(b){
+          b.classList.remove('selected');
+          b.style.borderColor='var(--pb)';
+          b.style.background='rgba(255,255,255,.03)';
+          b.style.color='var(--tb)';
+        });
+        this.classList.add('selected');
+        this.style.borderColor='var(--gold)';
+        this.style.background='rgba(201,168,76,.1)';
+        this.style.color='var(--gold-light)';
+        document.getElementById('ai-quick-val').value=this.textContent;
+      };
+      qGrid.appendChild(btn);
+    });
+    // "Something else"按钮
+    var elseBtn=document.createElement('button');
+    elseBtn.type='button';
+    elseBtn.textContent=L==='zh'?'其他情况…':'Something else…';
+    elseBtn.style.cssText='padding:10px 12px;background:rgba(255,255,255,.02);border:1px dashed var(--pb);color:var(--tm);font-family:inherit;font-size:21px;cursor:pointer;text-align:left;transition:all .2s;border-radius:1px;';
+    elseBtn.onclick=function(){
+      qGrid.querySelectorAll('button').forEach(function(b){
+        b.classList.remove('selected');
+        b.style.borderColor='var(--pb)';
+        b.style.background='rgba(255,255,255,.03)';
+        b.style.color='var(--tb)';
+      });
+      this.classList.add('selected');
+      this.style.borderColor='var(--gold-dim)';
+      document.getElementById('ai-quick-val').value='';
+      // 让额外输入框获得焦点
+      var extraEl=document.getElementById('ai-extra');
+      if(extraEl){extraEl.focus();extraEl.placeholder=L==='zh'?'请描述你的情况…':'Please describe your situation…';}
+    };
+    qGrid.appendChild(elseBtn);
+    qDiv.appendChild(qGrid);
+    // 隐藏input存快速选择值
+    var hiddenInput=document.createElement('input');
+    hiddenInput.type='hidden';hiddenInput.id='ai-quick-val';
+    qDiv.appendChild(hiddenInput);
+    fw.appendChild(qDiv);
+  }
+
+  // 职业/行业选项（仅career分类显示）
+  if(key==='career'){
+    var indDiv=document.createElement('div');
+    indDiv.style.marginBottom='12px';
+    var industries=L==='zh'
+      ?['科技/互联网','金融/银行','医疗/健康','教育','创意/艺术','商业/销售','法律/政府','工程/制造','其他']
+      :['Technology / Software','Finance & Banking','Healthcare & Medicine','Education','Creative & Arts','Business & Sales','Legal & Government','Engineering & Manufacturing','Other'];
+    indDiv.innerHTML='<label class="ai-field-label" style="margin-bottom:8px;">'+(L==='zh'?'你的行业：':'Your Industry:')+'</label>'+
+      '<select id="af-industry" class="ai-input" style="background:var(--pm,#1A1330);color:var(--sw,#F5F0FF);"><option value="" style="background:#1A1330;color:#F5F0FF;">'+(L==='zh'?'选择行业（选填）':'Select industry (optional)')+'</option>'+
+      industries.map(function(i){return '<option value="'+i+'" style="background:#1A1330;color:#F5F0FF;">'+i+'</option>';}).join('')+'</select>';
+    fw.appendChild(indDiv);
+  }
+
+  // 额外文字输入
+  var extraWrap=document.createElement('div');
+  extraWrap.style.marginTop='10px';
+  var extraInput=document.getElementById('ai-extra');
+  extraInput.placeholder=L==='zh'?'补充说明或具体问题（选填）…':'Add details or a specific question (optional)…';
+  fw.appendChild(extraWrap);
+
+  document.getElementById('ai-step2').style.display='block';
+  document.getElementById('ai-submit-wrap').style.display='block';
+  document.getElementById('ai-step2').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function resetAI(){
+  currentTopic=null;
+  document.getElementById('ai-step2').style.display='none';
+  document.getElementById('ai-submit-wrap').style.display='none';
+  document.getElementById('ai-result').style.display='none';
+  document.getElementById('ai-loading').style.display='none';
+  renderTopics();
+}
+
+function resetAIFull(){
+  document.getElementById('ai-result').style.display='none';
+  document.getElementById('ai-step2').style.display='block';
+  document.getElementById('ai-submit-wrap').style.display='block';
+}
+
+async function doAI(isPaid){
+  if(isPaid===undefined)isPaid=true;
+  if(!currentTopic||!CHART){alert(L==='zh'?'请先生成命盘并选择问卦方向。':'Please generate your chart and select a topic first.');return;}
+  var t=TOPICS[currentTopic],info=L==='zh'?t.zh:t.en;
+  var ctx=[];
+  var qv=document.getElementById('ai-quick-val');
+  if(qv&&qv.value.trim())ctx.push((L==='zh'?'情况':'Situation')+': '+qv.value.trim());
+  var ind=document.getElementById('af-industry');
+  if(ind&&ind.value.trim())ctx.push((L==='zh'?'行业':'Industry')+': '+ind.value.trim());
+  t.fields.forEach(function(f){
+    var el=document.getElementById(f.id);
+    if(el&&el.value.trim()){var fi=L==='zh'?f.zh:f.en;ctx.push(fi.l+': '+el.value.trim());}
+  });
+  var eq=document.getElementById('ai-extra').value.trim();
+  if(eq)ctx.push((L==='zh'?'补充说明':'Additional context')+': '+eq);
+  if(ctx.length===0){alert(L==='zh'?'请先选择一个方向（点击上方任意一项）':'Please select a topic above first.');return;}
+
+  document.getElementById('ai-step2').style.display='none';
+  document.getElementById('ai-submit-wrap').style.display='none';
+  document.getElementById('ai-result').style.display='none';
+  document.getElementById('ai-loading').style.display='block';
+  document.getElementById('ai-load-txt').textContent=L==='zh'?'命盘正在解读中...':'Consulting your chart...';
+
+  var BP=CHART.BP,mg=CHART.mg,ms=CHART.ms,ny=CHART.ny,ju=CHART.ju,isFwd=CHART.isFwd||true;
+  var PN_ZH=['命宫','兄弟','夫妻','子女','财帛','疾厄','迁移','交友','官禄','田宅','福德','父母'];
+  var PN_EN=['Life','Siblings','Spouse','Children','Wealth','Health','Travel','Friends','Career','Property','Fortune','Parents'];
+  var palInfo=L==='zh'
+    ?Array.from({length:12},function(_,i){var pDz=(mg+i)%12,stars=BP[pDz]||[];return PN_ZH[i]+'：'+(stars.length?stars.join('、'):'空宫');}).join('，')
+    :Array.from({length:12},function(_,i){var pDz=(mg+i)%12,stars=BP[pDz]||[];return PN_EN[i]+'('+(stars.length?stars.map(function(s){return SEN[s]||s;}).join(','):'Empty')+')';}).join(' | ');
+
+  var today=new Date();
+  var curYearNow=today.getFullYear();
+  var curAgeNow=curYearNow-CHART.y;
+  var curDayunAge=ju+Math.floor((curAgeNow-ju)/10)*10;
+  var curDayunPalIdx=isFwd?(Math.floor((curAgeNow-ju)/10)%12):((12-Math.floor((curAgeNow-ju)/10)%12)%12);
+  var curDayunPal=(L==='zh'?PZH:PEN)[curDayunPalIdx]||'';
+
+  var sys,usr;
+
+  if(!isPaid){
+    // ── 免费预览 Prompt ──
+    sys=L==='zh'
+      ?'你是紫微斗数命理大师，为商界精英和决策者服务。根据命盘数据，写一段让人感到"说中了"的【命盘预览】。今天是'+today.getFullYear()+'年'+(today.getMonth()+1)+'月'+today.getDate()+'日，只谈现在和未来。要求：①第一句直接点出命宫主星赋予此人最独特的核心特质，具体到星盘层面；②针对所问方向，说出命盘给出的最重要信号——是机会窗口还是需要注意的结构性挑战；③最后一句制造真实悬念——暗示当前大运宫位的深层含义和关键时间节点还未揭示；④绝不出现付费相关字眼；⑤全文110-140字，字字有份量。'
+      :'You are a Zi Wei Dou Shu master serving executives and high-performers who need precision, not platitudes. Write a chart preview that earns their attention immediately. Today is '+today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'. Speak only of present and future. Requirements: ①Open with the single most specific quality this person\'s Life Palace star gives them — name the star, make it concrete and individual. ②Address their exact topic with the most critical signal the chart reveals — opportunity window or structural challenge to navigate. ③Close with genuine suspense: reference that the current Luck Cycle palace and key timing windows ahead have not yet been surfaced. ④No payment references. ⑤90-120 words. Every sentence earns its place.';
+    usr=L==='zh'
+      ?'命宫主星：'+ms+'\n纳音：'+ny+'（'+ju+'局，当前年龄约'+curAgeNow+'岁）\n当前大运：'+curDayunAge+'岁起，走'+curDayunPal+'\n十二宫：'+palInfo+'\n\n问卦方向：'+info.label+'\n背景：'+ctx.join(' | ')
+      :'Life Palace Star: '+(SEN[ms]||ms)+'\nNayin: '+ny+' ('+ju+' cycle, approx age '+curAgeNow+')\nCurrent Luck Cycle: age '+curDayunAge+', '+curDayunPal+' Palace\n12 Palaces: '+palInfo+'\n\nTopic: '+info.label+'\nContext: '+ctx.join(' | ');
+  } else {
+    // ── 付费完整解读 Prompt ──
+    sys=L==='zh'
+      ?'你是紫微斗数命理大师，精通十四主星与十二宫位的人生映射。你的客户是商界精英、投资人和需要做重大决策的人——他们聪明、务实，一眼能看穿套话。今天是'+today.getFullYear()+'年'+(today.getMonth()+1)+'月'+today.getDate()+'日，所有时机只说现在和未来，绝不提过去年份。\n\n请按以下结构给出完整深度解读：\n\n【一、命盘核心特质】\n命宫主星和关键宫位组合对此人最核心的定义——具体说出这个人和别人不一样在哪里（3-4句）\n\n【二、命盘对此问题的判断】\n从相关宫位找出关键星曜组合，给出清晰判断——是机会还是挑战，核心原因具体是什么（3-4句）\n\n【三、当前大运时机】\n现在处于什么大运宫位，对这个问题意味着什么，近期关键时间节点在哪里（2-3句）\n\n【四、具体行动建议】\n2-3条真正针对此命盘的实操建议，不能是通用建议（每条一句话）\n\n【五、点睛一句】\n一句有力量的话收尾，让人感到被真正看见\n\n语气：像懂你的智者，温暖而有分量。全文500-600字。'
+      :'You are a master of Purple Star Astrology (Zi Wei Dou Shu). Your clients are executives, investors, and professionals facing real decisions — they are intelligent, skeptical, and will immediately notice generic advice. Today is '+today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'. All timing must point forward — never reference past years.\n\nDeliver a complete reading using this exact structure:\n\n[I. CHART IDENTITY]\nWhat this person\'s Life Palace star and key palace configuration says about who they fundamentally are. Be specific — name the star combination, explain what makes them distinctive. (3-4 sentences)\n\n[II. VERDICT ON THE QUESTION]\nIdentify the exact relevant palace, name the stars and their interaction, give a decisive reading — opportunity or challenge, and the specific astrological reason. (3-4 sentences)\n\n[III. CURRENT LUCK CYCLE & TIMING]\nWhat palace the current Luck Cycle activates, what this means for their question, and where the key turning points are in the near future. (2-3 sentences)\n\n[IV. CONCRETE GUIDANCE]\n2-3 specific, chart-grounded recommendations they can act on immediately — not generic life advice. (one sentence each)\n\n[V. CLOSING INSIGHT]\nOne powerful sentence that makes them feel genuinely seen.\n\nTone: the most trusted advisor they\'ve ever had — warm, direct, no filler. Blank line between sections. 500-600 words.';
+    usr=L==='zh'
+      ?'【命盘信息】\n命宫主星：'+ms+'\n纳音五行：'+ny+'（'+ju+'局，当前年龄约'+curAgeNow+'岁）\n十二宫完整星位：'+palInfo+'\n当前大运：'+curDayunAge+'岁起，走'+curDayunPal+'\n\n【命主背景】\n'+ctx.join('\n')+'\n\n【问卦方向】'+info.label
+      :'CHART DATA\nLife Palace Star: '+(SEN[ms]||ms)+'\nNayin: '+ny+' ('+ju+' cycle, current age: '+curAgeNow+')\n12 Palaces: '+palInfo+'\nCurrent Luck Cycle: age '+curDayunAge+', activating '+curDayunPal+' Palace\n\nBACKGROUND\n'+ctx.join('\n')+'\n\nTOPIC: '+info.label;
+  }
+
+  try{
+    var resp=await fetch('https://api.deepseek.com/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+DEEPSEEK_KEY},
+      body:JSON.stringify({model:'deepseek-chat',messages:[{role:'system',content:sys},{role:'user',content:usr}],max_tokens:isPaid?1200:280,temperature:0.75})
+    });
+    var data=await resp.json();
+    var txt=data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content
+      ?data.choices[0].message.content
+      :(L==='zh'?'解读生成失败，请重试。':'Reading failed. Please try again.');
+    document.getElementById('ai-loading').style.display='none';
+    document.getElementById('ai-res-label').textContent=isPaid?(L==='zh'?'命盘解读':'Your Chart Reading'):(L==='zh'?'命盘预览':'Chart Preview');
+    document.getElementById('ai-another-btn').textContent=L==='zh'?'再问一个问题':'Ask Another Question';
+    document.getElementById('ai-res-text').innerHTML=txt
+      .replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold-light);font-weight:400;">$1</strong>')
+      .replace(/\*(.*?)\*/g,'<em>$1</em>')
+      .replace(/\n/g,'<br>');
+
+    // 免费预览 → 显示升级提示
+    var upgradeEl=document.getElementById('ai-upgrade-note');
+    var upgradeTxt=document.getElementById('ai-upgrade-txt');
+    if(!isPaid&&upgradeEl){
+      upgradeTxt.innerHTML=L==='zh'
+        ?'<span style="color:var(--gold-dim)">↑ 这是命盘预览。</span> 完整解读包含：命宫主星深层解析、当前大运宫位详解、未来12-18个月关键时间节点，以及针对你具体问题的深度实操建议。'
+        :'<span style="color:var(--gold-dim)">↑ This is your chart preview.</span> The full reading includes: deep Life Palace analysis, your current Luck Cycle decoded, key timing windows for the next 12–18 months, and specific, actionable guidance for your exact situation.';
+      upgradeEl.style.display='block';
+    }else if(upgradeEl){
+      upgradeEl.style.display='none';
+    }
+
+    document.getElementById('ai-result').style.display='block';
+    document.getElementById('ai-result').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(e){
+    document.getElementById('ai-loading').style.display='none';
+    document.getElementById('ai-res-text').textContent=L==='zh'?'网络错误，请稍后重试。':'Network error. Please try again.';
+    document.getElementById('ai-result').style.display='block';
+  }
+}
+
+// ── 联系表单 ──
+function toggleContact(){
+  var sec=document.getElementById('contact-section');
+  var btn=document.getElementById('ct-toggle-btn');
+  if(sec.style.display==='none'||!sec.style.display){
+    sec.style.display='block';
+    btn.textContent=L==='zh'?'✕  收起':'✕  Close';
+    setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'});},100);
+  }else{
+    sec.style.display='none';
+    btn.textContent=L==='zh'?'✉  联系与咨询':'✉  Contact & Consultation';
+  }
+}
+
+function submitContact(e){
+  e.preventDefault();
+  var form=document.getElementById('ct-form');
+  var name=form.querySelector('[name="name"]').value;
+  var email=form.querySelector('[name="email"]').value;
+  var type=form.querySelector('[name="type"]').value;
+  var msg=form.querySelector('[name="message"]').value;
+  var tmap={'consultation':L==='zh'?'私人咨询':'Private Consultation','collaboration':L==='zh'?'合作洽谈':'Collaboration','question':L==='zh'?'一般问题':'General Question','other':L==='zh'?'其他':'Other'};
+  var subj=encodeURIComponent('Purple Star — '+(tmap[type]||type)+' from '+name);
+  var body=encodeURIComponent((L==='zh'?'姓名：':'Name: ')+name+'\n'+(L==='zh'?'邮箱：':'Email: ')+email+'\n'+(L==='zh'?'类型：':'Type: ')+(tmap[type]||type)+'\n\n'+(L==='zh'?'留言：\n':'Message:\n')+msg+'\n\n---\nSent from Purple Star');
+  window.location.href='mailto:benv9988088@gmail.com?subject='+subj+'&body='+body;
+  setTimeout(function(){
+    form.style.display='none';
+    document.getElementById('ct-success').style.display='block';
+  },500);
+}
+</script>
+
+<script>
+// ── 繁簡切換 ──
+var TRAD={
+  '命宫':'命宮','兄弟':'兄弟','夫妻':'夫妻','财帛':'財帛','疾厄':'疾厄',
+  '迁移':'遷移','交友':'交友','官禄':'官祿','田宅':'田宅','福德':'福德',
+  '命盘':'命盤','星盘':'星盤','紫微斗数':'紫微斗數','大运':'大運',
+  '阳':'陽','阴':'陰','龙':'龍','鸡':'雞','猪':'豬','马':'馬',
+  '选择':'選擇','输入':'輸入','填写':'填寫','确定':'確定','发送':'發送',
+  '联系':'聯繫','解读':'解讀','感情':'感情','事业':'事業','财运':'財運',
+  '内心':'內心','使命':'使命','深度':'深度','开始':'開始','重新':'重新',
+  '天机':'天機','廉贞':'廉貞','贪狼':'貪狼','七杀':'七殺','破军':'破軍',
+  '农历':'農曆','时辰':'時辰','揭示':'揭示','纳音':'納音',
+  '问卦':'問卦','起运':'起運','空宫':'空宮','测试':'測試','体验':'體驗',
+  '命盘直答':'命盤直答','问盘':'問盤','提问':'提問',
+};
+var SIMP={};
+for(var k in TRAD) SIMP[TRAD[k]]=k;
+
+var _isTrad=false;
+
+function convertText(text, toTrad){
+  var map = toTrad ? TRAD : SIMP;
+  // 按长度降序排列key，避免短词先替换
+  var keys = Object.keys(map).sort(function(a,b){return b.length-a.length;});
+  keys.forEach(function(k){ text=text.split(k).join(map[k]); });
+  return text;
+}
+
+function applyTradSimp(toTrad){
+  _isTrad = toTrad;
+  // 遍历所有文本节点
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  var nodes=[];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(function(node){
+    if(node.parentElement && node.parentElement.tagName==='SCRIPT') return;
+    if(node.parentElement && node.parentElement.tagName==='STYLE') return;
+    var orig=node.textContent;
+    var conv=convertText(orig, toTrad);
+    if(conv!==orig) node.textContent=conv;
+  });
+  // 更新placeholder
+  document.querySelectorAll('[placeholder]').forEach(function(el){
+    el.placeholder=convertText(el.placeholder, toTrad);
+  });
+}
+
+// 扩展setLang，加繁体支持
+var _baseLang='en';
+function setLangFull(code){
+  if(code==='zh-tw'){
+    // 先切到简体中文，再转繁体
+    if(typeof setLang==='function') setLang('zh');
+    _baseLang='zh';
+    setTimeout(function(){ applyTradSimp(true); }, 150);
+    // 更新按钮状态
+    updateLangBtns('zh-tw');
+  } else if(code==='zh'){
+    if(typeof setLang==='function') setLang('zh');
+    _baseLang='zh';
+    if(_isTrad) setTimeout(function(){ applyTradSimp(false); }, 150);
+    updateLangBtns('zh');
+  } else {
+    if(typeof setLang==='function') setLang('en');
+    _baseLang='en';
+    updateLangBtns('en');
+  }
+}
+
+function updateLangBtns(active){
+  ['btnEN','btnZH','btnTW'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    el.classList.toggle('active', 
+      (id==='btnEN'&&active==='en')||(id==='btnZH'&&active==='zh')||(id==='btnTW'&&active==='zh-tw'));
+  });
+}
+</script>
+</body>
+</html>

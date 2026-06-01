@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>SHEN · Ba Zi Four Pillars — Ancient Chinese Destiny Intelligence</title>
+<meta name="description" content="Decode your Four Pillars birth chart with ancient Chinese Ba Zi analysis. Discover your elemental nature, life cycles, and destiny path.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #08080f;
+  --deep: #0d0c1a;
+  --panel: #111020;
+  --panel2: #171628;
+  --border: #1e1d32;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: #6b5120;
+  --gold-pale: rgba(201,168,76,0.12);
+  --red: #b84444;
+  --red-dim: rgba(184,68,68,0.15);
+  --text: #d4cbb8;
+  --text-dim: #6e6658;
+  --text-mid: #9e9280;
+  /* Five Elements */
+  --wood: #4a7c59;
+  --fire: #b84444;
+  --earth: #8b6914;
+  --metal: #7a8a9e;
+  --water: #2a5c8a;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 5%, rgba(184,68,68,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 70% at 85% 95%, rgba(201,168,76,0.05) 0%, transparent 55%),
+    repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(201,168,76,0.012) 80px, rgba(201,168,76,0.012) 81px),
+    repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(201,168,76,0.012) 80px, rgba(201,168,76,0.012) 81px);
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap { position:relative; z-index:1; max-width:900px; margin:0 auto; padding:0 20px 80px; }
+
+/* ── LANG TOGGLE ── */
+.lang-row { display:flex; justify-content:flex-end; padding:20px 0 0; }
+.lang-toggle { display:flex; border:1px solid var(--gold-dim); border-radius:3px; overflow:visible; }
+.lang-btn { background:transparent; border:none; color:var(--text-dim); font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.1em; padding:6px 13px; cursor:pointer; transition:all 0.3s; min-height:unset !important; height:auto !important; line-height:normal; }
+.lang-btn.active { background:var(--gold-dim); color:var(--gold-light); }
+
+/* ── HEADER ── */
+header { text-align:center; padding:44px 0 36px; }
+.header-badge { font-family:'Cinzel',serif; font-size:21px; letter-spacing:0.4em; color:var(--gold-dim); text-transform:uppercase; margin-bottom:18px; }
+h1 { font-family:'Cinzel',serif; font-size:clamp(26px,5vw,40px); font-weight:400; color:var(--gold-light); letter-spacing:0.06em; line-height:1.2; }
+h1 .zh { font-family:'Ma Shan Zheng',serif; font-size:0.7em; color:var(--gold-dim); display:block; margin-top:5px; letter-spacing:0.4em; }
+.header-rule { width:100px; height:1px; background:linear-gradient(to right,transparent,var(--gold-dim),transparent); margin:22px auto 18px; }
+.header-sub { font-size:24px; color:var(--text-dim); font-style:italic; line-height:1.7; max-width:520px; margin:0 auto; }
+
+/* ── FORM ── */
+.form-card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:32px;
+  margin:36px 0;
+}
+
+.form-title { font-family:'Cinzel',serif; font-size:21px; letter-spacing:0.25em; color:var(--gold-dim); text-transform:uppercase; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+.form-title::after { content:''; flex:1; height:1px; background:linear-gradient(to right,var(--gold-dim),transparent); }
+
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.form-grid.three { grid-template-columns:1fr 1fr 1fr; }
+.form-group { display:flex; flex-direction:column; gap:7px; }
+.form-group.full { grid-column:1/-1; }
+
+label { font-family:'Cinzel',serif; font-size:24px; letter-spacing:0.25em; color:var(--text-dim); text-transform:uppercase; }
+
+input, select {
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:3px;
+  color:var(--text);
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;
+  padding:10px 14px;
+  outline:none;
+  transition:border-color 0.3s;
+  width:100%;
+}
+input:focus, select:focus { border-color:var(--gold-dim); }
+select option { background:var(--panel2); }
+
+.gender-row { display:flex; gap:10px; }
+.gender-btn {
+  flex:1;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:3px;
+  color:var(--text-dim);
+  font-family:'Cinzel',serif;
+  font-size:10px;
+  letter-spacing:0.15em;
+  padding:10px;
+  cursor:pointer;
+  transition:all 0.3s;
+  text-transform:uppercase;
+}
+.gender-btn.active { border-color:var(--gold-dim); color:var(--gold); background:var(--gold-pale); }
+
+.submit-btn {
+  display:block;
+  width:100%;
+  margin-top:24px;
+  background:transparent;
+  border:1px solid var(--gold-dim);
+  color:var(--gold);
+  font-family:'Cinzel',serif;
+  font-size:24px;
+  letter-spacing:0.25em;
+  padding:16px;
+  cursor:pointer;
+  text-transform:uppercase;
+  transition:all 0.4s;
+  position:relative;
+  overflow:hidden;
+}
+.submit-btn::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,transparent 40%,rgba(201,168,76,0.06)); opacity:0; transition:opacity 0.4s; }
+.submit-btn:hover { border-color:var(--gold); color:var(--gold-light); box-shadow:0 0 28px rgba(201,168,76,0.08); }
+.submit-btn:hover::after { opacity:1; }
+
+/* ── RESULT ── */
+.result-panel { display:none; animation:fadeUp 0.8s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* Four Pillars */
+.pillars-section { margin-bottom:32px; }
+.pillars-label { font-family:'Cinzel',serif; font-size:24px; letter-spacing:0.3em; color:var(--gold-dim); text-transform:uppercase; margin-bottom:16px; }
+.pillars-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+
+.pillar-card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:5px;
+  overflow:hidden;
+  text-align:center;
+}
+.pillar-name {
+  font-family:'Cinzel',serif;
+  font-size:24px;
+  letter-spacing:0.25em;
+  color:var(--text-dim);
+  text-transform:uppercase;
+  padding:10px 8px 8px;
+  border-bottom:1px solid var(--border);
+  background:var(--panel2);
+}
+.pillar-stem {
+  font-family:'Ma Shan Zheng',serif;
+  font-size:42px;
+  padding:16px 8px 8px;
+  line-height:1;
+}
+.pillar-branch {
+  font-family:'Ma Shan Zheng',serif;
+  font-size:42px;
+  padding:8px 8px 16px;
+  line-height:1;
+  border-top:1px solid var(--border);
+}
+.pillar-element {
+  font-size:24px;
+  letter-spacing:0.1em;
+  padding:6px;
+  background:var(--panel2);
+  color:var(--text-dim);
+  font-family:'Cinzel',serif;
+}
+
+/* Element colors */
+.wood { color:#6ab87a; }
+.fire { color:#e06060; }
+.earth { color:#c4a040; }
+.metal { color:#a0b4c8; }
+.water { color:#5090c0; }
+.wood-bg { background:rgba(74,124,89,0.15); border-color:rgba(74,124,89,0.3); }
+.fire-bg { background:rgba(184,68,68,0.15); border-color:rgba(184,68,68,0.3); }
+.earth-bg { background:rgba(139,105,20,0.15); border-color:rgba(139,105,20,0.3); }
+.metal-bg { background:rgba(122,138,158,0.15); border-color:rgba(122,138,158,0.3); }
+.water-bg { background:rgba(42,92,138,0.15); border-color:rgba(42,92,138,0.3); }
+
+/* Element balance */
+.elements-row {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+  margin-bottom:28px;
+}
+.el-card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:14px 8px;
+  text-align:center;
+}
+.el-symbol { font-family:'Ma Shan Zheng',serif; font-size:28px; margin-bottom:4px; }
+.el-name { font-family:'Cinzel',serif; font-size:21px; letter-spacing:0.2em; color:var(--text-dim); margin-bottom:8px; }
+.el-bar-wrap { height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+.el-bar { height:100%; border-radius:2px; transition:width 0.8s ease; }
+.el-count { font-size:24px; color:var(--text-dim); margin-top:6px; }
+
+/* Reading tabs */
+.reading-card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:6px;
+  overflow:hidden;
+  margin-bottom:20px;
+}
+.reading-tabs { display:flex; background:var(--panel2); border-bottom:1px solid var(--border); overflow-x:auto; }
+.rtab {
+  background:none;
+  border:none;
+  color:var(--text-dim);
+  font-family:'Cinzel',serif;
+  font-size:9px;
+  letter-spacing:0.2em;
+  padding:13px 18px;
+  cursor:pointer;
+  white-space:nowrap;
+  text-transform:uppercase;
+  border-bottom:2px solid transparent;
+  transition:all 0.3s;
+  flex-shrink:0;
+}
+.rtab.active { color:var(--gold); border-bottom-color:var(--gold); }
+.rtab:hover:not(.active) { color:var(--text); }
+
+.rtab-content { display:none; padding:28px; }
+.rtab-content.active { display:block; }
+
+.reading-text { font-size:24px; font-weight:300; line-height:2.0; color:var(--text); }
+.reading-text p { margin-bottom:16px; }
+.reading-text p:last-child { margin-bottom:0; }
+.reading-text strong { color:var(--gold); font-weight:500; }
+.reading-text em { color:var(--gold-light); font-style:normal; font-weight:400; }
+
+/* Dayun table */
+.dayun-grid { display:grid; gap:8px; }
+.dayun-row {
+  display:grid;
+  grid-template-columns:80px 1fr 1fr auto;
+  gap:10px;
+  align-items:center;
+  padding:12px 16px;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:4px;
+}
+.dayun-age { font-family:'Cinzel',serif; font-size:21px; color:var(--gold-dim); }
+.dayun-stems { font-family:'Ma Shan Zheng',serif; font-size:24px; }
+.dayun-desc { font-size:24px; color:var(--text-dim); line-height:1.5; }
+.dayun-current { border-color:var(--gold-dim); background:var(--gold-pale); }
+.dayun-tag { font-family:'Cinzel',serif; font-size:24px; letter-spacing:0.15em; color:var(--gold); background:rgba(201,168,76,0.15); padding:3px 8px; border-radius:2px; white-space:nowrap; }
+
+/* AI section */
+.ai-section {
+  background:var(--panel);
+  border:1px solid rgba(201,168,76,0.2);
+  border-radius:6px;
+  overflow:hidden;
+  margin-top:24px;
+}
+.ai-header { padding:20px 24px; background:linear-gradient(135deg,rgba(201,168,76,0.07),rgba(184,68,68,0.04)); border-bottom:1px solid var(--border); text-align:center; }
+.ai-title-txt { font-family:'Cinzel',serif; font-size:21px; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:5px; }
+.ai-sub-txt { font-size:15px; color:var(--text-dim); font-style:italic; }
+.ai-body { padding:20px 24px; }
+.ai-body textarea { width:100%; background:var(--panel2); border:1px solid var(--border); border-radius:3px; color:var(--text); font-family:'Cormorant Garamond',serif; font-size:16px; padding:14px 16px; outline:none; resize:none; min-height:80px; transition:border-color 0.3s; }
+.ai-body textarea:focus { border-color:var(--gold-dim); }
+.ai-body textarea::placeholder { color:var(--text-dim); font-style:italic; }
+.ai-btns { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.ai-free { flex:1; background:transparent; border:1px solid var(--border); color:var(--text-dim); font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.15em; padding:12px; cursor:pointer; text-transform:uppercase; transition:all 0.3s; border-radius:3px; }
+.ai-free:hover { border-color:var(--gold-dim); color:var(--gold); }
+.ai-paid { flex:2; background:linear-gradient(135deg,rgba(201,168,76,0.18),rgba(201,168,76,0.08)); border:1px solid var(--gold-dim); color:var(--gold-light); font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.18em; padding:14px; cursor:pointer; text-transform:uppercase; transition:all 0.3s; border-radius:3px; position:relative; overflow:hidden; }
+.ai-paid::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(201,168,76,0.08),transparent); opacity:0; transition:opacity 0.3s; }
+.ai-paid:hover { border-color:var(--gold); color:var(--gold); box-shadow:0 0 28px rgba(201,168,76,0.12); }
+.ai-paid:hover::before { opacity:1; }
+.ai-output { display:none; padding:20px 24px; border-top:1px solid var(--border); background:var(--panel2); }
+.ai-output-label { font-family:'Cinzel',serif; font-size:24px; letter-spacing:0.25em; color:var(--gold-dim); text-transform:uppercase; margin-bottom:14px; }
+.ai-output-text { font-size:21px; line-height:1.9; color:var(--text); white-space:pre-wrap; }
+.ai-upgrade { margin-top:18px; padding-top:16px; border-top:1px solid var(--border); }
+.ai-upgrade-note { font-size:24px; color:var(--text-dim); font-style:italic; line-height:1.7; }
+.ai-loading-box { padding:32px 24px; text-align:center; }
+.ai-spin { font-size:32px; color:var(--gold); display:block; margin-bottom:12px; animation:spin 2s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.ai-spin-txt { font-family:'Cinzel',serif; font-size:21px; letter-spacing:0.25em; color:var(--gold-dim); text-transform:uppercase; }
+
+/* Reset btn */
+.reset-btn { display:block; margin:32px auto 0; background:none; border:1px solid var(--border); color:var(--text-dim); font-family:'Cinzel',serif; font-size:24px; letter-spacing:0.2em; padding:11px 28px; cursor:pointer; text-transform:uppercase; transition:all 0.3s; }
+.reset-btn:hover { border-color:var(--gold-dim); color:var(--gold); }
+
+/* Paywall overlay */
+.paywall { display:none; position:relative; }
+.paywall-blur { filter:blur(5px); pointer-events:none; user-select:none; opacity:0.4; }
+.paywall-overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:rgba(8,8,15,0.7); border-radius:6px; }
+.paywall-msg { font-family:'Cinzel',serif; font-size:21px; letter-spacing:0.2em; color:var(--gold); text-align:center; }
+.paywall-btn { background:linear-gradient(135deg,rgba(201,168,76,0.2),rgba(201,168,76,0.1)); border:1px solid var(--gold-dim); color:var(--gold); font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; padding:12px 28px; cursor:pointer; text-transform:uppercase; border-radius:3px; transition:all 0.3s; }
+.paywall-btn:hover { border-color:var(--gold); box-shadow:0 0 20px rgba(201,168,76,0.1); }
+
+footer { text-align:center; padding:48px 0 20px; }
+.footer-sym { font-family:'Ma Shan Zheng',serif; font-size:24px; color:var(--gold-dim); display:block; margin-bottom:8px; }
+.footer-txt { font-size:24px; color:var(--text-dim); font-style:italic; }
+
+::-webkit-scrollbar { width:3px; height:3px; }
+::-webkit-scrollbar-track { background:var(--ink); }
+::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:2px; }
+
+@media(max-width:600px){
+  .pillars-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+  .elements-row { grid-template-columns:repeat(3,1fr); }
+  .form-grid, .form-grid.three { grid-template-columns:1fr; }
+  .dayun-row { grid-template-columns:60px 1fr auto; }
+  .dayun-desc { display:none; }
+
+  /* 手机端字体加大 */
+  .pillar-stem, .pillar-branch { font-size:36px; }
+  .pillar-name { font-size:24px; }
+  .pillar-element { font-size:24px; }
+  .el-symbol { font-size:24px; }
+  .el-name { font-size:24px; }
+  .el-count { font-size:24px; }
+  label { font-size:21px; }
+  .reading-text { font-size:24px; line-height:1.85; }
+  .ai-output-text { font-size:24px; line-height:1.85; }
+  .ai-upgrade-note { font-size:24px; }
+  .dayun-age { font-size:21px; }
+  .dayun-stems { font-size:24px; }
+  .dayun-tag { font-size:21px; padding:4px 8px; }
+  .ai-free, .ai-paid { font-size:24px; padding:14px 10px; }
+  .paywall-btn { font-size:21px; padding:14px 20px; }
+  .wrap { padding:0 16px; }
+}
+
+/* ── 移动端优化 ── */
+@media (max-width: 768px) {
+  body { font-size: 17px; }
+  /* 手机上网格变单列或双列 */
+  #yj-topics, #bz-topics, .ai-topics { grid-template-columns: repeat(2,1fr) !important; }
+  #yj-quick-grid, #bz-quick-grid, .ai-feats { grid-template-columns: 1fr !important; }
+  /* 按钮更大更易点击 */
+  button { min-height: 44px; }
+  .lang-btn { min-height: unset !important; height: auto !important; }
+  .cast-btn, .submit-btn, .unlock-btn { padding: 18px !important; font-size: 14px !important; }
+  /* 输入框更大 */
+  input, select, textarea { font-size: 16px !important; padding: 14px !important; }
+}
+@media (max-width: 480px) {
+  #yj-topics, #bz-topics, .ai-topics { grid-template-columns: 1fr 1fr !important; }
+}
+
+/* Select option深色背景修复 */
+select option { background:#0D0A1A; color:#E8D5A3; }
+select { color-scheme: dark; }
+</style>
+</head>
+<body>
+<!-- SHEN BRAND NAV -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,8,15,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.12);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px;">
+    <a href="index.html" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span style="font-family:'Ma Shan Zheng',serif;font-size:22px;color:var(--gold);line-height:1;">神</span>
+      <span style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.35em;color:var(--gold-light);text-transform:uppercase;">SHEN</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <a href="bazi_oracle.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:var(--gold);text-decoration:none;padding:6px 14px;border:1px solid var(--gold-dim);border-radius:2px;text-transform:uppercase;background:rgba(201,168,76,0.08);">Ba Zi</a>
+      <a href="purple-star.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:var(--text-dim);text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold-dim)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='transparent'">Zi Wei</a>
+      <a href="YiJing_Oracle.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:var(--text-dim);text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold-dim)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='transparent'">Yi Jing</a>
+    </div>
+  </div>
+</nav>
+<div style="height:52px;"></div>
+
+<div class="wrap">
+
+  <div class="lang-row">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnEN" onclick="setLangFull('en')">EN</button>
+      <button class="lang-btn" id="btnTW" onclick="setLangFull('zh-tw')">繁體</button>
+      <button class="lang-btn" id="btnZH" onclick="setLangFull('zh')">简体</button>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-badge" id="hBadge">5,000-Year-Old Decision Intelligence</div>
+    <h1 id="hTitle">Ba Zi · Four Pillars<span class="zh" id="hZh">八 字 命 盘</span></h1>
+    <div class="header-rule"></div>
+    <p class="header-sub" id="hSub">Your birth moment encodes a precise map of elemental forces — the same framework that guided Chinese emperors, generals, and strategists for five millennia. Decoded for the decisions that shape your life.</p>
+  </header>
+
+  <!-- FORM -->
+  <div class="form-card" id="formCard">
+    <div class="form-title" id="fTitle">Your Birth Information</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label id="lName">Name</label>
+        <input type="text" id="iName" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label id="lGender">Gender</label>
+        <div class="gender-row">
+          <button class="gender-btn active" onclick="setGender('M')" id="gM">♂ Male</button>
+          <button class="gender-btn" onclick="setGender('F')" id="gF">♀ Female</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-grid three" style="margin-top:16px">
+      <div class="form-group">
+        <label id="lYear">Birth Year</label>
+        <select id="iYear">
+          <option value="">—</option>
+          <option value="2005">2005</option>
+          <option value="2004">2004</option>
+          <option value="2003">2003</option>
+          <option value="2002">2002</option>
+          <option value="2001">2001</option>
+          <option value="2000">2000</option>
+          <option value="1999">1999</option>
+          <option value="1998">1998</option>
+          <option value="1997">1997</option>
+          <option value="1996">1996</option>
+          <option value="1995">1995</option>
+          <option value="1994">1994</option>
+          <option value="1993">1993</option>
+          <option value="1992">1992</option>
+          <option value="1991">1991</option>
+          <option value="1990">1990</option>
+          <option value="1989">1989</option>
+          <option value="1988">1988</option>
+          <option value="1987">1987</option>
+          <option value="1986">1986</option>
+          <option value="1985">1985</option>
+          <option value="1984">1984</option>
+          <option value="1983">1983</option>
+          <option value="1982">1982</option>
+          <option value="1981">1981</option>
+          <option value="1980">1980</option>
+          <option value="1979">1979</option>
+          <option value="1978">1978</option>
+          <option value="1977">1977</option>
+          <option value="1976">1976</option>
+          <option value="1975">1975</option>
+          <option value="1974">1974</option>
+          <option value="1973">1973</option>
+          <option value="1972">1972</option>
+          <option value="1971">1971</option>
+          <option value="1970">1970</option>
+          <option value="1969">1969</option>
+          <option value="1968">1968</option>
+          <option value="1967">1967</option>
+          <option value="1966">1966</option>
+          <option value="1965">1965</option>
+          <option value="1964">1964</option>
+          <option value="1963">1963</option>
+          <option value="1962">1962</option>
+          <option value="1961">1961</option>
+          <option value="1960">1960</option>
+          <option value="1959">1959</option>
+          <option value="1958">1958</option>
+          <option value="1957">1957</option>
+          <option value="1956">1956</option>
+          <option value="1955">1955</option>
+          <option value="1954">1954</option>
+          <option value="1953">1953</option>
+          <option value="1952">1952</option>
+          <option value="1951">1951</option>
+          <option value="1950">1950</option>
+          <option value="1949">1949</option>
+          <option value="1948">1948</option>
+          <option value="1947">1947</option>
+          <option value="1946">1946</option>
+          <option value="1945">1945</option>
+          <option value="1944">1944</option>
+          <option value="1943">1943</option>
+          <option value="1942">1942</option>
+          <option value="1941">1941</option>
+          <option value="1940">1940</option>
+          <option value="1939">1939</option>
+          <option value="1938">1938</option>
+          <option value="1937">1937</option>
+          <option value="1936">1936</option>
+          <option value="1935">1935</option>
+          <option value="1934">1934</option>
+          <option value="1933">1933</option>
+          <option value="1932">1932</option>
+          <option value="1931">1931</option>
+          <option value="1930">1930</option>
+          <option value="1929">1929</option>
+          <option value="1928">1928</option>
+          <option value="1927">1927</option>
+          <option value="1926">1926</option>
+          <option value="1925">1925</option>
+          <option value="1924">1924</option>
+          <option value="1923">1923</option>
+          <option value="1922">1922</option>
+          <option value="1921">1921</option>
+          <option value="1920">1920</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label id="lMonth">Month</label>
+        <select id="iMonth">
+          <option value="">—</option>
+          <!-- 月份由JS动态生成 -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label id="lDay">Day</label>
+        <select id="iDay">
+          <option value="">—</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+          <option value="26">26</option>
+          <option value="27">27</option>
+          <option value="28">28</option>
+          <option value="29">29</option>
+          <option value="30">30</option>
+          <option value="31">31</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grid" style="margin-top:16px">
+      <div class="form-group">
+        <label id="lHour">Birth Hour</label>
+        <select id="iHour">
+          <option value="">— Select time —</option>
+          <option value="0">子时 Zǐ · 23:00–01:00</option>
+          <option value="1">丑时 Chǒu · 01:00–03:00</option>
+          <option value="2">寅时 Yín · 03:00–05:00</option>
+          <option value="3">卯时 Mǎo · 05:00–07:00</option>
+          <option value="4">辰时 Chén · 07:00–09:00</option>
+          <option value="5">巳时 Sì · 09:00–11:00</option>
+          <option value="6">午时 Wǔ · 11:00–13:00</option>
+          <option value="7">未时 Wèi · 13:00–15:00</option>
+          <option value="8">申时 Shēn · 15:00–17:00</option>
+          <option value="9">酉时 Yǒu · 17:00–19:00</option>
+          <option value="10">戌时 Xū · 19:00–21:00</option>
+          <option value="11">亥时 Hài · 21:00–23:00</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label id="lTz">Timezone (UTC offset)</label>
+        <select id="iTz">
+          <option value="8">UTC+8 Beijing / Singapore</option>
+          <option value="-5">UTC-5 New York (EST)</option>
+          <option value="-4">UTC-4 New York (EDT)</option>
+          <option value="0">UTC+0 London (GMT)</option>
+          <option value="1">UTC+1 London (BST) / Paris</option>
+          <option value="-8">UTC-8 Los Angeles (PST)</option>
+          <option value="-7">UTC-7 Los Angeles (PDT)</option>
+          <option value="-6">UTC-6 Chicago</option>
+          <option value="9">UTC+9 Tokyo</option>
+          <option value="5.5">UTC+5:30 Mumbai</option>
+          <option value="-3">UTC-3 São Paulo</option>
+          <option value="10">UTC+10 Sydney</option>
+        </select>
+      </div>
+    </div>
+    <button class="submit-btn" onclick="calculate()" id="calcBtn">Calculate Destiny Chart</button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-panel" id="resultPanel">
+
+    <!-- Name + intro -->
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-family:'Cinzel',serif;font-size:21px;letter-spacing:0.3em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:6px" id="rForLabel">Destiny Chart for</div>
+      <div style="font-family:'Cinzel',serif;font-size:24px;color:var(--gold-light);letter-spacing:0.08em" id="rName"></div>
+    </div>
+
+    <!-- FOUR PILLARS -->
+    <div class="pillars-section">
+      <div class="pillars-label" id="pLabel">The Four Pillars · 四柱</div>
+      <div class="pillars-grid" id="pillarsGrid"></div>
+    </div>
+
+    <!-- ELEMENT BALANCE -->
+    <div class="pillars-label" id="elLabel">Five Element Balance · 五行</div>
+    <div class="elements-row" id="elementsRow"></div>
+
+    <!-- READINGS -->
+    <div class="reading-card">
+      <div class="reading-tabs">
+        <button class="rtab active" onclick="showRTab('nature')" id="rtNature">Nature</button>
+        <button class="rtab" onclick="showRTab('career')" id="rtCareer">Career</button>
+        <button class="rtab" onclick="showRTab('wealth')" id="rtWealth">Wealth</button>
+        <button class="rtab" onclick="showRTab('relations')" id="rtRelations">Relationships</button>
+        <button class="rtab" onclick="showRTab('dayun')" id="rtDayun">Life Cycles</button>
+      </div>
+
+      <div class="rtab-content active" id="rt-nature">
+        <div class="reading-text" id="readNature"></div>
+      </div>
+      <div class="rtab-content" id="rt-career">
+        <div class="reading-text" id="readCareer"></div>
+        <div class="paywall" id="pwCareer"></div>
+      </div>
+      <div class="rtab-content" id="rt-wealth">
+        <div class="reading-text" id="readWealth"></div>
+        <div class="paywall" id="pwWealth"></div>
+      </div>
+      <div class="rtab-content" id="rt-relations">
+        <div class="reading-text" id="readRelations"></div>
+        <div class="paywall" id="pwRelations"></div>
+      </div>
+      <div class="rtab-content" id="rt-dayun">
+        <div class="dayun-grid" id="dayunGrid"></div>
+        <div class="paywall" id="pwDayun"></div>
+      </div>
+    </div>
+
+    <!-- AI DEEP READING -->
+    <div class="ai-section">
+      <div class="ai-header">
+        <div class="ai-title-txt" id="aiTitleTxt">Chart Reading</div>
+        <div class="ai-sub-txt" id="aiSubTxt">Choose a topic — your chart will speak directly to your situation</div>
+      </div>
+      <div class="ai-body">
+
+        <!-- Step 1: 选方向 -->
+        <div id="bz-step1">
+          <div style="font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px;" id="bz-s1-label">① Choose your topic</div>
+          <div id="bz-topics" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px;"></div>
+        </div>
+
+        <!-- Step 2: 快速选项 + 行业 + 补充 -->
+        <div id="bz-step2" style="display:none;margin-top:18px;">
+          <div style="font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px;" id="bz-s2-label">② Your situation</div>
+          <div id="bz-quick-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;"></div>
+          <input type="hidden" id="bz-quick-val">
+          <div id="bz-industry-wrap" style="display:none;margin-bottom:12px;">
+            <select id="bz-industry" style="width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:21px;padding:12px 14px;outline:none;font-family:inherit;">
+              <option value=""></option>
+            </select>
+          </div>
+          <textarea id="aiQ" rows="2" placeholder="Add details or a specific question (optional)…" style="margin-bottom:12px;"></textarea>
+          <div class="ai-btns">
+            <button class="ai-free" onclick="getBaziAI(false)" id="aiPreviewBtn">✦ Free Preview</button>
+            <button class="ai-paid" onclick="getBaziAI(true)" id="aiPaidBtn">⟡ Full Reading · $9</button>
+          </div>
+          <div style="text-align:center;margin-top:8px;">
+            <button onclick="resetBzTopic()" style="background:none;border:none;color:var(--text-dim);font-size:24px;cursor:pointer;text-decoration:underline;" id="bz-reset-btn">← Change topic</button>
+          </div>
+        </div>
+      </div>
+      <div class="ai-loading-box" id="aiLoading" style="display:none">
+        <span class="ai-spin">☯</span>
+        <div class="ai-spin-txt" id="aiSpinTxt">Reading your chart...</div>
+      </div>
+      <div class="ai-output" id="aiOutput">
+        <div class="ai-output-label" id="aiOutLabel">Chart Reading</div>
+        <div class="ai-output-text" id="aiOutText"></div>
+        <div class="ai-upgrade" id="aiUpgrade" style="display:none">
+          <div class="ai-upgrade-note" id="aiUpgradeNote"></div>
+          <button class="ai-paid" onclick="getBaziAI(true)" style="margin-top:14px;width:100%" id="aiUnlockBtn">⟡ Unlock Full Reading · $9</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetForm()" id="resetBtn">New Chart</button>
+  </div>
+
+  <footer>
+    <span class="footer-sym">神</span>
+    <p class="footer-txt" id="ftrTxt">The chart reveals the river's shape — how you navigate it is yours to choose.</p>
+    <p style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;color:var(--text-dim);margin-top:14px;text-transform:uppercase;">SHEN · Ancient Chinese Wisdom, Decoded</p>
+  </footer>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// LANGUAGE
+// ══════════════════════════════════════════════════
+let lang = 'en';
+let gender = 'M';
+
+const UI = {
+  en: {
+    badge:'5,000-Year-Old Decision Intelligence', title:'Ba Zi · Four Pillars',
+    sub:'Your birth moment encodes a precise map of elemental forces — the same framework that guided Chinese emperors, generals, and strategists for five millennia. Decoded for the decisions that shape your life.',
+    fTitle:'Your Birth Information', lName:'Name', lGender:'Gender', gM:'♂ Male', gF:'♀ Female',
+    lYear:'Birth Year', lMonth:'Month', lDay:'Day', lHour:'Birth Hour', lTz:'Timezone (UTC offset)',
+    calcBtn:'Reveal My Destiny Chart',
+    rForLabel:'Four Pillars Chart for',
+    pLabel:'The Four Pillars · 四柱', elLabel:'Five Element Balance · 五行',
+    rtNature:'Nature', rtCareer:'Career', rtWealth:'Wealth', rtRelations:'Relationships', rtDayun:'Life Cycles',
+    aiTitleTxt:'Ask Your Chart', aiSubTxt:'Your Four Pillars hold answers to your most pressing questions — career timing, relationships, major decisions',
+    aiQ:'Add context or a specific question (optional)…',
+    aiPreviewBtn:'✦ Free Preview',
+    aiPaidBtn:'⟡ Full Reading · $9',
+    aiSpinTxt:'Consulting your chart...',
+    aiOutLabel:'Chart Intelligence',
+    aiUnlockBtn:'⟡ Unlock Full Reading · $9',
+    resetBtn:'New Chart',
+    ftrTxt:"The chart reveals the river's shape — how you navigate it is yours to choose.",
+    pillars:['Year Pillar', 'Month Pillar', 'Day Pillar', 'Hour Pillar'],
+    stems:['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],
+    branches:['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'],
+    stemNames:['Jiǎ','Yǐ','Bǐng','Dīng','Wù','Jǐ','Gēng','Xīn','Rén','Guǐ'],
+    branchNames:['Zǐ','Chǒu','Yín','Mǎo','Chén','Sì','Wǔ','Wèi','Shēn','Yǒu','Xū','Hài'],
+    elements:['Wood','Fire','Earth','Metal','Water'],
+    elSymbols:['木','火','土','金','水'],
+    dayunLabel:'Great Cycle',
+    currentTag:'Current',
+    pwMsg:'Full analysis unlocked with Complete Report',
+    pwBtn:'Unlock Complete Report · $9.99',
+    aiUpgradeNote:'This is a preview. The full reading covers all pillars in depth, precise timing for major life events, and direct answers to your specific question.',
+  },
+  zh: {
+    badge:'中国古典命理学', title:'八字命盘',
+    sub:'八字命盘记录了你出生那一刻精确的天地气场——是你性格、时运与人生轨迹的宇宙密码。',
+    fTitle:'出生信息', lName:'姓名', lGender:'性别', gM:'♂ 男', gF:'♀ 女',
+    lYear:'出生年份', lMonth:'月份', lDay:'日期', lHour:'出生时辰', lTz:'时区',
+    calcBtn:'排 盘',
+    rForLabel:'命盘主人',
+    pLabel:'四柱 · 天干地支', elLabel:'五行强弱分布',
+    rtNature:'性格天赋', rtCareer:'事业格局', rtWealth:'财运分析', rtRelations:'感情婚姻', rtDayun:'大运流年',
+    aiTitleTxt:'个人提问', aiSubTxt:'针对你的命盘提问——事业时机、感情、重大决策',
+    aiQ:'补充说明（选填）——不写也可以直接点解读',
+    aiPaidBtn:'完整解读 · ¥69',
+    aiSpinTxt:'解读命盘中……',
+    aiOutLabel:'命盘解读',
+    aiUnlockBtn:'解锁完整解读 · ¥69',
+    resetBtn:'重新排盘',
+    ftrTxt:'命盘揭示河流的形状，你决定如何航行。',
+    pillars:['年柱','月柱','日柱','时柱'],
+    stems:['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'],
+    branches:['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'],
+    stemNames:['甲木','乙木','丙火','丁火','戊土','己土','庚金','辛金','壬水','癸水'],
+    branchNames:['子水','丑土','寅木','卯木','辰土','巳火','午火','未土','申金','酉金','戌土','亥水'],
+    elements:['木','火','土','金','水'],
+    elSymbols:['木','火','土','金','水'],
+    dayunLabel:'大运',
+    currentTag:'当前',
+    pwMsg:'完整分析需解锁完整报告',
+    pwBtn:'解锁完整报告 · ¥69',
+    aiUpgradeNote:'以上为预览版。完整解读涵盖所有柱的深度分析、重大人生事件的精确时间节点，以及针对你具体问题的直接回答。',
+  }
+};
+
+function setLang(l){
+  lang=l;
+  document.getElementById('btnEN').className='lang-btn'+(l==='en'?' active':'');
+  document.getElementById('btnZH').className='lang-btn'+(l==='zh'?' active':'');
+  applyUI();
+  // 重新渲染引导选项
+  if(typeof initBzTopics==='function'){
+    initBzTopics();
+    if(typeof bzCurrentTopic!=='undefined'&&bzCurrentTopic) selectBzTopic(bzCurrentTopic);
+  }
+}
+
+function applyUI(){
+  const u=UI[lang];
+  document.getElementById('hBadge').textContent=u.badge;
+  document.getElementById('hTitle').childNodes[0].nodeValue=lang==='en'?'Ba Zi · Four Pillars':'八字命盘';
+  document.getElementById('hZh').style.display=lang==='en'?'block':'none';
+  document.getElementById('hSub').textContent=u.sub;
+  document.getElementById('fTitle').childNodes[0].nodeValue=u.fTitle;
+  document.getElementById('lName').textContent=u.lName;
+  document.getElementById('lGender').textContent=u.lGender;
+  document.getElementById('gM').textContent=u.gM;
+  document.getElementById('gF').textContent=u.gF;
+  document.getElementById('lYear').textContent=u.lYear;
+  // 更新月份选项语言
+  var iMonth=document.getElementById('iMonth');
+  var mNames=lang==='zh'?['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']:['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var mCurVal=iMonth?iMonth.value:'';
+  if(iMonth){
+    iMonth.innerHTML='<option value="">—</option>'+mNames.map(function(n,i){return '<option value="'+(i+1)+'"'+(mCurVal==(i+1)?' selected':'')+'>'+n+'</option>';}).join('');
+  }
+  document.getElementById('lMonth').textContent=u.lMonth;
+  document.getElementById('lDay').textContent=u.lDay;
+  document.getElementById('lHour').textContent=u.lHour;
+  document.getElementById('lTz').textContent=u.lTz;
+  document.getElementById('calcBtn').textContent=u.calcBtn;
+  document.getElementById('rForLabel').textContent=u.rForLabel;
+  document.getElementById('pLabel').textContent=u.pLabel;
+  document.getElementById('elLabel').textContent=u.elLabel;
+  document.getElementById('rtNature').textContent=u.rtNature;
+  document.getElementById('rtCareer').textContent=u.rtCareer;
+  document.getElementById('rtWealth').textContent=u.rtWealth;
+  document.getElementById('rtRelations').textContent=u.rtRelations;
+  document.getElementById('rtDayun').textContent=u.rtDayun;
+  document.getElementById('aiTitleTxt').textContent=u.aiTitleTxt;
+  initBzTopics();
+  document.getElementById('aiSubTxt').textContent=u.aiSubTxt;
+  document.getElementById('aiQ').placeholder=u.aiQ;
+  document.getElementById('aiPaidBtn').textContent=u.aiPaidBtn;
+  if(document.getElementById('aiPreviewBtn')) document.getElementById('aiPreviewBtn').textContent=u.aiPreviewBtn||'✦ Free Preview';
+  document.getElementById('aiSpinTxt').textContent=u.aiSpinTxt;
+  document.getElementById('aiOutLabel').textContent=u.aiOutLabel;
+  document.getElementById('aiUnlockBtn').textContent=u.aiUnlockBtn;
+  document.getElementById('resetBtn').textContent=u.resetBtn;
+  document.getElementById('ftrTxt').textContent=u.ftrTxt;
+}
+
+function setGender(g){
+  gender=g;
+  document.getElementById('gM').className='gender-btn'+(g==='M'?' active':'');
+  document.getElementById('gF').className='gender-btn'+(g==='F'?' active':'');
+}
+
+// ══════════════════════════════════════════════════
+// BA ZI CALCULATION ENGINE
+// ══════════════════════════════════════════════════
+const STEMS  = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const BRANCHES=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const STEM_EL  = ['wood','wood','fire','fire','earth','earth','metal','metal','water','water'];
+const BRANCH_EL= ['water','earth','wood','wood','earth','fire','fire','earth','metal','metal','earth','water'];
+const EL_NAMES = ['wood','fire','earth','metal','water'];
+
+// Heavenly Stems cycle from 1984 (甲子year=1984)
+function getYearStem(year){
+  return (year-4)%10;
+}
+function getYearBranch(year){
+  return (year-4)%12;
+}
+
+// Month stems: based on year stem and month (solar term approximation)
+// Month 1=Feb(寅), using jieqi month index
+const MONTH_BRANCH_START=2; // 寅=index2 for month1(Feb)
+function getMonthStem(yearStemIdx, monthIdx){
+  // monthIdx: 0-11 (0=寅/Feb, solar calendar month-1 shifted)
+  const base=[0,2,4,6,8,0,2,4,6,8,0,2]; // 甲年寅月=丙
+  const yearGroup=Math.floor(yearStemIdx/2)%5;
+  return (base[yearGroup*2]+monthIdx*2)%10;
+}
+function getMonthBranch(solarMonth){
+  // Solar month 1=Jan -> branch index: Jan=丑(1), Feb=寅(2)...
+  const map=[1,2,3,4,5,6,7,8,9,10,11,0];
+  return map[solarMonth-1];
+}
+
+// Day stem/branch: count from known epoch
+function getDayStemBranch(year,month,day){
+  // JDN calculation
+  const a=Math.floor((14-month)/12);
+  const y=year+4800-a;
+  const m=month+12*a-3;
+  const jdn=day+Math.floor((153*m+2)/5)+365*y+Math.floor(y/4)-Math.floor(y/100)+Math.floor(y/400)-32045;
+  const stemIdx=(jdn+9)%10;
+  const branchIdx=(jdn+11)%12;
+  return {s:((stemIdx%10)+10)%10, b:((branchIdx%12)+12)%12};
+}
+
+// Hour branch: based on 2-hour blocks
+function getHourBranch(hourIdx){ return hourIdx; } // 0-11 directly maps
+function getHourStem(dayStemIdx, hourBranchIdx){
+  const base=[0,2,4,6,8];
+  return (base[dayStemIdx%5]*2+hourBranchIdx)%10;
+}
+
+let currentChart = null;
+
+function calculate(){
+  const name=document.getElementById('iName').value.trim()||'—';
+  const year=parseInt(document.getElementById('iYear').value);
+  const month=parseInt(document.getElementById('iMonth').value);
+  const day=parseInt(document.getElementById('iDay').value);
+  const hourIdx=parseInt(document.getElementById('iHour').value);
+  const tz=parseFloat(document.getElementById('iTz').value);
+
+  if(!year||!month||!day||isNaN(hourIdx)){
+    alert(lang==='en'?'Please complete all required fields.':'请填写完整的出生信息。');
+    return;
+  }
+
+  // Timezone conversion to Beijing time (UTC+8)
+  const tzDiff = 8 - tz;
+  let adjHourIdx = hourIdx + Math.round(tzDiff/2);
+  if(adjHourIdx<0) adjHourIdx+=12;
+  if(adjHourIdx>11) adjHourIdx-=12;
+
+  // Year pillar
+  const yStem=getYearStem(year);
+  const yBranch=getYearBranch(year);
+
+  // Month pillar
+  const mBranch=getMonthBranch(month);
+  const mStem=getMonthStem(yStem, (mBranch+10)%12);
+
+  // Day pillar
+  const dp=getDayStemBranch(year,month,day);
+  const dStem=dp.s, dBranch=dp.b;
+
+  // Hour pillar
+  const hBranch=getHourBranch(adjHourIdx);
+  const hStem=getHourStem(dStem,hBranch);
+
+  const pillars=[
+    {s:yStem, b:yBranch, name:lang==='en'?'Year Pillar':'年柱'},
+    {s:mStem, b:mBranch, name:lang==='en'?'Month Pillar':'月柱'},
+    {s:dStem, b:dBranch, name:lang==='en'?'Day Pillar':'日柱'},
+    {s:hStem, b:hBranch, name:lang==='en'?'Hour Pillar':'时柱'},
+  ];
+
+  // Element count
+  const elCount=[0,0,0,0,0];
+  pillars.forEach(p=>{
+    const si=EL_NAMES.indexOf(STEM_EL[p.s]);
+    const bi=EL_NAMES.indexOf(BRANCH_EL[p.b]);
+    if(si>=0) elCount[si]++;
+    if(bi>=0) elCount[bi]++;
+  });
+
+  // Day master
+  const dayMaster=STEM_EL[dStem];
+  const dayStemName=STEMS[dStem];
+
+  // Dayun (Great Cycles) - simplified
+  const dayuns=calcDayun(year,month,gender,yStem,mBranch,dStem);
+
+  currentChart={name,year,month,day,hourIdx:adjHourIdx,pillars,elCount,dayMaster,dayStemName,dayuns,gender};
+
+  renderResult(currentChart);
+}
+
+function calcDayun(year,month,gender,yStem,mBranch,dStem){
+  const isYangYear=yStem%2===0;
+  const isMale=gender==='M';
+  const forward=(isYangYear&&isMale)||(!isYangYear&&!isMale);
+
+  const dayuns=[];
+  let startAge=3; // simplified start age
+  for(let i=0;i<8;i++){
+    const offset=forward?(i+1):(-(i+1));
+    const b=((mBranch+offset)%12+12)%12;
+    const s=((dStem+offset)%10+10)%10; // simplified
+    dayuns.push({age:startAge+i*10, stem:s, branch:b, isCurrent:(year+(startAge+i*10))>=(new Date().getFullYear()-5)&&(year+(startAge+i*10))<=(new Date().getFullYear()+5)});
+  }
+  return dayuns;
+}
+
+function renderResult(c){
+  const u=UI[lang];
+  document.getElementById('rName').textContent=c.name;
+
+  // Pillars
+  const elColors={wood:'#6ab87a',fire:'#e06060',earth:'#c4a040',metal:'#a0b4c8',water:'#5090c0'};
+  const pillarNames=lang==='en'?['Year Pillar','Month Pillar','Day Pillar','Hour Pillar']:['年柱','月柱','日柱','时柱'];
+  document.getElementById('pillarsGrid').innerHTML=c.pillars.map((p,i)=>{
+    const sEl=STEM_EL[p.s], bEl=BRANCH_EL[p.b];
+    const sColor=elColors[sEl], bColor=elColors[bEl];
+    const sName=lang==='en'?u.stems[p.s]+' '+u.stemNames[p.s]:u.stems[p.s];
+    const bName=lang==='en'?u.branches[p.b]+' '+u.branchNames[p.b]:u.branches[p.b];
+    const isDayMaster=i===2;
+    return `<div class="pillar-card${isDayMaster?' '+sEl+'-bg':''}">
+      <div class="pillar-name">${pillarNames[i]}${isDayMaster?'<br><span style="color:var(--gold);font-size:8px">'+(lang==='en'?'Day Stem':'日干')+'</span>':''}</div>
+      <div class="pillar-stem ${sEl}" style="color:${sColor}">${STEMS[p.s]}</div>
+      <div class="pillar-branch ${bEl}" style="color:${bColor};border-top:1px solid var(--border)">${BRANCHES[p.b]}</div>
+      <div class="pillar-element" style="font-size:9px;color:${sColor}">${sName} · <span style="color:${bColor}">${bName}</span></div>
+    </div>`;
+  }).join('');
+
+  // Elements
+  const maxEl=Math.max(...c.elCount,1);
+  const elSyms=['木','火','土','金','水'];
+  const elEn=['Wood','Fire','Earth','Metal','Water'];
+  const elCls=['wood','fire','earth','metal','water'];
+  const elColors2={wood:'#6ab87a',fire:'#e06060',earth:'#c4a040',metal:'#a0b4c8',water:'#5090c0'};
+  document.getElementById('elementsRow').innerHTML=c.elCount.map((cnt,i)=>
+    `<div class="el-card">
+      <div class="el-symbol ${elCls[i]}">${elSyms[i]}</div>
+      <div class="el-name">${lang==='en'?elEn[i]:elSyms[i]}</div>
+      <div class="el-bar-wrap"><div class="el-bar" style="width:${Math.round(cnt/maxEl*100)}%;background:${elColors2[elCls[i]]}"></div></div>
+      <div class="el-count">${cnt}</div>
+    </div>`
+  ).join('');
+
+  // Generate readings
+  generateReadings(c);
+
+  // Dayun
+  const currentYear=new Date().getFullYear();
+  document.getElementById('dayunGrid').innerHTML=c.dayuns.map(d=>{
+    const birthAge=d.age;
+    const startYear=c.year+birthAge;
+    const isCur=(currentYear>=startYear&&currentYear<startYear+10);
+    return `<div class="dayun-row${isCur?' dayun-current':''}">
+      <div class="dayun-age">${lang==='en'?`Age ${birthAge}–${birthAge+9}`:`${birthAge}–${birthAge+9}岁`}<br><span style="font-size:9px;color:var(--text-dim)">${startYear}–${startYear+9}</span></div>
+      <div class="dayun-stems"><span class="${STEM_EL[d.stem]}">${STEMS[d.stem]}</span><span class="${BRANCH_EL[d.branch]}">${BRANCHES[d.branch]}</span></div>
+      <div class="dayun-desc">${getDayunDesc(d,c,lang)}</div>
+      ${isCur?`<div class="dayun-tag">${u.currentTag}</div>`:''}
+    </div>`;
+  }).join('');
+
+  // 内测模式：paywall全部隐藏，内容直接展示
+  ['pwCareer','pwWealth','pwRelations','pwDayun'].forEach(id=>{
+    document.getElementById(id).style.display='none';
+  });
+
+  document.getElementById('resultPanel').style.display='block';
+  document.getElementById('resultPanel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function getDayunDesc(d,c,l){
+  const el=STEM_EL[d.stem];
+  const dm=c.dayMaster;
+  const favorable={wood:['water','wood'],fire:['wood','fire'],earth:['fire','earth'],metal:['earth','metal'],water:['metal','water']};
+  const isFav=favorable[dm]?.includes(el);
+  if(l==='en'){
+    return isFav?'Favorable cycle — growth and opportunity':'Challenging cycle — consolidate and build resilience';
+  } else {
+    return isFav?'顺运——生长与机遇期':'逆运——沉淀与积累期';
+  }
+}
+
+function generateReadings(c){
+  const dm=c.dayMaster;
+  const el=c.elCount;
+  // Dominant element
+  const maxIdx=c.elCount.indexOf(Math.max(...c.elCount));
+  const elN=['wood','fire','earth','metal','water'];
+  const domEl=elN[maxIdx];
+  const isZh=lang==='zh';
+
+  // Nature reading based on day master + dominant element
+  const natureMap={
+    en:{
+      wood:`<p>Your Day Master is <strong>Wood (${c.dayStemName})</strong> — the force of growth, vision, and upward movement. You are built to expand, to reach toward light, to initiate. Where others see obstacles, you see the soil from which something can grow.</p><p>Your nature is fundamentally <em>idealistic and driven</em>. You carry a strong sense of direction — even when the path isn't clear, you feel the pull toward something larger than your current position. This can be a profound strength, but it requires that you learn to root as deeply as you reach. Trees that grow too fast without deep roots fall in strong wind.</p><p>The dominant ${domEl} energy in your chart adds a specific quality to how this manifests: ${getDomElNote(domEl,'en')}. Your chart suggests a person who thinks in long arcs, forms strong convictions, and leads by example more than by instruction.</p>`,
+      fire:`<p>Your Day Master is <strong>Fire (${c.dayStemName})</strong> — radiant, expressive, magnetic. You are the force that illuminates, that warms, that draws people naturally into your orbit. At your best, you light up every room you enter — not through performance, but through genuine presence.</p><p>Fire is the most social of the five elements. Your intelligence is intuitive and fast — you read people and situations in an instant, and you communicate in ways that move people emotionally. This is a rare gift. The shadow side is that fire burns itself out if it doesn't have fuel — you need renewal, solitude, and genuine connection to recharge.</p><p>The ${domEl} energy in your chart means ${getDomElNote(domEl,'en')}. Your chart points to someone who can inspire genuine loyalty and build things of lasting warmth — if you learn to pace yourself.</p>`,
+      earth:`<p>Your Day Master is <strong>Earth (${c.dayStemName})</strong> — steady, reliable, the center that holds. You are the person others return to when things fall apart. Your presence is stabilizing, your judgment grounded, your loyalty absolute once given.</p><p>Earth energy is fundamentally about <em>substance and continuity</em>. You build things that last — relationships, organizations, skills. You don't peak quickly and fade; you compound over time. Many of the most influential people in history carried strong Earth charts — they weren't the loudest in the room, but they were the ones still standing when the noise died down.</p><p>Your chart's ${domEl} emphasis means ${getDomElNote(domEl,'en')}. The counsel for Earth Day Masters is always the same: trust the pace. What feels slow is actually the deepest kind of accumulation.</p>`,
+      metal:`<p>Your Day Master is <strong>Metal (${c.dayStemName})</strong> — precise, principled, incisive. You have a natural talent for cutting through to the essential — in conversation, in analysis, in judgment. Where others see complexity, you identify the critical variable.</p><p>Metal is the element of standards and refinement. You hold yourself and others to a high bar, and your greatest work comes from following through on that standard with full commitment. You are not built for mediocrity — you feel it physically when something is done poorly, and you'd rather do nothing than do something badly.</p><p>The ${domEl} energy in your chart adds ${getDomElNote(domEl,'en')}. Metal Day Masters often find their stride later than others — the refinement process takes time — but what they build tends to be the most durable of all.</p>`,
+      water:`<p>Your Day Master is <strong>Water (${c.dayStemName})</strong> — fluid, perceptive, deep. You navigate complexity the way water does — by finding the path through, not by forcing. Your intelligence is associative and profound; you make connections others miss, and you understand things at a level that's difficult to explain.</p><p>Water is the most introspective of the five elements. Your inner life is rich, your intuitions often accurate, and your reading of human nature unusually precise. This gives you a natural advantage in any field that requires understanding people, systems, or hidden patterns.</p><p>The ${domEl} energy in your chart means ${getDomElNote(domEl,'en')}. Water people often appear calm on the surface while processing everything at extraordinary depth. The challenge: learning to trust your own perceptions enough to act on them decisively.</p>`,
+    },
+    zh:{
+      wood:`<p>你的日主是<strong>木（${c.dayStemName}）</strong>——代表生长、远见与向上的力量。你天生就是要扩展、要追光、要开创的那种人。别人看到障碍的地方，你看到的是可以生长的土壤。</p><p>你的天性从根本上是<em>理想主义与进取心并存</em>的。你有强烈的方向感——即使路还不清晰，你也能感受到某种比当下位置更大的召唤。这是极大的优势，但它要求你把根扎得和树梢一样深。长得太快而根不深的树，一场大风就能吹倒。</p><p>你命盘中${{'wood':'木','fire':'火','earth':'土','metal':'金','water':'水'}[domEl]||domEl}旺盛，${getDomElNote(domEl,'zh')}。你的命盘呈现出一个善于长远谋划、持有坚定信念、以身作则胜于言辞的人。</p>`,
+      fire:`<p>你的日主是<strong>火（${c.dayStemName}）</strong>——光芒四射、表达力强、天生具有磁场。你是那种照亮一切、温暖他人、让人自然地被你吸引的力量。在你最好的状态下，你走进任何地方都能让那个地方亮起来——不是靠表演，而是靠真实的存在感。</p><p>火是五行中最社交的元素。你的智识直觉而敏锐——你能在瞬间读懂人和局势，你的表达方式能在情感层面打动人。这是罕见的天赋。阴面是：火如果没有燃料就会燃尽——你需要更新、独处和真实的连接来恢复能量。</p><p>你命盘中${{'wood':'木','fire':'火','earth':'土','metal':'金','water':'水'}[domEl]||domEl}的能量意味着${getDomElNote(domEl,'zh')}。你的命盘指向一个能激发真实忠诚、建造长久温暖之物的人——前提是你学会控制节奏。</p>`,
+      earth:`<p>你的日主是<strong>土（${c.dayStemName}）</strong>——稳固、可靠，是那个把一切托住的中心。你是别人在事情崩塌时会回来找的那个人。你的存在让人心安，你的判断扎实，你的忠诚一旦给出就是真实的。</p><p>土的能量从根本上关乎<em>实质与持续</em>。你建造经得起时间的东西——关系、组织、技能。你不是那种快速爆发又快速消退的人，你随时间复利增长。历史上许多最有影响力的人都有强烈的土命格——他们不是房间里最响亮的声音，但当喧嚣散去，他们依然屹立。</p><p>你命盘中${{'wood':'木','fire':'火','earth':'土','metal':'金','water':'水'}[domEl]||domEl}的强调意味着${getDomElNote(domEl,'zh')}。土日主的建议永远只有一条：信任这个节奏。看起来慢的，其实是最深层的积累。</p>`,
+      metal:`<p>你的日主是<strong>金（${c.dayStemName}）</strong>——精准、有原则、切中要害。你天生善于切入本质——在交谈中、在分析中、在判断中。别人看到复杂性的地方，你能找到关键变量。</p><p>金是标准与精炼的元素。你对自己和他人都持有高标准，你最好的工作来自用全部承诺去执行这个标准。你不是为平庸而生的——当一件事做得不好，你能身体上感受到那种不适，你宁愿不做也不愿做糟。</p><p>你命盘中${{'wood':'木','fire':'火','earth':'土','metal':'金','water':'水'}[domEl]||domEl}的能量增添了${getDomElNote(domEl,'zh')}。金日主往往比别人晚一步找到自己的节奏——精炼的过程需要时间——但他们建造的东西往往是最经久不衰的。</p>`,
+      water:`<p>你的日主是<strong>水（${c.dayStemName}）</strong>——灵动、洞察力深、深不见底。你驾驭复杂性的方式就像水那样——不是强行突破，而是找到那条流过去的路。你的智识是联想式的、深邃的；你能找到别人错过的关联，你对事物的理解往往深到难以言说。</p><p>水是五行中最内省的元素。你的内心世界丰富，你的直觉往往准确，你对人性的读解精准得出奇。在任何需要理解人、系统或隐藏规律的领域，这都给了你天然的优势。</p><p>你命盘中${{'wood':'木','fire':'火','earth':'土','metal':'金','water':'水'}[domEl]||domEl}的能量意味着${getDomElNote(domEl,'zh')}。水命之人往往表面平静，内心却在以惊人的深度处理一切。挑战在于：学会足够信任自己的感知，从而果断地付诸行动。</p>`,
+    }
+  };
+
+  const careerMap={
+    en:{
+      wood:`<p>Wood Day Masters are built for leadership and pioneering work. Your career signature is the ability to <strong>initiate what others couldn't imagine starting</strong> — you see potential where others see risk, and you're willing to move before conditions are perfect.</p><p>Your most powerful professional periods come when you are building something genuinely new, or when you are in a role where your vision can shape direction. You underperform in rigid, hierarchical structures where initiative is punished and conformity rewarded. You need room to grow upward.</p>`,
+      fire:`<p>Fire Day Masters excel in roles that require communication, inspiration, and the ability to move people. Your career signature is <strong>influence through presence</strong> — your best work happens when you're in front of people, representing something, or communicating a vision.</p><p>You are built for leadership, but your leadership style is catalytic rather than controlling. You light fires in others rather than directing their every move. Fields like media, education, entrepreneurship, law, and any high-stakes communication role suit your chart well.</p>`,
+      earth:`<p>Earth Day Masters are the builders — the ones who make things last. Your career signature is <strong>sustained excellence over long time horizons</strong>. You don't make the most dramatic entrance, but you're the person the organization genuinely cannot function without.</p><p>You excel in roles where continuity, institutional memory, and reliability are valued. Management, finance, real estate, healthcare, and any field that rewards long-term thinking over short-term performance suits your chart. Your strongest asset: you can be trusted completely — and that is rarer than talent.</p>`,
+      metal:`<p>Metal Day Masters are built for precision and high standards. Your career signature is <strong>quality that becomes the benchmark</strong> — when you commit to something, you do it at a level others struggle to match.</p><p>You excel in law, finance, engineering, medicine, criticism, editing, or any field where precision and judgment are the core competency. You are not suited for low-accountability environments where standards slip — you'll either raise them or leave. Your chart suggests your greatest professional success comes in domains where your precision is recognized and rewarded.</p>`,
+      water:`<p>Water Day Masters are the strategists and perceivers. Your career signature is <strong>seeing what's coming before others do</strong> — your read on trends, people, and hidden dynamics is often accurate in ways that surprise even you.</p><p>You excel in roles that require strategic thinking, research, analysis, writing, or navigating complex human systems. Entrepreneurship, consulting, academia, intelligence, and any field that rewards deep pattern recognition suit your chart well. Your challenge: translating your perception into decisive action. You see the path clearly — the work is taking the first step.</p>`,
+    },
+    zh:{
+      wood:`<p>木日主天生适合领导与开拓性工作。你的职业特质是<strong>发起别人不敢想象的事</strong>——你在别人看到风险的地方看到潜力，你愿意在条件还不完美的时候就先动起来。</p><p>你最有力量的职业时期，是你在建造真正新的东西，或者处于一个你的远见可以影响方向的位置。在僵化的、层级森严的组织里你会表现失色——那种地方惩罚主动性、奖励从众。你需要向上生长的空间。</p>`,
+      fire:`<p>火日主在需要沟通、感召和打动人心的角色中如鱼得水。你的职业特质是<strong>以存在感影响他人</strong>——你在面对人群、代表某种东西或传递愿景时，工作状态最佳。</p><p>你天生适合领导，但你的领导风格是催化式的，而非掌控式的——你在别人心里点燃火，而不是指挥他们的每一步。媒体、教育、创业、法律和任何高风险沟通类角色都适合你的命盘。</p>`,
+      earth:`<p>土日主是建造者——是让事情经久不衰的那种人。你的职业特质是<strong>在漫长的时间跨度里持续卓越</strong>。你不会制造最戏剧性的入场，但你是组织真正离不开的那个人。</p><p>你在连续性、机构记忆和可靠性被高度重视的角色中表现出色。管理、金融、房地产、医疗，以及任何奖励长期思维而非短期表现的领域都适合你。你最强大的资产：你可以被完全信任——而这比才华更稀有。</p>`,
+      metal:`<p>金日主天生适合精准和高标准的工作。你的职业特质是<strong>把质量做成基准</strong>——当你认真投入一件事，你能做到别人难以企及的水准。</p><p>法律、金融、工程、医学、评论、编辑，以及任何以精准和判断力为核心竞争力的领域都适合你。你不适合低问责环境——在那里你要么提高标准，要么离开。你的命盘显示，当你的精准度被认可和奖励时，你的职业成就最为突出。</p>`,
+      water:`<p>水日主是战略家和洞察者。你的职业特质是<strong>在别人看见之前就看见它</strong>——你对趋势、人和隐藏动态的判断往往准确得连你自己都会惊讶。</p><p>战略思考、研究、分析、写作，或驾驭复杂人际系统的角色都适合你。创业、咨询、学术、情报分析，以及任何奖励深度模式识别的领域都符合你的命盘。你的挑战是：把感知转化为果断行动。你能清楚地看见路——难的是迈出第一步。</p>`,
+    }
+  };
+
+  const isZ=lang==='zh';
+  document.getElementById('readNature').innerHTML=(isZ?natureMap.zh:natureMap.en)[dm]||'<p>Reading generating...</p>';
+  document.getElementById('readCareer').innerHTML=(isZ?careerMap.zh:careerMap.en)[dm]||'<p>Reading generating...</p>';
+  document.getElementById('readWealth').innerHTML=isZ
+    ?`<p>你命盘的财运格局由你日柱天干（${c.dayStemName}）与命盘整体五行平衡共同决定。${getWealthNote(c,true)}</p>`
+    :`<p>Your wealth pattern is determined by the interaction between your Day Master (${c.dayStemName}) and the overall elemental balance of your chart. ${getWealthNote(c,false)}</p>`;
+  document.getElementById('readRelations').innerHTML=isZ
+    ?`<p>你命盘中的感情与婚姻格局，由日柱（${c.dayStemName}）的属性与配偶宫的五行能量共同揭示。${getRelationNote(c,true)}</p>`
+    :`<p>Your relationship pattern emerges from the interaction of your Day Master (${c.dayStemName}) and the spousal palace elements in your chart. ${getRelationNote(c,false)}</p>`;
+}
+
+function getDomElNote(el,l){
+  const n={
+    en:{wood:'you tend to think in long timelines and initiate things naturally',fire:'you communicate and influence with unusual ease',earth:'you build consensus and stability naturally',metal:'you hold high standards and cut through to essentials',water:'you perceive deeply and navigate complexity intuitively'},
+    zh:{wood:'你倾向于以长远眼光思考，天然地推动事情的发生',fire:'你沟通和影响他人的能力天生出众',earth:'你自然而然地构建共识和稳定',metal:'你持有高标准，善于切入本质',water:'你感知深入，直觉地驾驭复杂性'}
+  };
+  return (l==='zh'?n.zh:n.en)[el]||'';
+}
+
+function getWealthNote(c,isZh){
+  const strong=c.elCount[c.elCount.indexOf(Math.max(...c.elCount))];
+  return isZh
+    ?'你的财运格局显示出稳健积累的倾向——财富更多来自专业能力和长期建构，而非短期投机。命盘中五行的平衡程度直接影响财运的稳定性。'
+    :'Your chart shows a tendency toward steady accumulation — wealth coming primarily through professional mastery and long-term building rather than speculation. The elemental balance in your chart directly affects the stability of your financial life.';
+}
+
+function getRelationNote(c,isZh){
+  return isZh
+    ?'你对关系的投入是深度的，但不一定是频繁的。你建立的连接质量高、持久，但需要时间才能真正打开。命盘显示你最深的关系是在共同经历压力或挑战之后建立的，而不是在顺境中。'
+    :"Your relational investment is deep but not always constant. The connections you build are high quality and durable, but require time to genuinely open. Your chart suggests your deepest relationships are forged through shared difficulty rather than ease.";
+}
+
+function showRTab(name){
+  document.querySelectorAll('.rtab-content').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.rtab').forEach(e=>e.classList.remove('active'));
+  document.getElementById('rt-'+name).classList.add('active');
+  const ids={nature:'rtNature',career:'rtCareer',wealth:'rtWealth',relations:'rtRelations',dayun:'rtDayun'};
+  document.getElementById(ids[name]).classList.add('active');
+}
+
+function resetForm(){
+  document.getElementById('resultPanel').style.display='none';
+  document.getElementById('aiOutput').style.display='none';
+  document.getElementById('aiQ').value='';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── AI READING ──────────────────────────────────
+const DEEPSEEK_KEY='sk-c600e50c1c16467a9932b9d5e6307fed';
+
+function buildFreePreview(c){
+  const isZh=lang==='zh';
+  const dm=c.dayMaster;
+  const elNames={en:['Wood','Fire','Earth','Metal','Water'],zh:['木','火','土','金','水']};
+  const elIdx=['wood','fire','earth','metal','water'].indexOf(dm);
+  const domElIdx=c.elCount.indexOf(Math.max(...c.elCount));
+  const weakIdx=c.elCount.indexOf(Math.min(...c.elCount));
+  const q=document.getElementById('aiQ').value.toLowerCase();
+
+  // ── 问题分类关键词 ──
+  const isCareer=q.includes('career')||q.includes('job')||q.includes('business')||q.includes('promotion')||q.includes('work')||
+                 q.includes('工作')||q.includes('事业')||q.includes('创业')||q.includes('升职')||q.includes('职场')||q.includes('求职');
+  const isLove=q.includes('love')||q.includes('relation')||q.includes('marriage')||q.includes('partner')||q.includes('boyfriend')||q.includes('girlfriend')||q.includes('husband')||q.includes('wife')||
+               q.includes('感情')||q.includes('婚姻')||q.includes('恋')||q.includes('对象')||q.includes('男友')||q.includes('女友')||q.includes('另一半')||q.includes('爱情')||q.includes('脱单');
+  const isMoney=q.includes('money')||q.includes('wealth')||q.includes('invest')||q.includes('financial')||q.includes('income')||q.includes('salary')||q.includes('rich')||
+                q.includes('钱')||q.includes('财')||q.includes('投资')||q.includes('收入')||q.includes('薪资')||q.includes('工资')||q.includes('存款')||q.includes('理财')||q.includes('赚');
+  const isHealth=q.includes('health')||q.includes('body')||q.includes('illness')||q.includes('sick')||q.includes('disease')||q.includes('pain')||q.includes('medical')||q.includes('hospital')||q.includes('sleep')||q.includes('weight')||
+                 q.includes('健康')||q.includes('身体')||q.includes('生病')||q.includes('疾病')||q.includes('医')||q.includes('疼')||q.includes('痛')||q.includes('睡眠')||q.includes('失眠')||q.includes('肠胃')||q.includes('心脏')||q.includes('血压')||q.includes('养生')||q.includes('注意什么');
+  const isFamily=q.includes('family')||q.includes('parent')||q.includes('child')||q.includes('kid')||q.includes('son')||q.includes('daughter')||q.includes('mother')||q.includes('father')||q.includes('sibling')||
+                 q.includes('家庭')||q.includes('父母')||q.includes('孩子')||q.includes('子女')||q.includes('儿子')||q.includes('女儿')||q.includes('父亲')||q.includes('母亲')||q.includes('家人')||q.includes('婆媳')||q.includes('亲子');
+  const isStudy=q.includes('study')||q.includes('exam')||q.includes('school')||q.includes('college')||q.includes('university')||q.includes('academic')||q.includes('learn')||
+                q.includes('学业')||q.includes('考试')||q.includes('升学')||q.includes('读书')||q.includes('高考')||q.includes('考研')||q.includes('留学')||q.includes('学习');
+  const isLuck=q.includes('luck')||q.includes('fortune')||q.includes('fate')||q.includes('destiny')||q.includes('year')||q.includes('overall')||
+               q.includes('运势')||q.includes('今年')||q.includes('运气')||q.includes('流年')||q.includes('整体')||q.includes('大运')||q.includes('命运')||q.includes('未来');
+
+  // ── 五行对应身体部位 ──
+  const healthMap={
+    zh:['肝胆、筋骨、眼睛','心脏、血液、小肠','脾胃、消化系统','肺部、皮肤、大肠','肾脏、骨骼、泌尿系统'],
+    en:['liver, gallbladder & eyes','heart, blood & circulation','spleen, stomach & digestion','lungs, skin & large intestine','kidneys, bones & urinary system']
+  };
+  // 最弱五行对应的身体警示
+  const weakHealthZh=healthMap.zh[weakIdx];
+  const weakHealthEn=healthMap.en[weakIdx];
+  // 日主五行对应的身体基础
+  const dmHealthZh=healthMap.zh[elIdx];
+  const dmHealthEn=healthMap.en[elIdx];
+
+  if(isZh){
+    let main='';
+    if(isHealth){
+      main=`从命盘来看，你的日主${c.dayStemName}（${elNames.zh[elIdx]}）主掌的身体部位是<strong style="color:var(--gold)">${dmHealthZh}</strong>，这是你体质上天然需要关注的方向。命盘中${elNames.zh[weakIdx]}最弱，对应${elNames.zh[weakIdx]}所管辖的<strong style="color:var(--gold)">${weakHealthZh}</strong>，是最容易出现隐患的区域，日常保养不能忽视。${domElIdx===weakIdx?'当前整体气场偏弱，建议避免过度劳累，以养为主。':'整体五行尚算平衡，但旺盛的'+elNames.zh[domElIdx]+'气可能带来相应脏腑的过热或紧张反应，需注意疏泄。'}`;
+    }
+    else if(isFamily){
+      main=`命盘中，日主${c.dayStemName}（${elNames.zh[elIdx]}）与六亲宫位的关系透露出你在家庭中的角色：你往往是<strong style="color:var(--gold)">承担多、说得少</strong>的那一个。五行分布显示，${elNames.zh[domElIdx]}旺，家庭关系中你的影响力是有的，但${domElIdx===elIdx?'如何不让这种影响力变成压力，是需要拿捏的':'目前有一股外力在影响家庭格局，适合静观而非强行推动'}。`;
+    }
+    else if(isStudy){
+      main=`你的日主${c.dayStemName}（${elNames.zh[elIdx]}）在学业上的特质是<strong style="color:var(--gold)">${elIdx===0?'逻辑清晰、善于独立思考':elIdx===1?'思维活跃、理解力强但需克服浮躁':elIdx===2?'基础扎实、适合需要积累的学科':elIdx===3?'精确严谨、适合技术性或理工类方向':'记忆力好、善于归纳整理'}</strong>。命盘中五行的分布提示，当前学业运${domElIdx===elIdx?'处于顺利期，专注则必有收获':'有一定压力，但压力正在转化为动力，坚持比策略更重要'}。`;
+    }
+    else if(isLuck){
+      main=`命盘水旺，你自然而然地构建共识和稳定。你的命盘呈现出一个善于长远谋划、持有坚定信念、以身作则胜于言辞的人。当前大运来看，${elNames.zh[domElIdx]}势主导，这一阶段<strong style="color:var(--gold)">${domElIdx===elIdx?'整体顺遂，是积累和布局的好时机':'需要经历一定的磨合与调整，但调整过后会迎来更稳定的上升'}。</strong>`;
+    }
+    else if(isCareer) main=`你的日主${c.dayStemName}（${elNames.zh[elIdx]}）在事业上给出一个清晰的信号：你的核心优势不在于执行别人的计划，而在于<strong style="color:var(--gold)">构建自己的方向</strong>。命盘中五行的分布显示，你目前处于一个${domElIdx===elIdx?'与日主相合的顺运期，行动的阻力较小':'需要克服某些阻力的调整期，但这种阻力本身是在帮你积累真正有价值的东西'}。`;
+    else if(isLove) main=`你的日主${c.dayStemName}（${elNames.zh[elIdx]}）在感情上的特质是：投入深而不轻易表达。命盘显示你对关系的判断往往准确，但你倾向于<strong style="color:var(--gold)">等对方先动</strong>。这在某些时候是智慧，但在某些时候是你错过连接的原因。`;
+    else if(isMoney) main=`你的日主${c.dayStemName}（${elNames.zh[elIdx]}）的财运格局是<strong style="color:var(--gold)">稳健积累型</strong>——不是靠一次爆发，而是靠持续的专业建树和正确的时机判断。命盘中最旺的元素是${elNames.zh[domElIdx]}，这对你的财运${domElIdx===elIdx||domElIdx===(elIdx+1)%5?'是正向加持':'提示要注意某些消耗点'}。`;
+    else main=`你的日主${c.dayStemName}（${elNames.zh[elIdx]}）是你整张命盘的核心。五行分布显示你的优势集中在${elNames.zh[domElIdx]}的领域，这意味着${getDomElNote(elNames.en[domElIdx].toLowerCase(),'zh')}。你的命盘整体呈现出一个<strong style="color:var(--gold)">有长期潜力、需要找到正确释放通道</strong>的人。`;
+
+    return main+`\n\n———\n\n<em>完整解读将深入分析：你的用神（对你最有利的五行元素）、当前大运对你具体问题的影响、以及最有利于你行动的时间窗口。</em>`;
+
+  } else {
+    let main='';
+    if(isHealth){
+      main=`Your Day Master ${c.dayStemName} (${elNames.en[elIdx]}) governs <strong style="color:var(--gold)">${dmHealthEn}</strong> — these are the body systems that define your baseline constitution and deserve consistent attention. The weakest element in your chart is ${elNames.en[weakIdx]}, which corresponds to <strong style="color:var(--gold)">${weakHealthEn}</strong> — the area most prone to imbalance over time. ${domElIdx===weakIdx?'Your overall vitality needs support right now — rest and recovery should take priority over pushing through.':'Your overall balance is relatively stable, but the dominant '+elNames.en[domElIdx]+' energy can create excess tension in the corresponding organ system — releasing that buildup matters.'}`;
+    }
+    else if(isFamily){
+      main=`Your Day Master ${c.dayStemName} (${elNames.en[elIdx]}) in the context of family reveals a consistent pattern: you tend to be the one who <strong style="color:var(--gold)">carries more than you say</strong>. The dominant ${elNames.en[domElIdx]} in your chart gives you real influence within the family dynamic — the question is ${domElIdx===elIdx?'whether that influence creates connection or pressure':'whether an outside force is currently shifting the family balance, suggesting patience over force'}.`;
+    }
+    else if(isStudy){
+      main=`Your Day Master ${c.dayStemName} (${elNames.en[elIdx]}) brings a natural academic strength in <strong style="color:var(--gold)">${elIdx===0?'logical thinking and independent inquiry':elIdx===1?'quick comprehension — though restlessness can undercut it':elIdx===2?'steady foundation-building, ideal for cumulative subjects':elIdx===3?'precision and analytical rigor, suited for technical fields':'strong memory and systematic organization'}</strong>. Your current elemental cycle suggests this period is ${domElIdx===elIdx?'genuinely favorable — focused effort will compound':'asking more of you than usual — but consistency here outweighs strategy'}.`;
+    }
+    else if(isLuck){
+      main=`Your chart's overall pattern shows someone built for <strong style="color:var(--gold)">long-horizon thinking</strong> — steady, principled, more effective through example than argument. The dominant ${elNames.en[domElIdx]} energy in your current cycle suggests this period is ${domElIdx===elIdx?'aligned and relatively friction-free — a good window to plant and position':'asking for adjustment and recalibration — the turbulence is temporary and the upswing follows'}.`;
+    }
+    else if(isCareer) main=`Your Day Master ${c.dayStemName} (${elNames.en[elIdx]}) gives a clear signal on career: your core advantage isn't in executing other people's plans — it's in <strong style="color:var(--gold)">building your own direction</strong>. The elemental balance in your chart suggests you're currently in a ${domElIdx===elIdx?'favorable cycle aligned with your Day Master — resistance is lower than usual':'cycle that requires navigating some friction — but that friction is building something genuinely valuable'}.`;
+    else if(isLove) main=`Your Day Master ${c.dayStemName} (${elNames.en[elIdx]}) in relationships: you invest deeply but rarely show it easily. Your chart suggests your read on people is usually accurate — but you tend to <strong style="color:var(--gold)">wait for the other person to move first</strong>. Sometimes that's wisdom. Sometimes that's why you miss the connection.`;
+    else if(isMoney) main=`Your Day Master ${c.dayStemName} (${elNames.en[elIdx]}) shows a <strong style="color:var(--gold)">steady accumulation pattern</strong> — wealth through consistent professional mastery and well-timed decisions, not through a single breakthrough. Your dominant element (${elNames.en[domElIdx]}) ${domElIdx===elIdx||domElIdx===(elIdx+1)%5?'supports your wealth potential':'points to some areas of leakage worth examining'}.`;
+    else main=`Your Day Master ${c.dayStemName} (${elNames.en[elIdx]}) is the core of your chart. The elemental balance concentrates your strengths in the domain of ${elNames.en[domElIdx]} — meaning ${getDomElNote(elNames.en[domElIdx].toLowerCase(),'en')}. Your chart overall presents someone with <strong style="color:var(--gold)">significant long-term potential that needs the right channel</strong>.`;
+
+    return main+`\n\n———\n\n<em>The full reading goes deeper: your favorable element (the specific force that amplifies your chart), how your current Great Cycle affects your specific question, and the precise timing windows most favorable for you to act.</em>`;
+  }
+}
+
+// ── 八字 AI 引导式问卦 ──
+var BZ_TOPICS=[
+  {key:'career',icon:'💼',en:'Career & Money',zh:'事业财运',
+   quick:{en:['Should I change jobs?','Starting / growing a business','Career feels stuck','A financial decision','Work conflict','A specific opportunity'],zh:['考虑换工作','创业或扩张生意','事业遇到瓶颈','财务决策','职场冲突','一个具体机会']},
+   industry:{en:['Technology / Software','Finance & Banking','Healthcare','Education','Creative & Arts','Business & Sales','Legal & Government','Engineering','Other'],
+             zh:['科技/互联网','金融/银行','医疗/健康','教育','创意/艺术','商业/销售','法律/政府','工程/制造','其他']}},
+  {key:'love',icon:'💫',en:'Love & Relationships',zh:'感情婚姻',
+   quick:{en:['Am I with the right person?','When will I meet someone?','Relationship conflict','Marriage timing','Divorce or separation','Long-distance'],zh:['这段感情对不对','何时能遇到对的人','感情冲突','婚姻时机','离婚或分手','异地恋']},industry:null},
+  {key:'family',icon:'🏠',en:'Family & Home',zh:'家庭子女',
+   quick:{en:['Relationship with parents','Raising children','Family conflict','Moving or relocation','Fertility & children'],zh:['与父母的关系','子女教育','家庭矛盾','搬家或移居','生育子女']},industry:null},
+  {key:'health',icon:'✨',en:'Health & Vitality',zh:'健康体质',
+   quick:{en:['Low energy / chronic fatigue','Stress & anxiety','A specific health concern','Mental wellbeing','Lifestyle change'],zh:['精力不足/疲劳','压力与焦虑','具体健康问题','心理健康','生活方式改变']},industry:null},
+  {key:'fortune',icon:'⭐',en:'Overall Fortune',zh:'整体运势',
+   quick:{en:['What to focus on this year?','A major life decision','I feel stuck — what next?','Is now the right time to act?'],zh:['今年应专注什么','面临重大抉择','感到迷茫，下一步','现在是行动好时机吗']},industry:null},
+  {key:'purpose',icon:'🌟',en:'Inner Life & Purpose',zh:'内心使命',
+   quick:{en:['What is my life purpose?','I feel lost or directionless','A recurring pattern I can\'t break','What am I here to do?'],zh:['我的人生使命','感到迷失','反复出现的问题','我来这世上为了什么']},industry:null}
+];
+var bzCurrentTopic=null;
+
+function initBzTopics(){
+  var wrap=document.getElementById('bz-topics');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  var isZh=lang==='zh';
+  BZ_TOPICS.forEach(function(t){
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.style.cssText='padding:12px 8px;background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all .2s;text-align:center;font-family:inherit;border-radius:3px;';
+    btn.innerHTML='<div style="font-size:24px;margin-bottom:6px;">'+t.icon+'</div><div style="font-size:21px;color:var(--text);font-family:var(--serif);">'+(isZh?t.zh:t.en)+'</div>';
+    if(bzCurrentTopic===t.key){btn.style.borderColor='var(--gold)';btn.style.background='rgba(201,168,76,.1)';}
+    btn.onmouseover=function(){if(bzCurrentTopic!==t.key){this.style.borderColor='var(--gold-dim)';this.style.background='rgba(201,168,76,.05)';}};
+    btn.onmouseout=function(){if(bzCurrentTopic!==t.key){this.style.borderColor='var(--border)';this.style.background='rgba(255,255,255,.03)';}};
+    btn.onclick=function(){selectBzTopic(t.key);};
+    wrap.appendChild(btn);
+  });
+}
+
+function selectBzTopic(key){
+  bzCurrentTopic=key;
+  initBzTopics();
+  var isZh=lang==='zh';
+  var t=BZ_TOPICS.find(function(x){return x.key===key;});
+  if(!t)return;
+
+  // 快速选项
+  var qgrid=document.getElementById('bz-quick-grid');
+  var quickOpts=isZh?t.quick.zh:t.quick.en;
+  qgrid.innerHTML='';
+  document.getElementById('bz-quick-val').value='';
+
+  quickOpts.forEach(function(opt){
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.textContent=opt;
+    btn.style.cssText='padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--text-dim);font-family:inherit;font-size:21px;line-height:1.4;cursor:pointer;text-align:left;transition:all .2s;border-radius:3px;';
+    btn.onmouseover=function(){if(!this.classList.contains('sel')){this.style.borderColor='var(--gold-dim)';this.style.background='rgba(201,168,76,.05)';}};
+    btn.onmouseout=function(){if(!this.classList.contains('sel')){this.style.borderColor='var(--border)';this.style.background='rgba(255,255,255,.03)';}};
+    btn.onclick=function(){
+      qgrid.querySelectorAll('button').forEach(function(b){b.classList.remove('sel');b.style.borderColor='var(--border)';b.style.background='rgba(255,255,255,.03)';b.style.color='var(--text-dim)';});
+      this.classList.add('sel');this.style.borderColor='var(--gold)';this.style.background='rgba(201,168,76,.1)';this.style.color='var(--gold)';
+      document.getElementById('bz-quick-val').value=this.textContent;
+    };
+    qgrid.appendChild(btn);
+  });
+  var elseBtn=document.createElement('button');
+  elseBtn.type='button';elseBtn.textContent=isZh?'其他情况…':'Something else…';
+  elseBtn.style.cssText='padding:10px 12px;background:rgba(255,255,255,.02);border:1px dashed var(--border);color:var(--text-dim);font-family:inherit;font-size:21px;cursor:pointer;text-align:left;border-radius:3px;';
+  elseBtn.onclick=function(){document.getElementById('aiQ').focus();};
+  qgrid.appendChild(elseBtn);
+
+  // 行业下拉（仅career）
+  var indWrap=document.getElementById('bz-industry-wrap');
+  var indSel=document.getElementById('bz-industry');
+  if(t.industry&&t.key==='career'){
+    var inds=isZh?t.industry.zh:t.industry.en;
+    indSel.style.background='#0a0a14';
+indSel.style.color='#E8D5A3';
+indSel.innerHTML='<option value="" style="background:#0a0a14;color:#E8D5A3;">'+(isZh?'选择行业（选填）':'Select industry (optional)')+'</option>'+inds.map(function(i){return '<option style="background:#0a0a14;color:#E8D5A3;">'+i+'</option>';}).join('');
+    indWrap.style.display='block';
+  }else{indWrap.style.display='none';indSel.innerHTML='';}
+
+  document.getElementById('bz-step2').style.display='block';
+  document.getElementById('bz-step2').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function resetBzTopic(){
+  bzCurrentTopic=null;
+  document.getElementById('bz-step2').style.display='none';
+  document.getElementById('bz-quick-val').value='';
+  document.getElementById('aiQ').value='';
+  initBzTopics();
+}
+
+async function getBaziAI(isPaid){
+  const q=document.getElementById('aiQ').value.trim();
+  // 有快速选项或文字任意一个即可
+  if(!q && !document.getElementById('bz-quick-val')?.value?.trim()){
+    alert(lang==='en'?'Please select a topic or enter your question.':'请选择一个方向或输入问题。');
+    return;
+  }
+  if(!currentChart){ return; }
+
+  const loadEl=document.getElementById('aiLoading');
+  const outEl=document.getElementById('aiOutput');
+  const outTxt=document.getElementById('aiOutText');
+  const upEl=document.getElementById('aiUpgrade');
+  const isZh=lang==='zh';
+
+  loadEl.style.display='block';
+  outEl.style.display='none';
+
+  if(!isPaid){
+    const c=currentChart;
+    const _elNames=['Wood','Fire','Earth','Metal','Water'];
+    const _elNamesZh=['木','火','土','金','水'];
+    const _dmIdx=['wood','fire','earth','metal','water'].indexOf(c.dayMaster);
+    const _elBal=c.elCount.map((n,i)=>`${isZh?_elNamesZh[i]:_elNames[i]}:${n}`).join(', ');
+    const _dayun=c.dayuns.find(d=>d.isCurrent)||c.dayuns[0];
+
+    const freeSys=isZh
+      ?`你是八字命理大师，服务过无数商界精英和决策者。根据命盘数据和提问，写一段让人感到"说中了"的【命盘解读预览】，风格：温暖、有洞察力、像一个见过世面的智者在说话。今天是${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日，只谈现在和未来。严格要求：①第一句就切入这个命盘最独特的核心特质，具体到天干地支层面，不能是任何人都适用的套话；②直接回应用户的具体问题，说出命盘在这个方向上给出的最重要信号——是窗口机会、结构性障碍还是需要警惕的隐患；③最后一句制造真实悬念——暗示用神（命局最需要的元素）和关键时间节点还未揭示；④绝对不出现"付费""购买""解锁"等字眼；⑤全文110-140字，每一个字都要有重量。`
+      :`You are a Ba Zi analyst trusted by executives, investors, and high-performers who need more than surface-level insight. Your audience is intelligent, skeptical, and time-poor. Write a chart preview that earns their attention immediately. Today is ${new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"})}. Speak only of present and future. Requirements: ①Open with the single most specific and distinctive quality of THIS chart — tied directly to the Day Master and elemental configuration, not a generic archetype. ②Address their exact question with the most critical signal the chart reveals — name whether this is a structural opportunity, timing window, or a risk pattern they need to understand. ③Close with genuine suspense: reference that the favorable element (yong shen) and precise upcoming timing windows have not yet been surfaced. ④No references to payment or unlocking. ⑤90-120 words. Every sentence must earn its place.`;
+
+    const freeUsr=isZh
+      ?`命主：${c.name}，${c.gender==='M'?'男':'女'}，${c.year}年${c.month}月${c.day}日生\n日主：${c.dayStemName}（${_elNamesZh[_dmIdx]}）\n四柱：${c.pillars.map(p=>STEMS[p.s]+BRANCHES[p.b]).join(' ')}\n五行分布：${_elBal}\n当前大运：${STEMS[_dayun.stem]}${BRANCHES[_dayun.branch]}（约${_dayun.age}岁起）\n问题：${q}`
+      :`Name: ${c.name}, ${c.gender==='M'?'Male':'Female'}, born ${c.year}/${c.month}/${c.day}\nDay Master: ${c.dayStemName} (${_elNames[_dmIdx]})\nFour Pillars: ${c.pillars.map(p=>STEMS[p.s]+BRANCHES[p.b]).join(' ')}\nElement balance: ${_elBal}\nCurrent Great Cycle: ${STEMS[_dayun.stem]}${BRANCHES[_dayun.branch]} (from age ${_dayun.age})\nQuestion: ${q}`;
+
+    try{
+      const resp=await fetch('https://api.deepseek.com/chat/completions',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':`Bearer ${DEEPSEEK_KEY}`},
+        body:JSON.stringify({model:'deepseek-chat',messages:[{role:'system',content:freeSys},{role:'user',content:freeUsr}],max_tokens:250,temperature:0.75})
+      });
+      const data=await resp.json();
+      const txt=data.choices?.[0]?.message?.content||(isZh?'解读生成失败，请重试。':'Reading failed. Please try again.');
+      loadEl.style.display='none';
+      outTxt.innerHTML=`<span style="color:var(--gold);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;">${isZh?'命盘解读预览':'CHART PREVIEW'}</span><br><br>`+txt.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold)">$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
+      document.getElementById('aiUpgradeNote').innerHTML=isZh
+        ?'<span style="color:var(--gold-dim)">↑ 这是命盘预览。</span> 完整解读包含：用神分析、当前大运详解、未来12-18个月关键时间节点、以及针对你具体问题的深度建议。'
+        :'<span style="color:var(--gold-dim)">↑ This is your chart preview.</span> The full reading includes: favorable element analysis, detailed Great Cycle interpretation, key timing windows for the next 12–18 months, and deep counsel on your specific question.';
+      upEl.style.display='block';
+      outEl.style.display='block';
+      outEl.scrollIntoView({behavior:'smooth',block:'start'});
+    }catch(e){
+      loadEl.style.display='none';
+      const preview=buildFreePreview(currentChart);
+      outTxt.innerHTML=preview.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold)">$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
+      document.getElementById('aiUpgradeNote').textContent=UI[lang].aiUpgradeNote;
+      upEl.style.display='block';
+      outEl.style.display='block';
+      outEl.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    return;
+  }
+
+  const c=currentChart;
+  const elNames=['Wood','Fire','Earth','Metal','Water'];
+  const elNamesZh=['木','火','土','金','水'];
+  const dmIdx=['wood','fire','earth','metal','water'].indexOf(c.dayMaster);
+
+  const sys=isZh
+    ?`你是中国传统八字命理大师，精通四柱命理、大运流年、用神分析、六亲宫位、格局判断。你的客户是商界精英、高管和需要做重大决策的人——他们的问题是真实的，你的解读必须真正有用。【重要时间规则】今天是${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日，所有流年分析必须从今天往后，绝对不提已过去的年份。解读结构（严格按此顺序）：\n①【命局核心判断】：这个命盘对所问方向的根本性判断，2-3句，要有具体的天干地支依据，不说套话；\n②【当前大运解析】：当前大运与所问方向的关系——是助力还是阻力，为什么；\n③【具体行动建议】：基于命局和大运，给出2-3条可以立即执行的具体建议，不是泛泛的"要努力"；\n④【关键时间节点】：未来12-18个月内，哪些月份最值得关注或行动（只说未来）；\n⑤【一句话定论】：最后一句提炼核心，要让人记住。\n特别指令：若问健康，结合日主五行对应脏腑与弱势五行风险区域给出实质养生建议。语气：像你见过大风大浪的私人顾问，温暖、直接、有分量，绝不说废话。全文380-420字。`
+    :`You are a Ba Zi master analyst. Your clients are executives, investors, and high-performers who face real decisions and need actionable intelligence — not mystical filler. They are intelligent, skeptical, and will know immediately if your reading is generic. CRITICAL TIME RULE: Today is ${new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"})}. Every timing reference must be forward-looking — upcoming months, next year, years ahead. Never reference a year already past. Deliver the reading in this structure:\n①CHART VERDICT: The chart's fundamental verdict on their specific question — 2-3 sentences grounded in the actual Day Master and elemental configuration. Make a clear call.\n②GREAT CYCLE CONTEXT: How the current Great Cycle (Da Yun) amplifies or complicates the situation they're asking about.\n③CONCRETE COUNSEL: 2-3 specific, actionable recommendations they can act on — not "work hard" generalities. What exactly should they do or avoid, and why does the chart support this?\n④TIMING WINDOWS: Within the next 12-18 months, which specific months or seasons are most favorable or require caution for their question. Forward only.\n⑤ONE-LINE VERDICT: A single closing sentence they'll remember — the essence of what this chart says about their situation.\nSpecial instruction: If the question concerns health, connect the Day Master's organ systems with the weakest element's risk areas and provide substantive, practical wellness guidance.\nTone: The most trusted advisor they've ever had — warm, direct, substantive, and precise. No mystical padding. 380-420 words.`;
+
+  const elBalance=c.elCount.map((n,i)=>`${isZh?elNamesZh[i]:elNames[i]}:${n}`).join(', ');
+  const curDayun=c.dayuns.find(d=>d.isCurrent)||c.dayuns[0];
+
+  const usr=isZh
+    ?`命主信息：${c.name}，${c.gender==='M'?'男':'女'}命，${c.year}年${c.month}月${c.day}日生
+日主：${c.dayStemName}（${elNamesZh[dmIdx]}）
+四柱：${c.pillars.map(p=>STEMS[p.s]+BRANCHES[p.b]).join(' ')}
+五行：${elBalance}
+当前大运：${STEMS[curDayun.stem]}${BRANCHES[curDayun.branch]}（约${curDayun.age}岁起）
+
+命主的问题：${q}
+
+请直接针对这个人的具体处境和问题作答，不要泛泛解释八字知识。`
+    :`Subject: ${c.name}, ${c.gender==='M'?'Male':'Female'}, born ${c.year}/${c.month}/${c.day}
+Day Master: ${c.dayStemName} (${elNames[dmIdx]})
+Four Pillars: ${c.pillars.map(p=>STEMS[p.s]+BRANCHES[p.b]).join(' ')}
+Element balance: ${elBalance}
+Current Great Cycle: ${STEMS[curDayun.stem]}${BRANCHES[curDayun.branch]} (approx. age ${curDayun.age}+)
+
+Their specific question: ${q}
+
+Address their actual question directly. Don't explain Ba Zi theory — give the reading.`;
+
+  try{
+    await new Promise(r=>setTimeout(r,7000));
+    const resp=await fetch('https://api.deepseek.com/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${DEEPSEEK_KEY}`},
+      body:JSON.stringify({model:'deepseek-chat',messages:[{role:'system',content:sys},{role:'user',content:usr}],max_tokens:900,temperature:0.72})
+    });
+    const data=await resp.json();
+    const txt=data.choices?.[0]?.message?.content||(isZh?'解读生成失败，请重试。':'Reading failed. Please try again.');
+    loadEl.style.display='none';
+    outTxt.innerHTML=txt.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold)">$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
+    upEl.style.display='none';
+    outEl.style.display='block';
+    outEl.scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(e){
+    loadEl.style.display='none';
+    outTxt.textContent=isZh?'网络错误，请稍后重试。':'Network error. Please try again.';
+    upEl.style.display='none';
+    outEl.style.display='block';
+  }
+}
+</script>
+
+<!-- Contact Section -->
+<div id="contact-section" style="display:none;max-width:720px;margin:0 auto;padding:0 24px 60px;">
+  <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:48px;">
+    <div style="text-align:center;margin-bottom:36px;">
+      <div style="font-size:21px;letter-spacing:.25em;text-transform:uppercase;color:#C9A84C;margin-bottom:14px;">Contact & Consultation</div>
+      <div style="font-family:'Playfair Display',serif;font-size:30px;color:#F5F0FF;margin-bottom:12px;">Get in Touch</div>
+      <p style="font-size:21px;color:#8878AA;font-style:italic;line-height:1.8;">Private BaZi consultations, collaborations, or questions —<br>we respond within 24 hours.</p>
+    </div>
+    <form id="bazi-contact-form" onsubmit="submitBaziContact(event)" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);padding:32px;border-radius:4px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div>
+          <label style="display:block;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;">Your Name</label>
+          <input type="text" name="name" required placeholder="Name" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);padding:12px 14px;color:#F5F0FF;font-size:24px;outline:none;border-radius:2px;font-family:inherit;" onfocus="this.style.borderColor='#7A6030'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+        </div>
+        <div>
+          <label style="display:block;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;">Your Email</label>
+          <input type="email" name="email" required placeholder="email@example.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);padding:12px 14px;color:#F5F0FF;font-size:24px;outline:none;border-radius:2px;font-family:inherit;" onfocus="this.style.borderColor='#7A6030'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+        </div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;">Inquiry Type</label>
+        <select name="type" style="width:100%;background:#1a1a2e;border:1px solid rgba(255,255,255,0.12);padding:12px 14px;color:#F5F0FF;font-size:24px;outline:none;border-radius:2px;font-family:inherit;-webkit-appearance:none;" onfocus="this.style.borderColor='#7A6030'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+          <option value="consultation">Private BaZi Consultation</option>
+          <option value="collaboration">Collaboration</option>
+          <option value="question">General Question</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;">Message</label>
+        <textarea name="message" required rows="4" placeholder="Tell us what you have in mind..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);padding:12px 14px;color:#F5F0FF;font-size:24px;outline:none;border-radius:2px;resize:vertical;font-family:inherit;" onfocus="this.style.borderColor='#7A6030'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'"></textarea>
+      </div>
+      <button type="submit" style="width:100%;padding:16px;background:transparent;border:1px solid #7A6030;color:#E8D5A3;font-size:24px;letter-spacing:.28em;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:inherit;" onmouseover="this.style.borderColor='#C9A84C';this.style.color='#C9A84C'" onmouseout="this.style.borderColor='#7A6030';this.style.color='#E8D5A3'">
+        ✦ &nbsp; Send Message &nbsp; ✦
+      </button>
+    </form>
+    <div id="bazi-contact-success" style="display:none;text-align:center;padding:40px 0;">
+      <div style="font-size:28px;color:#C9A84C;margin-bottom:14px;">✦</div>
+      <div style="font-size:24px;color:#F5F0FF;margin-bottom:10px;">Email Ready</div>
+      <p style="font-size:21px;color:#8878AA;font-style:italic;">Your email client has opened with the message pre-filled.<br>Once sent, we will respond within 24 hours.</p>
+    </div>
+    <div style="text-align:center;margin-top:22px;">
+      <p style="font-size:21px;color:#8878AA;">Or email directly: <a href="mailto:benv9988088@gmail.com" style="color:#E8D5A3;text-decoration:none;">benv9988088@gmail.com</a></p>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:16px 0 48px;">
+  <button onclick="toggleBaziContact()" id="bazi-contact-btn" style="padding:14px 36px;background:transparent;border:1px solid rgba(255,255,255,0.15);color:#8878AA;font-size:24px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:inherit;" onmouseover="this.style.borderColor='#7A6030';this.style.color='#E8D5A3'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='#8878AA'">
+    ✉ &nbsp; Contact &amp; Consultation
+  </button>
+</div>
+
+<script>
+function toggleBaziContact(){
+  var sec=document.getElementById('contact-section');
+  var btn=document.getElementById('bazi-contact-btn');
+  if(sec.style.display==='none'){
+    sec.style.display='block';
+    btn.textContent='✕  Close';
+    setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'});},100);
+  } else {
+    sec.style.display='none';
+    btn.textContent='✉  Contact & Consultation';
+  }
+}
+function submitBaziContact(e){
+  e.preventDefault();
+  var form=document.getElementById('bazi-contact-form');
+  var name=form.querySelector('[name="name"]').value;
+  var email=form.querySelector('[name="email"]').value;
+  var type=form.querySelector('[name="type"]').value;
+  var msg=form.querySelector('[name="message"]').value;
+  var typeMap={'consultation':'Private BaZi Consultation','collaboration':'Collaboration','question':'General Question','other':'Other'};
+  var subject=encodeURIComponent('BaZi Oracle — '+(typeMap[type]||type)+' from '+name);
+  var body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nType: '+(typeMap[type]||type)+'\n\nMessage:\n'+msg+'\n\n---\nSent from BaZi Oracle');
+  window.location.href='mailto:benv9988088@gmail.com?subject='+subject+'&body='+body;
+  setTimeout(function(){
+    form.style.display='none';
+    document.getElementById('bazi-contact-success').style.display='block';
+  },500);
+}
+</script>
+
+<script>
+// ── 繁簡切換 ──
+var TRAD={
+  '命宫':'命宮','兄弟':'兄弟','夫妻':'夫妻','财帛':'財帛','疾厄':'疾厄',
+  '迁移':'遷移','交友':'交友','官禄':'官祿','田宅':'田宅','福德':'福德',
+  '命盘':'命盤','星盘':'星盤','紫微斗数':'紫微斗數','大运':'大運',
+  '阳':'陽','阴':'陰','龙':'龍','鸡':'雞','猪':'豬','马':'馬',
+  '选择':'選擇','输入':'輸入','填写':'填寫','确定':'確定','发送':'發送',
+  '联系':'聯繫','解读':'解讀','感情':'感情','事业':'事業','财运':'財運',
+  '内心':'內心','使命':'使命','深度':'深度','开始':'開始','重新':'重新',
+  '天机':'天機','廉贞':'廉貞','贪狼':'貪狼','七杀':'七殺','破军':'破軍',
+  '农历':'農曆','时辰':'時辰','揭示':'揭示','纳音':'納音',
+  '问卦':'問卦','起运':'起運','空宫':'空宮','测试':'測試','体验':'體驗',
+  '命盘直答':'命盤直答','问盘':'問盤','提问':'提問',
+};
+var SIMP={};
+for(var k in TRAD) SIMP[TRAD[k]]=k;
+
+var _isTrad=false;
+
+function convertText(text, toTrad){
+  var map = toTrad ? TRAD : SIMP;
+  // 按长度降序排列key，避免短词先替换
+  var keys = Object.keys(map).sort(function(a,b){return b.length-a.length;});
+  keys.forEach(function(k){ text=text.split(k).join(map[k]); });
+  return text;
+}
+
+function applyTradSimp(toTrad){
+  _isTrad = toTrad;
+  // 遍历所有文本节点
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  var nodes=[];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(function(node){
+    if(node.parentElement && node.parentElement.tagName==='SCRIPT') return;
+    if(node.parentElement && node.parentElement.tagName==='STYLE') return;
+    var orig=node.textContent;
+    var conv=convertText(orig, toTrad);
+    if(conv!==orig) node.textContent=conv;
+  });
+  // 更新placeholder
+  document.querySelectorAll('[placeholder]').forEach(function(el){
+    el.placeholder=convertText(el.placeholder, toTrad);
+  });
+}
+
+// 扩展setLang，加繁体支持
+var _baseLang='en';
+function setLangFull(code){
+  if(code==='zh-tw'){
+    // 先切到简体中文，再转繁体
+    if(typeof setLang==='function') setLang('zh');
+    _baseLang='zh';
+    setTimeout(function(){ applyTradSimp(true); }, 150);
+    // 更新按钮状态
+    updateLangBtns('zh-tw');
+  } else if(code==='zh'){
+    if(typeof setLang==='function') setLang('zh');
+    _baseLang='zh';
+    if(_isTrad) setTimeout(function(){ applyTradSimp(false); }, 150);
+    updateLangBtns('zh');
+  } else {
+    if(typeof setLang==='function') setLang('en');
+    _baseLang='en';
+    updateLangBtns('en');
+  }
+}
+
+function updateLangBtns(active){
+  ['btnEN','btnZH','btnTW'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    el.classList.toggle('active', 
+      (id==='btnEN'&&active==='en')||(id==='btnZH'&&active==='zh')||(id==='btnTW'&&active==='zh-tw'));
+  });
+}
+</script>
+</body>
+</html>
