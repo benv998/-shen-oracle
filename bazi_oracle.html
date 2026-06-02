@@ -442,6 +442,33 @@ select { color-scheme: dark; }
 .shen-code-btn:hover { background:rgba(201,168,76,0.25); border-color:#C9A84C; }
 .shen-modal-note { font-size:12px; color:rgba(214,205,184,0.3); text-align:center; margin-top:16px; font-style:italic; }
 
+/* Nav Auth UI */
+.shen-nav-auth {
+  display:flex; align-items:center; gap:8px; margin-left:12px;
+}
+.shen-login-btn {
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em; color:rgba(201,168,76,0.6);
+  background:transparent; border:1px solid rgba(201,168,76,0.2); padding:6px 14px;
+  cursor:pointer; text-transform:uppercase; transition:all 0.3s;
+}
+.shen-login-btn:hover { color:#C9A84C; border-color:#C9A84C; }
+.shen-user-info {
+  display:none; align-items:center; gap:8px;
+}
+.shen-user-name {
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.15em;
+  color:rgba(214,205,184,0.6); text-transform:uppercase;
+}
+.shen-plan-badge-nav {
+  font-family:'Cinzel',serif; font-size:7px; letter-spacing:0.15em;
+  color:rgba(201,168,76,0.4); text-transform:uppercase;
+}
+.shen-logout-btn {
+  font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.15em;
+  color:rgba(214,205,184,0.3); background:none; border:none; cursor:pointer;
+  text-transform:uppercase; transition:color 0.2s; padding:0;
+}
+.shen-logout-btn:hover { color:rgba(214,205,184,0.6); }
 </style>
 </head>
 <body>
@@ -457,9 +484,9 @@ select { color-scheme: dark; }
       <a href="purple-star.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:var(--text-dim);text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold-dim)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='transparent'">Zi Wei</a>
       <a href="YiJing_Oracle.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:var(--text-dim);text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold-dim)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='transparent'">Yi Jing</a>
     
-      <div class="shen-nav-auth" style="display:flex;align-items:center;gap:8px;margin-left:12px;">
-        <button class="shen-login-btn" id="shenLoginBtn" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:rgba(201,168,76,0.8);background:transparent;border:1px solid rgba(201,168,76,0.3);padding:6px 14px;cursor:pointer;text-transform:uppercase;transition:all 0.3s;border-radius:2px;" onclick="shenShowAuthModal('login')">Sign In</button>
-        <div class="shen-user-info" id="shenUserInfo" style="display:none;align-items:center;gap:8px;">
+      <div class="shen-nav-auth">
+        <button class="shen-login-btn" id="shenLoginBtn" onclick="shenShowAuthModal('login')">Sign In</button>
+        <div class="shen-user-info" id="shenUserInfo">
           <span class="shen-user-name" id="shenUserEmail"></span>
           <span class="shen-plan-badge-nav" id="shenPlanBadge">FREE</span>
           <button class="shen-logout-btn" onclick="shenSignOut()">Sign out</button>
