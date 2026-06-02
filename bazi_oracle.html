@@ -458,7 +458,7 @@ select { color-scheme: dark; }
       <a href="YiJing_Oracle.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:var(--text-dim);text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold-dim)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='transparent'">Yi Jing</a>
     
       <div class="shen-nav-auth" style="display:flex;align-items:center;gap:8px;margin-left:12px;">
-        <button class="shen-login-btn" id="shenLoginBtn" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:rgba(201,168,76,0.8);background:transparent;border:1px solid rgba(201,168,76,0.3);padding:6px 14px;cursor:pointer;text-transform:uppercase;transition:all 0.3s;border-radius:2px;" onclick="console.log('clicked'); if(typeof shenShowAuthModal==='function'){shenShowAuthModal('login');}else{alert('shenShowAuthModal not loaded');}" >Sign In</button>
+        <button class="shen-login-btn" id="shenLoginBtn" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:rgba(201,168,76,0.8);background:transparent;border:1px solid rgba(201,168,76,0.3);padding:6px 14px;cursor:pointer;text-transform:uppercase;transition:all 0.3s;border-radius:2px;" onclick="shenShowAuthModal('login')">Sign In</button>
         <div class="shen-user-info" id="shenUserInfo" style="display:none;align-items:center;gap:8px;">
           <span class="shen-user-name" id="shenUserEmail"></span>
           <span class="shen-plan-badge-nav" id="shenPlanBadge">FREE</span>
@@ -1721,136 +1721,7 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
 </div>
 
-<script>
-// ── SHEN Pricing System ────────────────────────────────────
-var SHEN_PAYPAL = {
-  single:  'https://www.paypal.com/paypalme/luguangben/9',
-  bundle:  'https://www.paypal.com/paypalme/luguangben/19',
-  monthly: 'https://www.paypal.com/paypalme/luguangben/39',
-  yearly:  'https://www.paypal.com/paypalme/luguangben/99'
-};
 
-// 激活码库（手动分配给付款用户，格式：'CODE': 过期时间戳，0=永久）
-var SHEN_CODES = {
-  'SHEN-TEST-2025': 9999999999999
-};
-
-var SHEN_CURRENT_CB = null;
-
-function showShenPricing(cb) {
-  shenAuthCallback = cb;
-
-  // 已登录且是付费会员，直接执行
-  if (shenUser && shenIsPaid()) {
-    if (typeof cb === 'function') cb();
-    return;
-  }
-
-  // 无论是否登录，直接显示定价弹窗
-  // （登录只在选择月卡/年卡时才要求）
-  updateShenModalLang();
-  document.getElementById('shenPricingModal').classList.add('active');
-  document.getElementById('shenCodeWrap') && document.getElementById('shenCodeWrap').classList.remove('active');
-}
-
-function closeShenModal() {
-  document.getElementById('shenPricingModal').classList.remove('active');
-}
-
-function shenPay(plan) {
-  var isSubscription = (plan === 'monthly' || plan === 'yearly');
-
-  // 月卡/年卡：需要先登录
-  if (isSubscription) {
-    if (!shenUser) {
-      closeShenModal();
-      shenShowAuthModal('login', function() {
-        // 登录后重新打开定价弹窗
-        document.getElementById('shenPricingModal').classList.add('active');
-      });
-      return;
-    }
-  }
-
-  // 打开PayPal付款
-  var win = window.open(SHEN_PAYPAL[plan], 'shen_pay', 'width=520,height=640,scrollbars=yes');
-
-  var timer = setInterval(function() {
-    if (win && win.closed) {
-      clearInterval(timer);
-      var isZh = typeof getShenLang === 'function' ? getShenLang() : false;
-      var msg = isZh
-        ? '请确认：您已完成PayPal付款了吗？点击确定立即解锁。'
-        : 'Have you completed your PayPal payment? Click OK to unlock your reading now.';
-      if (window.confirm(msg)) {
-        if (isSubscription && shenUser) {
-          // 月卡/年卡：更新数据库
-          shenUpgradeMembership(plan).then(function() {
-            closeShenModal();
-            shenUpdateNavUI();
-            if (typeof shenAuthCallback === 'function') shenAuthCallback();
-          });
-        } else {
-          // 单次/打包：直接解锁，不需要账号
-          closeShenModal();
-          if (typeof shenAuthCallback === 'function') shenAuthCallback();
-        }
-      }
-    }
-  }, 600);
-}
-
-function verifyShenCodeSilent(code) {
-  var c = code.toUpperCase().trim();
-  return !!(SHEN_CODES[c] && Date.now() < SHEN_CODES[c]);
-}
-
-function verifyShenCode() {
-  var code = document.getElementById('shenCodeInput').value.toUpperCase().trim();
-  var isZh = getShenLang();
-  if(verifyShenCodeSilent(code)){
-    localStorage.setItem('shen_code', code);
-    closeShenModal();
-    alert(isZh ? '激活成功！三个工具无限次使用已解锁。' : 'Activated! All tools are now unlocked for unlimited readings.');
-    if(typeof SHEN_CURRENT_CB==='function') SHEN_CURRENT_CB();
-  } else {
-    alert(isZh ? '激活码无效或已过期，请重试。' : 'Invalid or expired code. Please try again.');
-  }
-}
-
-function getShenLang() {
-  if(typeof L!=='undefined') return L==='zh'||L==='zh-tw';
-  if(typeof lang!=='undefined') return lang==='zh'||lang==='zh-tw';
-  return false;
-}
-
-function updateShenModalLang() {
-  var isZh = getShenLang();
-  var s = function(id,t){ var e=document.getElementById(id); if(e) e.textContent=t; };
-  if(isZh){
-    s('spmTitle','选择你的解读方案'); s('spmSub','选择方案，解锁完整深度解读');
-    s('spmN1','单次解读'); s('spmD1','本工具一次完整解读');
-    s('spmN2','三合一打包'); s('spmD2','八字 + 紫微 + 易经，各一次');
-    s('spmN3','月卡 · 无限次'); s('spmD3','三个工具每月无限次使用');
-    s('spmN4','年卡 · 无限次'); s('spmD4','三个工具 · 折合$8.25/月');
-    s('spmBest','最划算'); s('spmCodeLabel','输入激活码'); s('spmCodeBtn','验证');
-    s('spmNote','通过PayPal安全付款');
-  } else {
-    s('spmTitle','Choose Your Reading'); s('spmSub','Select a plan to unlock your full reading');
-    s('spmN1','Single Reading'); s('spmD1','One complete reading, this tool');
-    s('spmN2','All Three Tools'); s('spmD2','Ba Zi + Zi Wei + I Ching');
-    s('spmN3','Monthly Unlimited'); s('spmD3','All tools, unlimited readings');
-    s('spmN4','Annual Unlimited'); s('spmD4','All tools · $8.25/month');
-    s('spmBest','Best Value'); s('spmCodeLabel','Enter Activation Code'); s('spmCodeBtn','Verify');
-    s('spmNote','Payments via PayPal · Secure checkout');
-  }
-}
-
-document.addEventListener('click', function(e){
-  var m=document.getElementById('shenPricingModal');
-  if(e.target===m) closeShenModal();
-});
-</script>
 <!-- Auth Modal: Login / Signup -->
 <div class="shen-modal-overlay" id="shenAuthModal">
   <div class="shen-modal">
