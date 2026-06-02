@@ -491,6 +491,71 @@ select { color-scheme: dark; }
 }
 .shen-logout-btn:hover { color:rgba(214,205,184,0.6); }
 
+
+/* ══════════════════════════════════════════
+   MOBILE RESPONSIVE — Ba Zi Oracle
+   全面移动端适配
+══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  /* 导航 */
+  nav > div { padding: 0 12px !important; height: 48px !important; }
+  /* 语言栏 */
+  .lang-row { padding: 12px 0 0 !important; }
+  /* Header */
+  .wrap { padding: 0 12px 60px !important; }
+  h1 { font-size: clamp(32px,9vw,52px) !important; }
+  .header-sub { font-size: 16px !important; }
+  /* 表单区 */
+  .form-section { padding: 0 !important; }
+  .form-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .form-grid.three { grid-template-columns: 1fr 1fr 1fr !important; gap: 6px !important; }
+  select, input { font-size: 15px !important; padding: 11px 10px !important; }
+  label { font-size: 12px !important; }
+  /* 起盘按钮 */
+  .submit-btn, button.submit-btn { font-size: 12px !important; padding: 16px !important; letter-spacing: .15em !important; }
+  /* 四柱显示 */
+  .pillars-grid { grid-template-columns: repeat(2,1fr) !important; gap: 10px !important; }
+  .pillar-stem { font-size: 32px !important; }
+  .pillar-branch { font-size: 32px !important; }
+  .pillar-name { font-size: 11px !important; }
+  .pillar-element { font-size: 11px !important; }
+  /* 五行能量条 */
+  .elements-row { grid-template-columns: repeat(3,1fr) !important; gap: 8px !important; }
+  .el-symbol { font-size: 20px !important; }
+  .el-name { font-size: 11px !important; }
+  .el-count { font-size: 11px !important; }
+  /* 解读文字 */
+  .reading-text { font-size: 16px !important; line-height: 1.85 !important; }
+  .ai-output-text { font-size: 16px !important; line-height: 1.85 !important; }
+  .ai-upgrade-note { font-size: 15px !important; }
+  /* 免费/付费按钮 */
+  .ai-free, .ai-paid { font-size: 13px !important; padding: 14px 10px !important; }
+  .paywall-btn { font-size: 13px !important; padding: 14px 16px !important; }
+  /* 大运流年 */
+  .dayun-row { grid-template-columns: 56px 1fr auto !important; gap: 8px !important; }
+  .dayun-age { font-size: 12px !important; }
+  .dayun-stems { font-size: 16px !important; }
+  .dayun-tag { font-size: 11px !important; padding: 3px 7px !important; }
+  .dayun-desc { display: none !important; }
+  /* 问卦方向 */
+  #bz-topics { grid-template-columns: repeat(2,1fr) !important; gap: 8px !important; }
+  /* 定价区 */
+  #pricing-section { padding: 0 12px !important; }
+  #pc-grid1, #pc-grid2 { grid-template-columns: 1fr !important; }
+  /* 联系区 */
+  #contact-section { padding: 0 12px 40px !important; }
+  /* 弹窗 */
+  .shen-modal { padding: 28px 16px 20px !important; }
+  .shen-plan { padding: 12px 10px !important; }
+}
+
+@media (max-width: 390px) {
+  h1 { font-size: 28px !important; }
+  .pillars-grid { grid-template-columns: repeat(2,1fr) !important; }
+  .pillar-stem, .pillar-branch { font-size: 28px !important; }
+  #bz-topics { grid-template-columns: 1fr 1fr !important; }
+}
+
 </style>
 </head>
 <body>
@@ -911,9 +976,24 @@ const UI = {
 
 function setLang(l){
   lang=l;
-  document.getElementById('btnEN').className='lang-btn'+(l==='en'?' active':'');
-  document.getElementById('btnZH').className='lang-btn'+(l==='zh'?' active':'');
+  // 按钮顺序: btnEN, btnTW, btnZH — 由updateLangBtns统一管理
+  var _bm={btnEN:l==='en',btnTW:false,btnZH:l==='zh'};
+  Object.keys(_bm).forEach(function(id){var el=document.getElementById(id);if(el)el.classList.toggle('active',_bm[id]);});
   applyUI();
+  // 更新页面内定价区语言
+  var _isZh=(l==='zh'||l==='tw');
+  var _ptx={
+    'pc-title':{en:'Unlock Your Full Reading',zh:'解锁完整命盘解读'},
+    'pc-sub':{en:'One-time · Or unlimited access to all three SHEN tools',zh:'单次付费，或无限畅读全部三项神数工具'},
+    'pc-n1':{en:'Single Reading',zh:'单次解读'},'pc-d1':{en:'This tool, one complete reading',zh:'本工具一次完整解读'},
+    'pc-n2':{en:'All Three Tools',zh:'三工具套餐'},'pc-d2':{en:'Ba Zi + Zi Wei + I Ching',zh:'八字 + 紫微 + 易经'},
+    'pc-n3':{en:'Monthly Unlimited',zh:'月度无限'},'pc-d3':{en:'All tools · unlimited readings',zh:'全部工具 · 无限次解读'},
+    'pc-bm':{en:'Most Popular',zh:'最受欢迎'},
+    'pc-n4':{en:'Annual Unlimited',zh:'年度无限'},'pc-d4':{en:'All tools · $8.25/month',zh:'全部工具 · 折合每月$8.25'},
+    'pc-by':{en:'Best Value',zh:'最划算'},
+    'pc-note':{en:'Secure payment via PayPal · Instant access after confirmation',zh:'PayPal安全付款 · 确认后立即开通'}
+  };
+  Object.keys(_ptx).forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=_ptx[id][_isZh?'zh':'en'];});
   // 重新渲染引导选项
   if(typeof initBzTopics==='function'){
     initBzTopics();
@@ -1578,6 +1658,42 @@ Address their actual question directly. Don't explain Ba Zi theory — give the 
 }
 </script>
 
+<!-- Pricing Section (inline) -->
+<div id="pricing-section" style="max-width:680px;margin:0 auto 60px;padding:0 24px;">
+  <div style="border-top:1px solid rgba(201,168,76,0.15);padding-top:52px;text-align:center;">
+    <div style="font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:rgba(201,168,76,0.5);margin-bottom:10px;">SHEN · MEMBERSHIP</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#d4af6a;font-style:italic;margin-bottom:6px;" id="pc-title">Unlock Your Full Reading</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:rgba(214,205,184,0.45);font-style:italic;margin-bottom:32px;" id="pc-sub">One-time · Or unlimited access to all three SHEN tools</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;" id="pc-grid1">
+      <div onclick="shenPay('single')" style="border:1px solid rgba(201,168,76,0.25);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.25)'">
+        <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#d4af6a;margin-bottom:6px;" id="pc-n1">Single Reading</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d1">This tool, one complete reading</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#c9a84c;">$9</div>
+      </div>
+      <div onclick="shenPay('bundle')" style="border:1px solid rgba(201,168,76,0.25);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.25)'">
+        <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#d4af6a;margin-bottom:6px;" id="pc-n2">All Three Tools</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d2">Ba Zi + Zi Wei + I Ching</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#c9a84c;">$19</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;" id="pc-grid2">
+      <div onclick="shenPay('monthly')" style="border:1px solid rgba(201,168,76,0.5);background:rgba(201,168,76,0.06);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;position:relative;" onmouseover="this.style.borderColor='rgba(201,168,76,0.8)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.5)'">
+        <div style="position:absolute;top:-1px;right:12px;background:#c9a84c;color:#0a0806;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;padding:3px 8px;text-transform:uppercase;" id="pc-bm">Most Popular</div>
+        <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#d4af6a;margin-bottom:6px;" id="pc-n3">Monthly Unlimited</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d3">All tools · unlimited readings</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#c9a84c;">$39<span style="font-size:13px;color:rgba(201,168,76,0.5)">/mo</span></div>
+      </div>
+      <div onclick="shenPay('yearly')" style="border:1px solid rgba(201,168,76,0.25);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;position:relative;" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.25)'">
+        <div style="position:absolute;top:-1px;right:12px;background:rgba(201,168,76,0.15);color:#c9a84c;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;padding:3px 8px;text-transform:uppercase;border:1px solid rgba(201,168,76,0.3);" id="pc-by">Best Value</div>
+        <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#d4af6a;margin-bottom:6px;" id="pc-n4">Annual Unlimited</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d4">All tools · $8.25/month</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#c9a84c;">$99<span style="font-size:13px;color:rgba(201,168,76,0.5)">/yr</span></div>
+      </div>
+    </div>
+    <div style="margin-top:16px;font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.3);font-style:italic;" id="pc-note">Secure payment via PayPal · Instant access after confirmation</div>
+  </div>
+</div>
+
 <!-- Contact Section -->
 <div id="contact-section" style="display:none;max-width:720px;margin:0 auto;padding:0 24px 60px;">
   <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:48px;">
@@ -1713,20 +1829,13 @@ function applyTradSimp(toTrad){
 var _baseLang='en';
 function setLangFull(code){
   if(code==='zh-tw'){
-    // 先切到简体中文，再转繁体
-    if(typeof setLang==='function') setLang('zh');
-    _baseLang='zh';
-    setTimeout(function(){ applyTradSimp(true); }, 150);
-    // 更新按钮状态
+    setLang('zh'); // 繁体内容用简体字典，UI按钮单独高亮
     updateLangBtns('zh-tw');
   } else if(code==='zh'){
-    if(typeof setLang==='function') setLang('zh');
-    _baseLang='zh';
-    if(_isTrad) setTimeout(function(){ applyTradSimp(false); }, 150);
+    setLang('zh');
     updateLangBtns('zh');
   } else {
-    if(typeof setLang==='function') setLang('en');
-    _baseLang='en';
+    setLang('en');
     updateLangBtns('en');
   }
 }
