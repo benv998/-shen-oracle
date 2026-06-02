@@ -269,9 +269,9 @@ select { color-scheme: dark; }
       <a href="YiJing_Oracle.html" style="font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:0.18em;color:#8878AA;text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='#C9A84C';this.style.borderColor='#7A6030'" onmouseout="this.style.color='#8878AA';this.style.borderColor='transparent'">Yi Jing</a>
     </div>
   
-      <div class="shen-nav-auth">
-        <button class="shen-login-btn" id="shenLoginBtn" onclick="shenShowAuthModal('login')">Sign In</button>
-        <div class="shen-user-info" id="shenUserInfo">
+      <div class="shen-nav-auth" style="display:flex;align-items:center;gap:8px;margin-left:12px;">
+        <button class="shen-login-btn" id="shenLoginBtn" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:rgba(201,168,76,0.8);background:transparent;border:1px solid rgba(201,168,76,0.3);padding:6px 14px;cursor:pointer;text-transform:uppercase;transition:all 0.3s;border-radius:2px;" onclick="shenShowAuthModal('login')">Sign In</button>
+        <div class="shen-user-info" id="shenUserInfo" style="display:none;align-items:center;gap:8px;">
           <span class="shen-user-name" id="shenUserEmail"></span>
           <span class="shen-plan-badge-nav" id="shenPlanBadge">FREE</span>
           <button class="shen-logout-btn" onclick="shenSignOut()">Sign out</button>
@@ -1439,7 +1439,54 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 
-    <div class="shen-modal-sub" id="spmSub">Select a plan to unlock your full reading</div>
+<div class="shen-modal-overlay" id="shenAuthModal">
+  <div class="shen-modal">
+    <button class="shen-modal-close" onclick="closeShenModal()">&#x2715;</button>
+
+    <!-- Login Form -->
+    <div id="shenLoginForm">
+      <div class="shen-modal-title">Sign In to SHEN</div>
+      <div class="shen-modal-sub">Access your readings and membership</div>
+      <div class="shen-field">
+        <input class="shen-input" id="shenLoginEmail" type="email" placeholder="Email address" autocomplete="email">
+      </div>
+      <div class="shen-field">
+        <input class="shen-input" id="shenLoginPassword" type="password" placeholder="Password" autocomplete="current-password">
+      </div>
+      <div class="shen-err" id="shenLoginErr"></div>
+      <button class="shen-submit-btn" id="shenLoginSubmit" onclick="shenDoLogin()">Sign In</button>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="shenSignupForm" style="display:none">
+      <div class="shen-modal-title">Create Account</div>
+      <div class="shen-modal-sub">Join SHEN — free to start</div>
+      <div class="shen-field">
+        <input class="shen-input" id="shenSignupEmail" type="email" placeholder="Email address" autocomplete="email">
+      </div>
+      <div class="shen-field">
+        <input class="shen-input" id="shenSignupPassword" type="password" placeholder="Password (min 6 chars)" autocomplete="new-password">
+      </div>
+      <div class="shen-err" id="shenSignupErr"></div>
+      <button class="shen-submit-btn" id="shenSignupSubmit" onclick="shenDoSignup()">Create Account</button>
+    </div>
+
+    <div id="shenToSignup" style="text-align:center;margin-top:16px;">
+      <span class="shen-switch-txt">No account? <a href="#" onclick="shenSetAuthMode('signup');return false;" class="shen-link">Create one free</a></span>
+    </div>
+    <div id="shenToLogin" style="text-align:center;margin-top:16px;display:none;">
+      <span class="shen-switch-txt">Already have an account? <a href="#" onclick="shenSetAuthMode('login');return false;" class="shen-link">Sign in</a></span>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing Modal -->
+<div class="shen-modal-overlay" id="shenPricingModal">
+  <div class="shen-modal">
+    <button class="shen-modal-close" onclick="closeShenModal()">&#x2715;</button>
+    <div class="shen-modal-title" id="spmTitle">Choose Your Plan</div>
+    <div class="shen-modal-sub" id="spmSub">Unlock your full reading</div>
+
     <div class="shen-plan" onclick="shenPay('single')">
       <div><div class="shen-plan-name" id="spmN1">Single Reading</div><div class="shen-plan-desc" id="spmD1">One complete reading, this tool</div></div>
       <div class="shen-plan-price">$9</div>
@@ -1450,28 +1497,23 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
     <div class="shen-plan featured" onclick="shenPay('monthly')">
       <div><div class="shen-plan-name" id="spmN3">Monthly Unlimited</div><div class="shen-plan-desc" id="spmD3">All tools, unlimited readings</div></div>
-      <div style="display:flex;align-items:center;"><div class="shen-plan-price">$39<span style="font-size:10px;color:rgba(201,168,76,0.5)">/mo</span></div></div>
+      <div style="display:flex;align-items:center;">
+        <div class="shen-plan-price">$39<span style="font-size:10px;color:rgba(201,168,76,0.5)">/mo</span></div>
+      </div>
     </div>
     <div class="shen-plan" onclick="shenPay('yearly')">
       <div><div class="shen-plan-name" id="spmN4">Annual Unlimited</div><div class="shen-plan-desc" id="spmD4">All tools · $8.25/month</div></div>
-      <div style="display:flex;align-items:center;"><div class="shen-plan-price">$99<span style="font-size:10px;color:rgba(201,168,76,0.5)">/yr</span></div><div class="shen-plan-badge" id="spmBest">Best Value</div></div>
-    </div>
-    <div class="shen-code-wrap" id="shenCodeWrap">
-      <div class="shen-code-label" id="spmCodeLabel">Enter Activation Code</div>
-      <div class="shen-code-row">
-        <input class="shen-code-input" id="shenCodeInput" placeholder="SHEN-XXXX-XXXX" maxlength="16">
-        <button class="shen-code-btn" onclick="verifyShenCode()" id="spmCodeBtn">Verify</button>
+      <div style="display:flex;align-items:center;">
+        <div class="shen-plan-price">$99<span style="font-size:10px;color:rgba(201,168,76,0.5)">/yr</span></div>
+        <div class="shen-plan-badge" id="spmBest">Best Value</div>
       </div>
     </div>
+
     <div class="shen-modal-note" id="spmNote">Payments via PayPal · Secure checkout</div>
   </div>
 </div>
 
 <script>
-</script>
-<!-- ═══════════════════════════════════════════════
-  SHEN Auth UI Components
-  Paste this BEFORE <script>
 // ═══════════════════════════════════════════════════════════════
 // SHEN Auth & Membership System
 // Supabase: https://ivzufetaylnwfietcwpq.supabase.co
@@ -1673,37 +1715,30 @@ function shenUpdateNavUI() {
 function showShenPricing(cb) {
   shenAuthCallback = cb;
 
-  // 已登录且是付费会员，直接执行
+  // 如果已登录且是付费会员，直接执行
   if (shenUser && shenIsPaid()) {
     if (typeof cb === 'function') cb();
     return;
   }
 
-  // 无论是否登录，直接显示定价弹窗
-  // （登录只在选择月卡/年卡时才要求）
+  // 未登录：先登录
+  if (!shenUser) {
+    shenShowAuthModal('login', function() {
+      showShenPricing(cb);
+    });
+    return;
+  }
+
+  // 已登录但免费：显示定价弹窗
   updateShenModalLang();
   document.getElementById('shenPricingModal').classList.add('active');
-  document.getElementById('shenCodeWrap') && document.getElementById('shenCodeWrap').classList.remove('active');
+  document.getElementById('shenCodeWrap').classList.remove('active');
 }
 
 // ── PayPal payment flow ───────────────────────────────────────
 function shenPay(plan) {
-  var isSubscription = (plan === 'monthly' || plan === 'yearly');
-
-  // 月卡/年卡：需要先登录
-  if (isSubscription) {
-    if (!shenUser) {
-      closeShenModal();
-      shenShowAuthModal('login', function() {
-        // 登录后重新打开定价弹窗
-        document.getElementById('shenPricingModal').classList.add('active');
-      });
-      return;
-    }
-  }
-
-  // 打开PayPal付款
   var win = window.open(SHEN_PAYPAL[plan], 'shen_pay', 'width=520,height=640,scrollbars=yes');
+  var isSubscription = (plan === 'monthly' || plan === 'yearly');
 
   var timer = setInterval(function() {
     if (win && win.closed) {
@@ -1713,18 +1748,11 @@ function shenPay(plan) {
         ? '请确认：您已完成PayPal付款了吗？点击确定立即解锁。'
         : 'Have you completed your PayPal payment? Click OK to unlock your reading now.';
       if (window.confirm(msg)) {
-        if (isSubscription && shenUser) {
-          // 月卡/年卡：更新数据库
-          shenUpgradeMembership(plan).then(function() {
-            closeShenModal();
-            shenUpdateNavUI();
-            if (typeof shenAuthCallback === 'function') shenAuthCallback();
-          });
-        } else {
-          // 单次/打包：直接解锁，不需要账号
+        var planKey = (plan === 'bundle') ? 'single' : plan;
+        shenUpgradeMembership(planKey).then(function() {
           closeShenModal();
           if (typeof shenAuthCallback === 'function') shenAuthCallback();
-        }
+        });
       }
     }
   }, 600);
@@ -1861,80 +1889,5 @@ document.addEventListener('click', function(e) {
 document.addEventListener('DOMContentLoaded', shenInit);
 
 </script>
-<!-- Auth Modal: Login / Signup -->
-<div class="shen-modal-overlay" id="shenAuthModal">
-  <div class="shen-modal">
-    <button class="shen-modal-close" onclick="closeShenModal()">&#x2715;</button>
-
-    <!-- Login Form -->
-    <div id="shenLoginForm">
-      <div class="shen-modal-title">Sign In to SHEN</div>
-      <div class="shen-modal-sub">Access your readings and membership</div>
-      <div class="shen-field">
-        <input class="shen-input" id="shenLoginEmail" type="email" placeholder="Email address" autocomplete="email">
-      </div>
-      <div class="shen-field">
-        <input class="shen-input" id="shenLoginPassword" type="password" placeholder="Password" autocomplete="current-password">
-      </div>
-      <div class="shen-err" id="shenLoginErr"></div>
-      <button class="shen-submit-btn" id="shenLoginSubmit" onclick="shenDoLogin()">Sign In</button>
-    </div>
-
-    <!-- Signup Form -->
-    <div id="shenSignupForm" style="display:none">
-      <div class="shen-modal-title">Create Account</div>
-      <div class="shen-modal-sub">Join SHEN — free to start</div>
-      <div class="shen-field">
-        <input class="shen-input" id="shenSignupEmail" type="email" placeholder="Email address" autocomplete="email">
-      </div>
-      <div class="shen-field">
-        <input class="shen-input" id="shenSignupPassword" type="password" placeholder="Password (min 6 chars)" autocomplete="new-password">
-      </div>
-      <div class="shen-err" id="shenSignupErr"></div>
-      <button class="shen-submit-btn" id="shenSignupSubmit" onclick="shenDoSignup()">Create Account</button>
-    </div>
-
-    <div id="shenToSignup" style="text-align:center;margin-top:16px;">
-      <span class="shen-switch-txt">No account? <a href="#" onclick="shenSetAuthMode('signup');return false;" class="shen-link">Create one free</a></span>
-    </div>
-    <div id="shenToLogin" style="text-align:center;margin-top:16px;display:none;">
-      <span class="shen-switch-txt">Already have an account? <a href="#" onclick="shenSetAuthMode('login');return false;" class="shen-link">Sign in</a></span>
-    </div>
-  </div>
-</div>
-
-<!-- Pricing Modal -->
-<div class="shen-modal-overlay" id="shenPricingModal">
-  <div class="shen-modal">
-    <button class="shen-modal-close" onclick="closeShenModal()">&#x2715;</button>
-    <div class="shen-modal-title" id="spmTitle">Choose Your Plan</div>
-    <div class="shen-modal-sub" id="spmSub">Unlock your full reading</div>
-
-    <div class="shen-plan" onclick="shenPay('single')">
-      <div><div class="shen-plan-name" id="spmN1">Single Reading</div><div class="shen-plan-desc" id="spmD1">One complete reading, this tool</div></div>
-      <div class="shen-plan-price">$9</div>
-    </div>
-    <div class="shen-plan" onclick="shenPay('bundle')">
-      <div><div class="shen-plan-name" id="spmN2">All Three Tools</div><div class="shen-plan-desc" id="spmD2">Ba Zi + Zi Wei + I Ching</div></div>
-      <div class="shen-plan-price">$19</div>
-    </div>
-    <div class="shen-plan featured" onclick="shenPay('monthly')">
-      <div><div class="shen-plan-name" id="spmN3">Monthly Unlimited</div><div class="shen-plan-desc" id="spmD3">All tools, unlimited readings</div></div>
-      <div style="display:flex;align-items:center;">
-        <div class="shen-plan-price">$39<span style="font-size:10px;color:rgba(201,168,76,0.5)">/mo</span></div>
-      </div>
-    </div>
-    <div class="shen-plan" onclick="shenPay('yearly')">
-      <div><div class="shen-plan-name" id="spmN4">Annual Unlimited</div><div class="shen-plan-desc" id="spmD4">All tools · $8.25/month</div></div>
-      <div style="display:flex;align-items:center;">
-        <div class="shen-plan-price">$99<span style="font-size:10px;color:rgba(201,168,76,0.5)">/yr</span></div>
-        <div class="shen-plan-badge" id="spmBest">Best Value</div>
-      </div>
-    </div>
-
-    <div class="shen-modal-note" id="spmNote">Payments via PayPal · Secure checkout</div>
-  </div>
-</div>
-
 </body>
 </html>
