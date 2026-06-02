@@ -487,78 +487,69 @@ var DEEPSEEK_KEY='sk-c600e50c1c16467a9932b9d5e6307fed';
 
 // ── 语言文本 ──
 var UI={
-  'h-sub':{en:'Imperial Chinese Astrology · 紫微斗數',zh:'皇家命理 · 紫微斗數'},
-  'h-desc':{en:'The system Chinese emperors relied on for a thousand years.<br>More nuanced than Western astrology, more personalized than Ba Zi —<br>mapped to your exact birth moment and interpreted by ancient intelligence.',zh:'千年前专为天子所设的命理体系——<br>比西方占星更精准，比八字更立体——<br>如今为你打开。'},
-  'l-date':{en:'Date of Birth',zh:'出生日期'},
-  'l-time':{en:'Time of Birth',zh:'出生时辰'},
-  'sub-btn':{en:'✦  Reveal My Destiny Chart  ✦',zh:'✦  揭示我的命盘  ✦'},
-  'ai-label':{en:'Ask Your Chart',zh:'命盘直答'},
-  'ai-title':{en:'Chart Intelligence',zh:'命盘深度解读'},
-  'ai-sub':{en:'Your Purple Star chart holds answers your Western horoscope never could.<br>Choose a topic and let your chart speak directly to your situation.',zh:'选择方向，描述你的处境——命盘将直接回应。'},
-  'ai-s1-label':{en:'① Choose a Topic',zh:'① 选择问卦方向'},
-  'ai-s2-label':{en:'② Your Situation',zh:'② 填写你的背景情况'},
-  'ai-load-txt':{en:'Reading your chart...',zh:'命盘解读中...'},
-  'ai-res-label':{en:'Your Reading',zh:'命盘解读'},
-  'ai-another-btn':{en:'Ask Another Question',zh:'再问一个问题'},
-  'ai-reset-btn':{en:'← Change topic',zh:'← 重新选择'},
-  'ct-title':{en:'Get in Touch',zh:'联系我们'},
-  'ct-sub':{en:'For collaborations, private consultations, or questions —<br>we respond within 24 hours.',zh:'合作洽谈、私人咨询或任何问题——<br>我们将在24小时内回复。'},
-  'ct-nl':{en:'Your Name',zh:'您的姓名'},
-  'ct-el':{en:'Your Email',zh:'您的邮箱'},
-  'ct-tl':{en:'Inquiry Type',zh:'咨询类型'},
-  'ct-ml':{en:'Message',zh:'留言内容'},
-  'ct-o1':{en:'Private Consultation',zh:'私人咨询'},
-  'ct-o2':{en:'Collaboration',zh:'合作洽谈'},
-  'ct-o3':{en:'General Question',zh:'一般问题'},
-  'ct-o4':{en:'Other',zh:'其他'},
-  'ct-ok-title':{en:'Email Ready',zh:'邮件已准备好'},
-  'ct-ok-body':{en:'Your email client has opened. Once sent, we\'ll respond within 24 hours.',zh:'您的邮件客户端已打开，发送后我们将在24小时内回复。'},
-  'ct-direct':{en:'Or email directly: <a href="mailto:benv9988088@gmail.com" style="color:var(--gold-light);text-decoration:none;">benv9988088@gmail.com</a>',zh:'或直接发邮件：<a href="mailto:benv9988088@gmail.com" style="color:var(--gold-light);text-decoration:none;">benv9988088@gmail.com</a>'}
+  'h-sub':{en:'Imperial Chinese Astrology · 紫微斗數',zh:'皇家命理 · 紫微斗數',tw:'皇家命理 · 紫微斗數'},
+  'h-desc':{en:'The system Chinese emperors relied on for a thousand years.<br>More nuanced than Western astrology, more personalized than Ba Zi —<br>mapped to your exact birth moment and interpreted by ancient intelligence.',zh:'千年前专为天子所设的命理体系——<br>比西方占星更精准，比八字更立体——<br>如今为你打开。',tw:'千年前專為天子所設的命理體系——<br>比西方占星更精準，比八字更立體——<br>如今為你打開。'},
+  'l-date':{en:'Date of Birth',zh:'出生日期',tw:'出生日期'},
+  'l-time':{en:'Time of Birth',zh:'出生时辰',tw:'出生時辰'},
+  'sub-btn':{en:'✦  Reveal My Destiny Chart  ✦',zh:'✦  揭示我的命盘  ✦',tw:'✦  揭示我的命盤  ✦'},
+  'ai-label':{en:'Ask Your Chart',zh:'命盘直答',tw:'命盤直答'},
+  'ai-title':{en:'Chart Intelligence',zh:'命盘深度解读',tw:'命盤深度解讀'},
+  'ai-sub':{en:'Your Purple Star chart holds answers your Western horoscope never could.<br>Choose a topic and let your chart speak directly to your situation.',zh:'选择方向，描述你的处境——命盘将直接回应。',tw:'選擇方向，描述你的處境——命盤將直接回應。'},
+  'ai-s1-label':{en:'① Choose a Topic',zh:'① 选择问卦方向',tw:'① 選擇問卦方向'},
+  'ai-s2-label':{en:'② Your Situation',zh:'② 填写你的背景情况',tw:'② 填寫你的背景情況'},
+  'ai-load-txt':{en:'Reading your chart...',zh:'命盘解读中...',tw:'命盤解讀中...'},
+  'ai-res-label':{en:'Your Reading',zh:'命盘解读',tw:'命盤解讀'},
+  'ai-another-btn':{en:'Ask Another Question',zh:'再问一个问题',tw:'再問一個問題'},
+  'ai-reset-btn':{en:'← Change topic',zh:'← 重新选择',tw:'← 重新選擇'},
+  'ct-title':{en:'Get in Touch',zh:'联系我们',tw:'聯繫我們'},
+  'ct-sub':{en:'For collaborations, private consultations, or questions —<br>we respond within 24 hours.',zh:'合作洽谈、私人咨询或任何问题——<br>我们将在24小时内回复。',tw:'合作洽談、私人諮詢或任何問題——<br>我們將在24小時內回覆。'},
+  'ct-nl':{en:'Your Name',zh:'您的姓名',tw:'您的姓名'},
+  'ct-el':{en:'Your Email',zh:'您的邮箱',tw:'您的信箱'},
+  'ct-tl':{en:'Inquiry Type',zh:'咨询类型',tw:'諮詢類型'},
+  'ct-ml':{en:'Message',zh:'留言内容',tw:'留言內容'},
+  'ct-o1':{en:'Private Consultation',zh:'私人咨询',tw:'私人諮詢'},
+  'ct-o2':{en:'Collaboration',zh:'合作洽谈',tw:'合作洽談'},
+  'ct-o3':{en:'General Question',zh:'一般问题',tw:'一般問題'},
+  'ct-o4':{en:'Other',zh:'其他',tw:'其他'},
+  'ct-ok-title':{en:'Email Ready',zh:'邮件已准备好',tw:'郵件已準備好'},
+  'ct-ok-body':{en:'Your email client has opened. Once sent, we\'ll respond within 24 hours.',zh:'您的邮件客户端已打开，发送后我们将在24小时内回复。',tw:'您的郵件客戶端已開啟，發送後我們將在24小時內回覆。'},
+  'ct-direct':{en:'Or email directly: <a href="mailto:benv9988088@gmail.com" style="color:var(--gold-light);text-decoration:none;">benv9988088@gmail.com</a>',zh:'或直接发邮件：<a href="mailto:benv9988088@gmail.com" style="color:var(--gold-light);text-decoration:none;">benv9988088@gmail.com</a>',tw:'或直接寄信：<a href="mailto:benv9988088@gmail.com" style="color:var(--gold-light);text-decoration:none;">benv9988088@gmail.com</a>'}
 };
 
 function setLang(ln){
   L=ln;
-  // 按钮顺序: EN(i=0), 繁體(i=1), 简体(i=2)
-  // 繁体激活状态由setLangFull/updateLangBtns负责，这里只管en和zh
-  var _lb={'btnEN':ln==='en','btnTW':false,'btnZH':ln==='zh'};
-  Object.keys(_lb).forEach(function(id){var el=document.getElementById(id);if(el)el.classList.toggle('active',_lb[id]);});
-  for(var id in UI){var el=document.getElementById(id);if(el)el.innerHTML=UI[id][ln];}
+  // 三语言按钮高亮
+  var _btnMap={btnEN:ln==='en', btnTW:ln==='tw', btnZH:ln==='zh'};
+  Object.keys(_btnMap).forEach(function(id){var el=document.getElementById(id);if(el)el.classList.toggle('active',_btnMap[id]);});
+  // UI字典更新（en/zh/tw三语言）
+  for(var id in UI){var el=document.getElementById(id);if(el&&UI[id][ln]!==undefined)el.innerHTML=UI[id][ln];}
   buildDateSelects();
-  // 只有当命盘已生成时才重新渲染（不触发validate）
   var res=document.getElementById('result');
   if(res&&res.style.display!=='none'&&CHART) generate();
-  // 更新AI问卦分类语言
-  // 更新AI结果区标签（不动内容）
   var resLabel=document.getElementById('ai-res-label');
   if(resLabel&&resLabel.textContent){
-    resLabel.textContent=L==='zh'?'命盘解读':'Your Chart Reading';
+    resLabel.textContent=(ln==='zh'||ln==='tw')?(ln==='tw'?'命盤解讀':'命盘解读'):'Your Chart Reading';
   }
   var previewBtn=document.getElementById('ai-preview-btn');
-  if(previewBtn) previewBtn.textContent=L==='zh'?'✦ 免费预览':'✦ Free Preview';
+  if(previewBtn) previewBtn.textContent=(ln==='zh'||ln==='tw')?'✦ 免费预览':'✦ Free Preview';
   var subBtn=document.getElementById('ai-sub-btn');
-  if(subBtn) subBtn.textContent=L==='zh'?'⟡ 完整解读 · $9':'⟡ Full Reading · $9';
+  if(subBtn) subBtn.textContent=(ln==='zh'||ln==='tw')?(ln==='tw'?'⟡ 完整解讀 · $9':'⟡ 完整解读 · $9'):'⟡ Full Reading · $9';
   if(typeof renderTopics==='function') renderTopics();
   if(typeof currentTopic!=='undefined'&&currentTopic) selectTopic(currentTopic);
   // 更新页面内定价区语言
+  var _isZh=(ln==='zh'||ln==='tw');
   var _pricingTx={
     'pricing-title':{en:'Unlock Your Full Reading',zh:'解锁完整命盘解读'},
     'pricing-sub':{en:'One-time · Or unlimited access to all three SHEN tools',zh:'单次付费，或无限畅读全部三项神数工具'},
-    'pc-n1':{en:'Single Reading',zh:'单次解读'},
-    'pc-d1':{en:'This tool, one complete reading',zh:'本工具一次完整解读'},
-    'pc-n2':{en:'All Three Tools',zh:'三工具套餐'},
-    'pc-d2':{en:'Ba Zi + Zi Wei + I Ching',zh:'八字 + 紫微 + 易经'},
-    'pc-n3':{en:'Monthly Unlimited',zh:'月度无限'},
-    'pc-d3':{en:'All tools · unlimited readings',zh:'全部工具 · 无限次解读'},
+    'pc-n1':{en:'Single Reading',zh:'单次解读'},'pc-d1':{en:'This tool, one complete reading',zh:'本工具一次完整解读'},
+    'pc-n2':{en:'All Three Tools',zh:'三工具套餐'},'pc-d2':{en:'Ba Zi + Zi Wei + I Ching',zh:'八字 + 紫微 + 易经'},
+    'pc-n3':{en:'Monthly Unlimited',zh:'月度无限'},'pc-d3':{en:'All tools · unlimited readings',zh:'全部工具 · 无限次解读'},
     'pc-badge-m':{en:'Most Popular',zh:'最受欢迎'},
-    'pc-n4':{en:'Annual Unlimited',zh:'年度无限'},
-    'pc-d4':{en:'All tools · $8.25/month',zh:'全部工具 · 折合每月$8.25'},
+    'pc-n4':{en:'Annual Unlimited',zh:'年度无限'},'pc-d4':{en:'All tools · $8.25/month',zh:'全部工具 · 折合每月$8.25'},
     'pc-badge-y':{en:'Best Value',zh:'最划算'},
     'pc-note':{en:'Secure payment via PayPal · Instant access after confirmation',zh:'PayPal安全付款 · 确认后立即开通'}
   };
-  Object.keys(_pricingTx).forEach(function(id){
-    var el=document.getElementById(id);
-    if(el) el.textContent=_pricingTx[id][ln]||_pricingTx[id]['en'];
-  });
+  Object.keys(_pricingTx).forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=_pricingTx[id][_isZh?'zh':'en'];});
 }
 
 // ── 日期下拉 ──
@@ -1486,25 +1477,18 @@ function applyTradSimp(toTrad){
   });
 }
 
-// 扩展setLang，加繁体支持
+// 三语言切换（简化版，直接调setLang）
 var _baseLang='en';
 function setLangFull(code){
   if(code==='zh-tw'){
-    // 先切到简体中文，再转繁体
-    if(typeof setLang==='function') setLang('zh');
-    _baseLang='zh';
-    setTimeout(function(){ applyTradSimp(true); }, 150);
-    // 更新按钮状态
-    updateLangBtns('zh-tw');
+    _baseLang='tw';
+    setLang('tw');
   } else if(code==='zh'){
-    if(typeof setLang==='function') setLang('zh');
     _baseLang='zh';
-    if(_isTrad) setTimeout(function(){ applyTradSimp(false); }, 150);
-    updateLangBtns('zh');
+    setLang('zh');
   } else {
-    if(typeof setLang==='function') setLang('en');
     _baseLang='en';
-    updateLangBtns('en');
+    setLang('en');
   }
 }
 
