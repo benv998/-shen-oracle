@@ -272,6 +272,92 @@ select { color-scheme: dark; }
 }
 .shen-logout-btn:hover { color:rgba(214,205,184,0.6); }
 
+
+/* ══════════════════════════════════════════
+   MOBILE RESPONSIVE — Purple Star
+   全面移动端适配
+══════════════════════════════════════════ */
+
+/* 手机导航：隐藏工具链接文字，只留图标式缩写 */
+@media (max-width: 600px) {
+  /* 导航栏 */
+  nav > div { padding: 0 12px !important; height: 48px !important; }
+  /* 语言栏 */
+  .lang-bar { padding: 14px 16px 0 !important; }
+  /* Hero区 */
+  .hero { padding-top: 32px !important; }
+  .hero-title { font-size: clamp(38px,11vw,60px) !important; }
+  .hero-sub { font-size: 10px !important; letter-spacing: .14em !important; }
+  .hero-desc { font-size: 17px !important; padding: 0 8px; }
+  /* 表单卡片 */
+  .form-card { padding: 24px 16px !important; margin: 0 0 !important; }
+  .form-section { padding: 0 12px !important; margin: 28px auto !important; }
+  /* 日期选择器三列 */
+  .dr { grid-template-columns: 1fr 1fr 1fr !important; gap: 6px !important; }
+  .fi { font-size: 14px !important; padding: 10px 8px !important; }
+  /* 揭示按钮 */
+  .sub-btn, button[id="sub-btn"] { font-size: 12px !important; padding: 16px 12px !important; letter-spacing: .15em !important; }
+  /* 命盘结果区 */
+  #result { padding: 0 12px 60px !important; }
+  .rh { padding: 32px 0 28px !important; margin-bottom: 32px !important; }
+  .rn { font-size: 13px !important; }
+  .rs { font-size: clamp(20px,5vw,28px) !important; }
+  /* 星盘图 — 缩到屏幕宽度 */
+  .wheel-wrap { 
+    width: min(90vw, 340px) !important; 
+    height: min(90vw, 340px) !important; 
+    overflow: visible !important;
+  }
+  .wheel-wrap svg { width: 100% !important; height: 100% !important; }
+  .wheel-hint { font-size: 10px !important; letter-spacing: .15em !important; }
+  /* 核心描述 */
+  .stit { font-size: 22px !important; }
+  .sbod { font-size: 18px !important; line-height: 1.8 !important; }
+  .pill { font-size: 11px !important; padding: 5px 10px !important; letter-spacing: .08em !important; }
+  /* 大运卡片 */
+  .dy-wrap { grid-template-columns: repeat(2,1fr) !important; gap: 8px !important; }
+  .dy-card { padding: 14px 10px !important; }
+  .dy-age { font-size: 11px !important; }
+  /* 宫位手风琴 */
+  .acc-badge { font-size: 10px !important; padding: 3px 7px !important; }
+  .acc-title { font-size: 15px !important; }
+  .acc-head { padding: 14px 12px !important; }
+  /* AI问卦区 */
+  .ai-section { padding: 0 12px 40px !important; }
+  .ai-topics { grid-template-columns: repeat(2,1fr) !important; gap: 8px !important; }
+  .ai-topic-btn { padding: 12px 8px !important; font-size: 11px !important; }
+  .ai-fields { padding: 0 !important; }
+  .ai-input { font-size: 15px !important; }
+  /* 定价区 */
+  #pricing-section { padding: 0 12px !important; }
+  #pricing-section > div > div[style*="grid-template-columns:1fr 1fr"] { 
+    display: grid !important; grid-template-columns: 1fr !important; 
+  }
+  /* 联系区 */
+  .contact-section { padding: 0 12px 40px !important; }
+  .contact-form-card { padding: 20px 14px !important; }
+  /* 弹窗 */
+  .shen-modal { padding: 32px 20px 24px !important; }
+  .shen-plan { padding: 14px 12px !important; }
+}
+
+/* 超小屏（375px iPhone SE） */
+@media (max-width: 390px) {
+  .hero-title { font-size: 36px !important; }
+  .hero-desc { font-size: 15px !important; }
+  .dr { gap: 4px !important; }
+  .fi { font-size: 13px !important; padding: 9px 6px !important; }
+  .ai-topics { grid-template-columns: 1fr 1fr !important; }
+  .ai-topic-btn { font-size: 10px !important; padding: 10px 6px !important; }
+}
+
+/* 定价grid在手机上单列 */
+@media (max-width: 600px) {
+  div[style*="grid-template-columns:1fr 1fr;gap:12px"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 </style>
 </head>
 <body>

@@ -1147,6 +1147,87 @@ select { color-scheme: dark; }
 }
 .shen-logout-btn:hover { color:rgba(214,205,184,0.6); }
 
+
+/* ══════════════════════════════════════════
+   MOBILE RESPONSIVE — Yi Jing Oracle
+   全面移动端适配
+══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  /* 全局 */
+  body { font-size: 15px; }
+  /* 导航 */
+  nav > div { padding: 0 12px !important; height: 48px !important; }
+  /* Header */
+  header { padding: 80px 16px 32px !important; }
+  .header-ornament { font-size: 18px !important; }
+  h1 { font-size: clamp(32px,9vw,52px) !important; }
+  .header-subtitle { font-size: 11px !important; letter-spacing: .12em !important; }
+  /* 语言切换 */
+  .lang-toggle { position: static !important; margin: 0 auto 16px !important; }
+  /* 问题输入区 */
+  .question-section, div[style*="padding:20px 24px"] { padding: 16px 12px !important; }
+  #questionInput { font-size: 15px !important; min-height: 80px !important; padding: 12px !important; }
+  /* 抛硬币按钮 */
+  .cast-btn { font-size: 12px !important; padding: 16px 20px !important; letter-spacing: .15em !important; }
+  /* 硬币动画区 */
+  #coin-drop-scene { min-height: 120px !important; }
+  .coin { width: 42px !important; height: 42px !important; font-size: 18px !important; }
+  /* 卦象显示 */
+  .hexagram-display { padding: 32px 0 20px !important; }
+  .hex-symbol { font-size: 68px !important; }
+  .hex-number { font-size: 11px !important; }
+  .hex-name { font-size: clamp(24px,6vw,36px) !important; }
+  .hex-subtitle { font-size: 13px !important; }
+  /* Tab栏 */
+  .tab-btn { padding: 12px 10px !important; font-size: 10px !important; letter-spacing: .1em !important; }
+  .tab-content { padding: 16px 14px !important; }
+  /* 解读内容 */
+  .section-label { font-size: 10px !important; }
+  .classical-text { font-size: 18px !important; line-height: 1.8 !important; }
+  .line-text { font-size: 16px !important; }
+  /* AI结果 */
+  .ai-result { padding: 16px 14px !important; }
+  .ai-result-text { font-size: 15px !important; line-height: 1.9 !important; }
+  .ai-actions { padding: 12px 14px 16px !important; gap: 8px !important; }
+  .ai-free-btn, .ai-paid-btn { font-size: 12px !important; padding: 14px 10px !important; }
+  /* 问卦方向 */
+  #yj-topics { grid-template-columns: repeat(2,1fr) !important; gap: 8px !important; }
+  /* 引导提示 */
+  .ritual-notice { padding: 14px !important; font-size: 13px !important; }
+  .ritual-summary { padding: 12px 14px !important; }
+  .ritual-quick-list { gap: 4px 8px !important; }
+  .ritual-quick-item { font-size: 12px !important; }
+  /* 定价区 */
+  #pricing-section { padding: 0 12px !important; }
+  /* 联系区 */
+  #contact-section { padding: 0 12px 40px !important; }
+  /* 弹窗 */
+  .shen-modal { padding: 28px 16px 20px !important; }
+  .shen-plan { padding: 12px 10px !important; }
+  /* 包裹容器 */
+  .wrap, [class*="wrap"] { padding: 0 12px !important; }
+  /* 爻线显示 */
+  .hex-lines { gap: 6px !important; }
+  .hex-line { height: 5px !important; gap: 6px !important; }
+}
+
+@media (max-width: 390px) {
+  h1 { font-size: 28px !important; }
+  .tab-btn { font-size: 9px !important; padding: 11px 8px !important; }
+  .cast-btn { font-size: 11px !important; }
+  #yj-topics { grid-template-columns: 1fr 1fr !important; }
+}
+
+/* 定价grid手机单列 */
+@media (max-width: 600px) {
+  div[style*="grid-template-columns:1fr 1fr;gap:12px"] {
+    grid-template-columns: 1fr !important;
+  }
+  div[style*="display:grid;grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 </style>
 </head>
 <body>
