@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>SHEN · Zi Wei Dou Shu — Imperial Chinese Astrology</title>
-<meta name="description" content="Reveal your Purple Star destiny chart — the 1,000-year-old system once reserved for Chinese emperors, now decoded by AI for modern life.">
+<meta name="description" content="Reveal your Purple Star destiny chart — the 1,000-year-old system once reserved for Chinese emperors, now interpreted through ancient intelligence for modern decisions.">
+<script src="iztro.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#C9A84C;--gold-light:#E8D5A3;--gold-dim:#7A6030;--pd:#0D0A1A;--pm:#1A1330;--pc:#13102A;--pb:#2A2248;--sw:#F5F0FF;--tm:#8878AA;--tb:#C8BDE8;}
@@ -16,9 +17,9 @@ body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50
 /* LANG */
 .lang-bar{display:flex;justify-content:flex-end;padding:20px 32px 0;}
 .lang-toggle{display:flex;border:1px solid var(--pb);border-radius:2px;overflow:hidden;}
-.lang-btn{padding:7px 18px;background:transparent;border:none;color:var(--tm);font-family:'Josefin Sans',sans-serif;font-size:21px;letter-spacing:.15em;cursor:pointer;transition:all .3s;}
+.lang-btn{padding:7px 16px;background:transparent;border:none;color:var(--tm);font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.18em;cursor:pointer;transition:all .3s;text-transform:uppercase;}
 .lang-btn.active{background:rgba(201,168,76,.1);color:var(--gold-light);}
-.lang-btn:first-child{border-right:1px solid var(--pb);}
+.lang-btn:not(:last-child){border-right:1px solid var(--pb);}
 /* HERO */
 .hero{text-align:center;padding:56px 24px 44px;}
 .crown{font-size:24px;letter-spacing:.3em;color:var(--gold);margin-bottom:20px;opacity:0;animation:fadeUp 1s ease forwards .2s;}
@@ -186,7 +187,7 @@ select { color-scheme: dark; }
   <h1 class="hero-title">Purple<br><span>Star</span></h1>
   <p class="hero-sub" id="h-sub">Imperial Chinese Astrology · 紫微斗數</p>
   <div class="divider"><div class="dl"></div><div class="dd">◆</div><div class="dl"></div></div>
-  <p class="hero-desc" id="h-desc">The system Chinese emperors relied on for a thousand years.<br>More nuanced than Western astrology, more personalized than Ba Zi —<br>mapped to your exact birth moment and decoded by AI.</p>
+  <p class="hero-desc" id="h-desc">The system Chinese emperors relied on for a thousand years.<br>More nuanced than Western astrology, more personalized than Ba Zi —<br>mapped to your exact birth moment and interpreted by ancient intelligence.</p>
 </section>
 <section class="form-section">
   <div class="form-card">
@@ -319,7 +320,7 @@ var DEEPSEEK_KEY='sk-c600e50c1c16467a9932b9d5e6307fed';
 // ── 语言文本 ──
 var UI={
   'h-sub':{en:'Imperial Chinese Astrology · 紫微斗數',zh:'皇家命理 · 紫微斗數'},
-  'h-desc':{en:'The system Chinese emperors relied on for a thousand years.<br>More nuanced than Western astrology, more personalized than Ba Zi —<br>mapped to your exact birth moment and decoded by AI.',zh:'千年前专为天子所设的命理体系——<br>比西方占星更精准，比八字更立体——<br>如今为你打开。'},
+  'h-desc':{en:'The system Chinese emperors relied on for a thousand years.<br>More nuanced than Western astrology, more personalized than Ba Zi —<br>mapped to your exact birth moment and interpreted by ancient intelligence.',zh:'千年前专为天子所设的命理体系——<br>比西方占星更精准，比八字更立体——<br>如今为你打开。'},
   'l-date':{en:'Date of Birth',zh:'出生日期'},
   'l-time':{en:'Time of Birth',zh:'出生时辰'},
   'sub-btn':{en:'✦  Reveal My Destiny Chart  ✦',zh:'✦  揭示我的命盘  ✦'},
@@ -356,6 +357,15 @@ function setLang(ln){
   var res=document.getElementById('result');
   if(res&&res.style.display!=='none'&&CHART) generate();
   // 更新AI问卦分类语言
+  // 更新AI结果区标签（不动内容）
+  var resLabel=document.getElementById('ai-res-label');
+  if(resLabel&&resLabel.textContent){
+    resLabel.textContent=L==='zh'?'命盘解读':'Your Chart Reading';
+  }
+  var previewBtn=document.getElementById('ai-preview-btn');
+  if(previewBtn) previewBtn.textContent=L==='zh'?'✦ 免费预览':'✦ Free Preview';
+  var subBtn=document.getElementById('ai-sub-btn');
+  if(subBtn) subBtn.textContent=L==='zh'?'⟡ 完整解读 · ¥65':'⟡ Full Reading · $9';
   if(typeof renderTopics==='function') renderTopics();
   if(typeof currentTopic!=='undefined'&&currentTopic) selectTopic(currentTopic);
 }
@@ -581,14 +591,14 @@ function buildWheel(BP,mg){
     // 宫位名
     var nr=RO-16,nx=230+nr*Math.cos(ma),ny=230+nr*Math.sin(ma),rot=pi*30-75;
     if(rot>90&&rot<270)rot+=180;
-    svg+='<text x="'+nx.toFixed(1)+'" y="'+ny.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" font-family="Josefin Sans,sans-serif" font-size="12" fill="'+(isL?'#E8D5A3':'#8878AA')+'" letter-spacing="0.8" transform="rotate('+rot+','+nx.toFixed(1)+','+ny.toFixed(1)+')">'+PN[pi].toUpperCase()+'</text>';
+    svg+='<text x="'+nx.toFixed(1)+'" y="'+ny.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" font-family="Josefin Sans,sans-serif" font-size="9" fill="'+(isL?'#E8D5A3':'#8878AA')+'" letter-spacing="0.3" transform="rotate('+rot+','+nx.toFixed(1)+','+ny.toFixed(1)+')">'+((L==='en'&&PN[pi].length>6)?PN[pi].substring(0,5).toUpperCase():PN[pi].toUpperCase())+'</text>';
     // 星名
     if(pst.length>0){
       var sr=(RP+RI)/2+4,sx=230+sr*Math.cos(ma),sy=230+sr*Math.sin(ma),srot=pi*30-75;
       if(srot>90&&srot<270)srot+=180;
       // 英文星名缩写：取每个词首字母缩写，双星用·分隔
   var ABBR={'紫微':'Emp','天机':'Hvn','太阳':'Sun','武曲':'Trea','天同':'Harm','廉贞':'Intg','天府':'Vlt','太阴':'Moon','贪狼':'Wolf','巨门':'Gate','天相':'Mini','天梁':'Eld','七杀':'War','破军':'Pio'};
-  var txt=L==='zh'?pst.join(' '):(pst.map(function(s){return ABBR[s]||(SEN[s]||s).substring(0,4);}).join('·'));
+  var PALABBR={'LIFE':'LIFE','SIBLINGS':'SIBL','SPOUSE':'SPSE','CHILDREN':'CHLD','WEALTH':'WLTH','HEALTH':'HLTH','TRAVEL':'TRVL','FRIENDS':'FRND','CAREER':'CARR','PROPERTY':'PROP','FORTUNE':'FORT','PARENTS':'PRNT'}; var txt=L==='zh'?pst.join(' '):(pst.map(function(s){return ABBR[s]||(SEN[s]||s).substring(0,4);}).join('·'));
       svg+='<text x="'+sx.toFixed(1)+'" y="'+sy.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" font-family="Cormorant Garamond,serif" font-size="'+(pst.length>1?11:12.5)+'" fill="'+(isL?'#E8D5A3':'#C8BDE8')+'" transform="rotate('+srot+','+sx.toFixed(1)+','+sy.toFixed(1)+')"'+(isL?' filter="url(#glow)"':'')+'>'+txt+'</text>';
     }
     if(isL){
@@ -662,46 +672,95 @@ function generate(){
   var gv=document.getElementById('bg').value;
   if(!y||!m||!d||!hv||!gv){alert(L==='zh'?'请填写所有字段。':'Please fill in all fields.');return;}
 
-  // 农历转换
-  var lunar=getLunarDate(y,m,d);
-  var lM=lunar.lM, lD=lunar.lD;
+  // ── 用iztro计算紫微命盘 ──────────────────────────
+  var hourIndex = {23:0,1:1,3:2,5:3,7:4,9:5,11:6,13:7,15:8,17:9,19:10,21:11}[parseInt(hv)]||0;
+  var dateStr2 = y+'-'+(m<10?'0'+m:m)+'-'+(d<10?'0'+d:d);
+  var iztroGender = gv==='M'?'男':'女';
+  var iztroLang = (L==='zh'||L==='zh-tw')?'zh-CN':'zh-CN'; // iztro只支持中文星名，我们自己翻译
+  
+  var chart;
+  try {
+    chart = iztro.astro.bySolar(dateStr2, hourIndex, iztroGender, true, 'zh-CN');
+  } catch(e) {
+    alert('排盘计算出错，请检查日期是否正确。Error: '+e.message);
+    return;
+  }
 
-  // 农历年
-  var lunarYear=y;
-  var ld=LUNAR_YEARS[y];
-  if(ld&&new Date(y,m-1,d)<new Date(y,ld[0]-1,ld[1]))lunarYear=y-1;
+  // 从iztro提取数据
+  var rawDates = chart.rawDates;
+  var lunarYear = rawDates.lunarDate.lunarYear;
+  var cd = rawDates.chineseDate;
+  var stem = cd.yearly[0], branch = cd.yearly[1];
+  var si = '甲乙丙丁戊己庚辛壬癸'.indexOf(stem);
+  var bi = '子丑寅卯辰巳午未申酉戌亥'.indexOf(branch);
+  var animal = L==='zh'?AZ[bi]:AE[bi];
+  var yy = si%2===0?(L==='zh'?'阳':'Yang'):(L==='zh'?'阴':'Yin');
+  var ny = chart.fiveElementsClass; // 五行局，如"火六局"
+  var ju = parseInt(ny) || 6; // 提取数字
 
-  // 天干地支
-  var si=((lunarYear-4)%10+10)%10, bi=((lunarYear-4)%12+12)%12;
-  var stem=TG[si], branch=DZ[bi];
-  var animal=L==='zh'?AZ[bi]:AE[bi];
-  var yy=si%2===0?(L==='zh'?'阳':'Yang'):(L==='zh'?'阴':'Yin');
+  // 构建BP宫位星曜映射（兼容原有格式）
+  // iztro宫位顺序：0=命宫,1=父母,2=福德...
+  // 原系统BP[地支序号] = [星名...]
+  // 转换：把iztro的12宫按地支映射到BP
+  var BP={};
+  for(var k=0;k<12;k++) BP[k]=[];
+  
+  var izPalaces = chart.palaces;
+  var DZ_ORDER = '子丑寅卯辰巳午未申酉戌亥';
+  
+  izPalaces.forEach(function(palace){
+    var dzIdx = DZ_ORDER.indexOf(palace.earthlyBranch);
+    if(dzIdx >= 0){
+      var stars = [];
+      palace.majorStars.forEach(function(s){ stars.push(s.name); });
+      // 也加入部分重要辅星（禄存、天马）
+      palace.minorStars.forEach(function(s){
+        if(['禄存','天马'].indexOf(s.name)>=0) stars.push(s.name);
+      });
+      BP[dzIdx] = stars;
+    }
+  });
 
-  // 五行局
-  var nyi=((lunarYear-4)%60+60)%60, ny=NT[Math.floor(nyi/2)], ju=NJ[ny]||5;
+  // 命宫地支
+  var soulPalace = izPalaces.find(function(p){ return p.name==='命宫'; });
+  var mg = soulPalace ? DZ_ORDER.indexOf(soulPalace.earthlyBranch) : 0;
+  var ls = BP[mg] || [];
+  var ms = ls.length>0 ? ls[0] : '天府';
+  var mk = SK[ms]||'Vault', R=MR[mk]||MR['Vault'];
+  var PN = L==='zh'?PZH:PEN;
 
-  // 紫微位置（用农历日）
-  var q=Math.floor(lD/ju), r=lD%ju, zw;
-  if(r===0) zw=6;
-  else { var steps=(q%2===1)?(q+r):(q+ju-r); zw=steps%12; }
-  var tf=(6-zw+12)%12;
+  // 身宫
+  var bodyPalaceName = chart.body;
+  
+  // 五行局起运数
+  var juMap = {'木三局':3,'火六局':6,'土五局':5,'金四局':4,'水二局':2};
+  ju = juMap[ny] || 6;
 
-  // 14主星
-  var SM={};
-  SM['紫微']=zw;SM['天机']=(zw+11)%12;SM['太阳']=(zw+2)%12;SM['武曲']=(zw+3)%12;SM['天同']=(zw+4)%12;SM['廉贞']=(zw+7)%12;
-  SM['天府']=tf;SM['太阴']=(tf+1)%12;SM['贪狼']=(tf+2)%12;SM['巨门']=(tf+3)%12;SM['天相']=(tf+4)%12;SM['天梁']=(tf+5)%12;SM['七杀']=(tf+6)%12;SM['破军']=(tf+9)%12;
-  var BP={};for(var k=0;k<12;k++)BP[k]=[];
-  for(var s in SM)BP[SM[s]].push(s);
-
-  // 命宫
-  var hmap={23:0,1:1,3:2,5:3,7:4,9:5,11:6,13:7,15:8,17:9,19:10,21:11};
-  var shi=hmap[parseInt(hv)]||0, mg=((2+shi)-lM+24)%12;
-  var ls=BP[mg], ms=ls&&ls.length>0?ls[0]:'天府';
-  var mk=SK[ms]||'Vault', R=MR[mk]||MR['Vault'];
-  var PN=L==='zh'?PZH:PEN;
+  // 大运方向
+  var isFwd = (si%2===0 && gv==='M') || (si%2!==0 && gv==='F');
 
   // 存储命盘供AI使用
-  CHART={BP:BP,mg:mg,ms:ms,ny:ny,ju:ju,stem:stem,branch:branch,y:y,isFwd:isFwd};
+  // iztro增强数据：带亮度的完整星曜信息
+  var izPalsFull = {};
+  try {
+    chart.palaces.forEach(function(p){
+      var dzIdx = '子丑寅卯辰巳午未申酉戌亥'.indexOf(p.earthlyBranch);
+      var majorInfo = p.majorStars.map(function(s){ return s.name+(s.brightness?'('+s.brightness+')':''); });
+      var minorInfo = p.minorStars.slice(0,4).map(function(s){ return s.name; });
+      izPalsFull[dzIdx] = {major: majorInfo, minor: minorInfo, name: p.name};
+    });
+  } catch(e){}
+
+  // 当前大运（iztro）
+  var curYear = new Date().getFullYear();
+  var horo;
+  try { horo = chart.horoscope(curYear+'-06-01', 4); } catch(e){}
+  var curDayunStem = horo&&horo.decadal ? horo.decadal.heavenlyStem : '';
+  var curDayunBranch = horo&&horo.decadal ? horo.decadal.earthlyBranch : '';
+
+  CHART={BP:BP,mg:mg,ms:ms,ny:ny,ju:ju,stem:stem,branch:branch,y:y,isFwd:isFwd,
+    bodyPalace:bodyPalaceName, izPalsFull:izPalsFull,
+    curDayunStem:curDayunStem, curDayunBranch:curDayunBranch, chart:chart};
 
   // 日期字符串
   var dateStr=L==='zh'
@@ -756,7 +815,7 @@ function generate(){
   var aiHTML=UNLOCKED?'':'<div class="ai-gate fi-in">'+
     '<div style="font-size:28px;color:var(--gold);margin-bottom:16px;">✦</div>'+
     '<div style="font-family:Cormorant Garamond,serif;font-size:30px;color:var(--sw);margin-bottom:14px;">'+(L==='zh'?'命盘直答':'Chart Oracle')+'</div>'+
-    '<p style="font-family:Cormorant Garamond,serif;font-size:21px;color:var(--tm);font-style:italic;line-height:1.85;max-width:500px;margin:0 auto 28px;">'+(L==='zh'?'12宫是你的星位地图。<br>现在告诉我你的处境——AI结合命盘，精准回应你的问题。':'The 12 palaces show your star map.<br>Tell us your situation — AI reads your chart<br>and speaks directly to your life.')+'</p>'+
+    '<p style="font-family:Cormorant Garamond,serif;font-size:21px;color:var(--tm);font-style:italic;line-height:1.85;max-width:500px;margin:0 auto 28px;">'+(L==='zh'?'12宫是你的星位地图。<br>现在告诉我你的处境——命盘将精准回应你的问题。':'The 12 palaces show your star map.<br>Tell us your situation — your chart speaks<br>directly to your life.')+'</p>'+
     '<div class="ai-feats">'+aiFeats.map(function(f){return '<div class="ai-feat"><span class="ai-feat-icon">✦</span>'+f+'</div>';}).join('')+'</div>'+
     '<button class="unlock-btn" onclick="unlock()">'+(L==='zh'?'✦  开始问盘  ✦':'✦  Consult My Chart  ✦')+'</button>'+
     '<div style="font-size:24px;color:var(--tm);margin-top:8px;">'+(L==='zh'?'🔓 测试模式：点击免费体验':'🔓 Test mode — free during testing')+'</div>'+
@@ -1058,9 +1117,32 @@ async function doAI(isPaid){
   var BP=CHART.BP,mg=CHART.mg,ms=CHART.ms,ny=CHART.ny,ju=CHART.ju,isFwd=CHART.isFwd||true;
   var PN_ZH=['命宫','兄弟','夫妻','子女','财帛','疾厄','迁移','交友','官禄','田宅','福德','父母'];
   var PN_EN=['Life','Siblings','Spouse','Children','Wealth','Health','Travel','Friends','Career','Property','Fortune','Parents'];
+  // 用iztro增强数据构建详细宫位信息（含星曜亮度）
+  var izPF = CHART.izPalsFull || {};
   var palInfo=L==='zh'
-    ?Array.from({length:12},function(_,i){var pDz=(mg+i)%12,stars=BP[pDz]||[];return PN_ZH[i]+'：'+(stars.length?stars.join('、'):'空宫');}).join('，')
-    :Array.from({length:12},function(_,i){var pDz=(mg+i)%12,stars=BP[pDz]||[];return PN_EN[i]+'('+(stars.length?stars.map(function(s){return SEN[s]||s;}).join(','):'Empty')+')';}).join(' | ');
+    ?Array.from({length:12},function(_,i){
+        var pDz=(mg+i)%12;
+        var iz=izPF[pDz];
+        if(iz&&iz.major.length){
+          return PN_ZH[i]+'：主星：'+iz.major.join('、')+(iz.minor.length?'；辅星：'+iz.minor.join('、'):'');
+        }
+        var stars=BP[pDz]||[];
+        return PN_ZH[i]+'：'+(stars.length?stars.join('、'):'空宫');
+      }).join('\n')
+    :Array.from({length:12},function(_,i){
+        var pDz=(mg+i)%12;
+        var iz=izPF[pDz];
+        if(iz&&iz.major.length){
+          var majEn=iz.major.map(function(s){var n=s.replace(/\(.*\)/,'');return (SEN[n]||n)+(s.match(/\(.*\)/)?s.match(/\(.*\)/)[0]:'');});
+          return PN_EN[i]+'['+majEn.join(',')+']';
+        }
+        var stars=BP[pDz]||[];
+        return PN_EN[i]+'('+(stars.length?stars.map(function(s){return SEN[s]||s;}).join(','):'Empty')+')';
+      }).join(' | ');
+  
+  // 身宫和当前大运
+  var bodyPalInfo = CHART.bodyPalace || '';
+  var curDayunInfo = (CHART.curDayunStem||'')+(CHART.curDayunBranch||'');
 
   var today=new Date();
   var curYearNow=today.getFullYear();
@@ -1077,8 +1159,8 @@ async function doAI(isPaid){
       ?'你是紫微斗数命理大师，为商界精英和决策者服务。根据命盘数据，写一段让人感到"说中了"的【命盘预览】。今天是'+today.getFullYear()+'年'+(today.getMonth()+1)+'月'+today.getDate()+'日，只谈现在和未来。要求：①第一句直接点出命宫主星赋予此人最独特的核心特质，具体到星盘层面；②针对所问方向，说出命盘给出的最重要信号——是机会窗口还是需要注意的结构性挑战；③最后一句制造真实悬念——暗示当前大运宫位的深层含义和关键时间节点还未揭示；④绝不出现付费相关字眼；⑤全文110-140字，字字有份量。'
       :'You are a Zi Wei Dou Shu master serving executives and high-performers who need precision, not platitudes. Write a chart preview that earns their attention immediately. Today is '+today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'. Speak only of present and future. Requirements: ①Open with the single most specific quality this person\'s Life Palace star gives them — name the star, make it concrete and individual. ②Address their exact topic with the most critical signal the chart reveals — opportunity window or structural challenge to navigate. ③Close with genuine suspense: reference that the current Luck Cycle palace and key timing windows ahead have not yet been surfaced. ④No payment references. ⑤90-120 words. Every sentence earns its place.';
     usr=L==='zh'
-      ?'命宫主星：'+ms+'\n纳音：'+ny+'（'+ju+'局，当前年龄约'+curAgeNow+'岁）\n当前大运：'+curDayunAge+'岁起，走'+curDayunPal+'\n十二宫：'+palInfo+'\n\n问卦方向：'+info.label+'\n背景：'+ctx.join(' | ')
-      :'Life Palace Star: '+(SEN[ms]||ms)+'\nNayin: '+ny+' ('+ju+' cycle, approx age '+curAgeNow+')\nCurrent Luck Cycle: age '+curDayunAge+', '+curDayunPal+' Palace\n12 Palaces: '+palInfo+'\n\nTopic: '+info.label+'\nContext: '+ctx.join(' | ');
+      ?'命宫主星：'+ms+'\n身宫：'+(bodyPalInfo||'未知')+'\n五行局：'+ny+'（起运岁数：'+ju+'，当前年龄约'+curAgeNow+'岁）\n当前大运干支：'+(curDayunInfo||curDayunPal)+'\n\n十二宫详细星曜（含亮度）：\n'+palInfo+'\n\n问卦方向：'+info.label+'\n背景：'+ctx.join(' | ')
+      :'Life Palace Star: '+(SEN[ms]||ms)+' | Body Palace: '+(bodyPalInfo||'-')+'\nFive Elements: '+ny+' (start age: '+ju+', current: '+curAgeNow+')\nCurrent Decade: '+(curDayunInfo||curDayunPal)+'\n12 Palaces: '+palInfo+'\n\nTopic: '+info.label+'\nContext: '+ctx.join(' | ');
   } else {
     // ── 付费完整解读 Prompt ──
     sys=L==='zh'
@@ -1086,7 +1168,7 @@ async function doAI(isPaid){
       :'You are a master of Purple Star Astrology (Zi Wei Dou Shu). Your clients are executives, investors, and professionals facing real decisions — they are intelligent, skeptical, and will immediately notice generic advice. Today is '+today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'. All timing must point forward — never reference past years.\n\nDeliver a complete reading using this exact structure:\n\n[I. CHART IDENTITY]\nWhat this person\'s Life Palace star and key palace configuration says about who they fundamentally are. Be specific — name the star combination, explain what makes them distinctive. (3-4 sentences)\n\n[II. VERDICT ON THE QUESTION]\nIdentify the exact relevant palace, name the stars and their interaction, give a decisive reading — opportunity or challenge, and the specific astrological reason. (3-4 sentences)\n\n[III. CURRENT LUCK CYCLE & TIMING]\nWhat palace the current Luck Cycle activates, what this means for their question, and where the key turning points are in the near future. (2-3 sentences)\n\n[IV. CONCRETE GUIDANCE]\n2-3 specific, chart-grounded recommendations they can act on immediately — not generic life advice. (one sentence each)\n\n[V. CLOSING INSIGHT]\nOne powerful sentence that makes them feel genuinely seen.\n\nTone: the most trusted advisor they\'ve ever had — warm, direct, no filler. Blank line between sections. 500-600 words.';
     usr=L==='zh'
       ?'【命盘信息】\n命宫主星：'+ms+'\n纳音五行：'+ny+'（'+ju+'局，当前年龄约'+curAgeNow+'岁）\n十二宫完整星位：'+palInfo+'\n当前大运：'+curDayunAge+'岁起，走'+curDayunPal+'\n\n【命主背景】\n'+ctx.join('\n')+'\n\n【问卦方向】'+info.label
-      :'CHART DATA\nLife Palace Star: '+(SEN[ms]||ms)+'\nNayin: '+ny+' ('+ju+' cycle, current age: '+curAgeNow+')\n12 Palaces: '+palInfo+'\nCurrent Luck Cycle: age '+curDayunAge+', activating '+curDayunPal+' Palace\n\nBACKGROUND\n'+ctx.join('\n')+'\n\nTOPIC: '+info.label;
+      :'CHART DATA\nLife Palace Star: '+(SEN[ms]||ms)+'\nBody Palace: '+(bodyPalInfo||'-')+'\nFive Elements Class: '+ny+' (activation age: '+ju+', current age: '+curAgeNow+')\nCurrent Decade: '+(curDayunInfo?curDayunInfo+' cycle':curDayunPal+' Palace')+'\n\n12 Palaces with star brightness:\n'+palInfo+'\n\nBACKGROUND\n'+ctx.join('\n')+'\n\nTOPIC: '+info.label;
   }
 
   try{
@@ -1237,6 +1319,10 @@ function updateLangBtns(active){
       (id==='btnEN'&&active==='en')||(id==='btnZH'&&active==='zh')||(id==='btnTW'&&active==='zh-tw'));
   });
 }
+
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof setLangFull==='function') setLangFull('en');
+});
 </script>
 </body>
 </html>

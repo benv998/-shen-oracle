@@ -82,6 +82,7 @@ h1 .zh { font-family:'Ma Shan Zheng',serif; font-size:0.7em; color:var(--gold-di
 .form-title::after { content:''; flex:1; height:1px; background:linear-gradient(to right,var(--gold-dim),transparent); }
 
 .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.form-group label { display:block; min-height:1.4em; }
 .form-grid.three { grid-template-columns:1fr 1fr 1fr; }
 .form-group { display:flex; flex-direction:column; gap:7px; }
 .form-group.full { grid-column:1/-1; }
@@ -403,7 +404,7 @@ select { color-scheme: dark; }
   </div>
 
   <header>
-    <div class="header-badge" id="hBadge">5,000-Year-Old Decision Intelligence</div>
+    <div class="header-badge" id="hBadge">Five Thousand Years of Destiny Intelligence</div>
     <h1 id="hTitle">Ba Zi · Four Pillars<span class="zh" id="hZh">八 字 命 盘</span></h1>
     <div class="header-rule"></div>
     <p class="header-sub" id="hSub">Your birth moment encodes a precise map of elemental forces — the same framework that guided Chinese emperors, generals, and strategists for five millennia. Decoded for the decisions that shape your life.</p>
@@ -583,7 +584,7 @@ select { color-scheme: dark; }
         </select>
       </div>
       <div class="form-group">
-        <label id="lTz">Timezone (UTC offset)</label>
+        <label id="lTz" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Timezone</label>
         <select id="iTz">
           <option value="8">UTC+8 Beijing / Singapore</option>
           <option value="-5">UTC-5 New York (EST)</option>
@@ -720,15 +721,15 @@ let gender = 'M';
 
 const UI = {
   en: {
-    badge:'5,000-Year-Old Decision Intelligence', title:'Ba Zi · Four Pillars',
+    badge:'Five Thousand Years of Destiny Intelligence', title:'Ba Zi · Four Pillars',
     sub:'Your birth moment encodes a precise map of elemental forces — the same framework that guided Chinese emperors, generals, and strategists for five millennia. Decoded for the decisions that shape your life.',
     fTitle:'Your Birth Information', lName:'Name', lGender:'Gender', gM:'♂ Male', gF:'♀ Female',
-    lYear:'Birth Year', lMonth:'Month', lDay:'Day', lHour:'Birth Hour', lTz:'Timezone (UTC offset)',
+    lYear:'Birth Year', lMonth:'Month', lDay:'Day', lHour:'Birth Hour', lTz:'Timezone',
     calcBtn:'Reveal My Destiny Chart',
     rForLabel:'Four Pillars Chart for',
     pLabel:'The Four Pillars · 四柱', elLabel:'Five Element Balance · 五行',
     rtNature:'Nature', rtCareer:'Career', rtWealth:'Wealth', rtRelations:'Relationships', rtDayun:'Life Cycles',
-    aiTitleTxt:'Ask Your Chart', aiSubTxt:'Your Four Pillars hold answers to your most pressing questions — career timing, relationships, major decisions',
+    aiTitleTxt:'Consult Your Chart', aiSubTxt:'Your Four Pillars hold answers to your most pressing questions — career timing, relationships, major decisions',
     aiQ:'Add context or a specific question (optional)…',
     aiPreviewBtn:'✦ Free Preview',
     aiPaidBtn:'⟡ Full Reading · $9',
@@ -832,6 +833,11 @@ function applyUI(){
   document.getElementById('aiQ').placeholder=u.aiQ;
   document.getElementById('aiPaidBtn').textContent=u.aiPaidBtn;
   if(document.getElementById('aiPreviewBtn')) document.getElementById('aiPreviewBtn').textContent=u.aiPreviewBtn||'✦ Free Preview';
+  // 更新AI结果区标签（不动内容）
+  var outLabel=document.getElementById('aiOutLabel');
+  if(outLabel&&outLabel.textContent) outLabel.textContent=u.aiOutLabel;
+  var unlockBtn=document.getElementById('aiUnlockBtn');
+  if(unlockBtn) unlockBtn.textContent=u.aiUnlockBtn||'⟡ Unlock Full Reading · $9';
   document.getElementById('aiSpinTxt').textContent=u.aiSpinTxt;
   document.getElementById('aiOutLabel').textContent=u.aiOutLabel;
   document.getElementById('aiUnlockBtn').textContent=u.aiUnlockBtn;
@@ -1597,6 +1603,12 @@ function updateLangBtns(active){
       (id==='btnEN'&&active==='en')||(id==='btnZH'&&active==='zh')||(id==='btnTW'&&active==='zh-tw'));
   });
 }
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', function(){
+  setLang('en');
+  updateLangBtns('en');
+});
 </script>
 </body>
 </html>
