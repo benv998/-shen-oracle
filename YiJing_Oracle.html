@@ -1560,6 +1560,19 @@ function setLang(l) {
       ? '<span style="color:var(--gold-dim)">↑ 这是卦象预览。</span> 完整解读包含：动爻深度解析、变卦走向、未来3-6个月关键时机节点，以及针对你具体问题的实操建议。'
       : '<span style="color:var(--gold-dim)">↑ This is your oracle preview.</span> The full reading includes: moving line analysis, the changing hexagram’s message, timing signals for the next 3–6 months, and specific actionable counsel for your exact question.';
   }
+  // 更新页面内定价区语言
+  var _ptx={
+    'pricing-title':{en:'Unlock Your Full Reading',zh:'解锁完整卦象解读'},
+    'pricing-sub':{en:'One-time · Or unlimited access to all three SHEN tools',zh:'单次付费，或无限畅读全部三项神数工具'},
+    'pc-n1':{en:'Single Reading',zh:'单次解读'},'pc-d1':{en:'This tool, one complete reading',zh:'本工具一次完整解读'},
+    'pc-n2':{en:'All Three Tools',zh:'三工具套餐'},'pc-d2':{en:'Ba Zi + Zi Wei + I Ching',zh:'八字 + 紫微 + 易经'},
+    'pc-n3':{en:'Monthly Unlimited',zh:'月度无限'},'pc-d3':{en:'All tools · unlimited readings',zh:'全部工具 · 无限次解读'},
+    'pc-badge-m':{en:'Most Popular',zh:'最受欢迎'},
+    'pc-n4':{en:'Annual Unlimited',zh:'年度无限'},'pc-d4':{en:'All tools · $8.25/month',zh:'全部工具 · 折合每月$8.25'},
+    'pc-badge-y':{en:'Best Value',zh:'最划算'},
+    'pc-note':{en:'Secure payment via PayPal · Instant access after confirmation',zh:'PayPal安全付款 · 确认后立即开通'}
+  };
+  Object.keys(_ptx).forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=_ptx[id][isZhNow?'zh':'en'];});
 }
 
 function applyUI() {
@@ -2588,6 +2601,43 @@ Address this person's specific situation directly. Do not give a generic hexagra
   }
 }
 </script>
+
+<!-- Pricing Section (inline, always visible) -->
+<div id="pricing-section" style="max-width:680px;margin:0 auto 60px;padding:0 24px;">
+  <div style="border-top:1px solid rgba(201,168,76,0.15);padding-top:52px;text-align:center;">
+    <div style="font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:rgba(201,168,76,0.5);margin-bottom:10px;">SHEN · MEMBERSHIP</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold-light,#d4af6a);font-style:italic;margin-bottom:6px;" id="pricing-title">Unlock Your Full Reading</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:rgba(214,205,184,0.45);font-style:italic;margin-bottom:32px;" id="pricing-sub">One-time · Or unlimited access to all three SHEN tools</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+      <div onclick="shenPay('single')" style="border:1px solid rgba(201,168,76,0.25);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.25)'">
+        <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light,#d4af6a);margin-bottom:6px;" id="pc-n1">Single Reading</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d1">This tool, one complete reading</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold,#c9a84c);">$9</div>
+      </div>
+      <div onclick="shenPay('bundle')" style="border:1px solid rgba(201,168,76,0.25);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.25)'">
+        <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light,#d4af6a);margin-bottom:6px;" id="pc-n2">All Three Tools</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d2">Ba Zi + Zi Wei + I Ching</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold,#c9a84c);">$19</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div onclick="shenPay('monthly')" style="border:1px solid rgba(201,168,76,0.5);background:rgba(201,168,76,0.06);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;position:relative;" onmouseover="this.style.borderColor='rgba(201,168,76,0.8)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.5)'">
+        <div style="position:absolute;top:-1px;right:12px;background:var(--gold,#c9a84c);color:#0a0806;font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:.18em;padding:3px 8px;text-transform:uppercase;" id="pc-badge-m">Most Popular</div>
+        <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light,#d4af6a);margin-bottom:6px;" id="pc-n3">Monthly Unlimited</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d3">All tools · unlimited readings</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold,#c9a84c);">$39<span style="font-size:13px;color:rgba(201,168,76,0.5)">/mo</span></div>
+      </div>
+      <div onclick="shenPay('yearly')" style="border:1px solid rgba(201,168,76,0.25);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;position:relative;" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.25)'">
+        <div style="position:absolute;top:-1px;right:12px;background:rgba(201,168,76,0.15);color:var(--gold,#c9a84c);font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:.18em;padding:3px 8px;text-transform:uppercase;border:1px solid rgba(201,168,76,0.3);" id="pc-badge-y">Best Value</div>
+        <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light,#d4af6a);margin-bottom:6px;" id="pc-n4">Annual Unlimited</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d4">All tools · $8.25/month</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold,#c9a84c);">$99<span style="font-size:13px;color:rgba(201,168,76,0.5)">/yr</span></div>
+      </div>
+    </div>
+    <div style="margin-top:16px;font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.3);font-style:italic;" id="pc-note">Secure payment via PayPal · Instant access after confirmation</div>
+  </div>
+</div>
 
 <!-- Contact Section -->
 <div id="contact-section" style="display:none;max-width:720px;margin:0 auto;padding:0 24px 60px;">
