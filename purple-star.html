@@ -483,6 +483,10 @@ select { color-scheme: dark; }
 <script>
 var L='en', UNLOCKED=false, CHART=null;
 
+// 语言辅助：tw内容fallback到zh（星曜数据只有en/zh）
+function GL(){return (L==='tw')?'zh':L;}
+
+
 var DEEPSEEK_KEY='sk-c600e50c1c16467a9932b9d5e6307fed';
 
 // ── 语言文本 ──
@@ -820,9 +824,9 @@ function getInsights(BP,mg){
   var careerMap={'紫微':{en:'Career Palace: Emperor Star — you are built for leadership and high-visibility roles.',zh:'官禄宫坐紫微——你天生适合领导岗位，在权威性职位上最能发挥潜力。'},'天机':{en:'Career Palace: Heavenly Secrets — strategy, research, and advisory roles suit you best.',zh:'官禄宫坐天机——战略、研究、顾问类工作最能发挥你的才能。'},'太阳':{en:'Career Palace: Sun Star — public-facing, people-centered roles are where you shine.',zh:'官禄宫坐太阳——面向公众、与人打交道的职业是你的舞台。'},'武曲':{en:'Career Palace: Treasury Star — finance, operations, and execution-heavy roles are your domain.',zh:'官禄宫坐武曲——金融、运营、执行类工作是你的强项。'},'天同':{en:'Career Palace: Harmony Star — service-oriented, collaborative work brings you deep satisfaction.',zh:'官禄宫坐天同——服务型、协作性的工作让你获得最深的职业满足感。'},'廉贞':{en:'Career Palace: Integrity Star — structured institutions and ethical leadership suit you.',zh:'官禄宫坐廉贞——结构化机构和需要原则性的领导岗位适合你。'},'天府':{en:'Career Palace: Celestial Vault — you build slowly and durably; compound growth is your strength.',zh:'官禄宫坐天府——你的职业走的是厚积薄发路线，越做越稳，越做越强。'},'太阴':{en:'Career Palace: Moon Star — creative, healing, and emotionally intelligent work fits you best.',zh:'官禄宫坐太阴——创意类、治愈系、需要高情商的职业最适合你。'},'贪狼':{en:'Career Palace: Wolfstar — charisma-driven fields: arts, sales, entertainment, entrepreneurship.',zh:'官禄宫坐贪狼——艺术、销售、娱乐、创业——靠个人魅力出头的领域是你的战场。'},'巨门':{en:'Career Palace: Gate Star — law, journalism, research, truth-telling roles are your calling.',zh:'官禄宫坐巨门——法律、新闻、研究、讲真话的职业是你的使命所在。'},'天相':{en:'Career Palace: Minister Star — administration, operations, and coordination are your strengths.',zh:'官禄宫坐天相——行政、运营、协调类工作是你的强项，可靠是你的职业名片。'},'天梁':{en:'Career Palace: Elder Star — medicine, law, mentorship — your career deepens with experience.',zh:'官禄宫坐天梁——医学、法律、导师类职业，你的职业价值随经验积累而升华。'},'七杀':{en:'Career Palace: Warrior Star — entrepreneurship and high-stakes competitive fields are made for you.',zh:'官禄宫坐七杀——创业、高竞争领域——你在别人退缩的地方反而最能发光。'},'破军':{en:'Career Palace: Pioneer Star — you are a category creator; multiple reinventions define your path.',zh:'官禄宫坐破军——你是开拓者，职业道路会经历多次转型，每次都更强大。'}};
   var wealthMap={'武曲':{en:'Wealth Palace: Treasury Star in its own palace — one of the strongest wealth placements in the chart.',zh:'财帛宫坐武曲——武曲坐本宫，是命盘中最强的财富宫位之一，财运极佳。'},'天府':{en:'Wealth Palace: Celestial Vault — long-term accumulation and material security are your destiny.',zh:'财帛宫坐天府——长期积累是你的财富密码，房产、储蓄、有形资产是你的强项。'},'太阴':{en:'Wealth Palace: Moon Star — your finances are cyclical and intuition-driven; trust your gut on money.',zh:'财帛宫坐太阴——财运起伏有规律，相信你对金钱的直觉，它往往是准的。'},'贪狼':{en:'Wealth Palace: Wolfstar — you generate wealth through charm and creativity; manage it wisely.',zh:'财帛宫坐贪狼——靠魅力和创意能创造财富，但也容易花得快，需要有意管理。'},'紫微':{en:'Wealth Palace: Emperor Star — your earning power is tied to authority and status.',zh:'财帛宫坐紫微——你的财运与地位和权力密切相关，越有地位越有钱。'},'太阳':{en:'Wealth Palace: Sun Star — your income grows with your reputation and relationships.',zh:'财帛宫坐太阳——你的收入随你的声誉和人脉增长，越被人信任越有财运。'},'天机':{en:'Wealth Palace: Heavenly Secrets — income through information, strategy, and advisory work.',zh:'财帛宫坐天机——靠信息、策略和顾问类工作赚钱，收入有起伏但智慧是财源。'},'天同':{en:'Wealth Palace: Harmony Star — steady, comfortable accumulation; you earn in environments you love.',zh:'财帛宫坐天同——财运稳定舒适，在你喜欢的环境里工作，财运自然来。'},'廉贞':{en:'Wealth Palace: Integrity Star — structured work and ethical conduct drive your financial growth.',zh:'财帛宫坐廉贞——在规矩的环境里、凭实力挣的钱才是你真正的财富。'},'巨门':{en:'Wealth Palace: Gate Star — you earn through communication, expertise, and the value of your knowledge.',zh:'财帛宫坐巨门——靠说话、专业知识、信息价值赚钱，口才是你的财源。'},'天相':{en:'Wealth Palace: Minister Star — reliable income through service, organization, and steady work.',zh:'财帛宫坐天相——靠服务和踏实工作积累财富，稳步增长是你的财运特色。'},'天梁':{en:'Wealth Palace: Elder Star — your earning power grows significantly with age and experience.',zh:'财帛宫坐天梁——财运随年龄和经验增长，越老越有钱，晚年财运更好。'},'七杀':{en:'Wealth Palace: Warrior Star — bold financial moves in competitive fields; build strong buffers.',zh:'财帛宫坐七杀——财运大起大落，敢拼敢搏，但需要建立稳固的财务缓冲。'},'破军':{en:'Wealth Palace: Pioneer Star — greatest gains come from pioneering new things.',zh:'财帛宫坐破军——财运起伏明显，开创新事物往往是你最大的财富来源。'}};
   var sp=BP[(mg+2)%12]||[],cp=BP[(mg+8)%12]||[],wp=BP[(mg+4)%12]||[];
-  if(sp[0]&&spouseMap[sp[0]])res.push(spouseMap[sp[0]][L]);
-  if(cp[0]&&careerMap[cp[0]])res.push(careerMap[cp[0]][L]);
-  if(wp[0]&&wealthMap[wp[0]])res.push(wealthMap[wp[0]][L]);
+  if(sp[0]&&spouseMap[sp[0]])res.push(spouseMap[sp[0]][GL()]);
+  if(cp[0]&&careerMap[cp[0]])res.push(careerMap[cp[0]][GL()]);
+  if(wp[0]&&wealthMap[wp[0]])res.push(wealthMap[wp[0]][GL()]);
   return res;
 }
 
@@ -955,7 +959,7 @@ function generate(){
     :(L==='zh'?ms:(SEN[ms]||ms));
 
   // 特质
-  var traits=R.TR[L].map(function(t){return '<span class="pill">'+t+'</span>';}).join('');
+  var traits=R.TR[GL()].map(function(t){return '<span class="pill">'+t+'</span>';}).join('');
 
   // 个性化要点
   var insights=getInsights(BP,mg);
@@ -1007,24 +1011,24 @@ function generate(){
   var html=
     '<div class="rh fi-in"><div class="rn">'+dateStr+'</div>'+
     '<div class="rs">'+(L==='zh'?'命宫主星为 <em>'+allSN+'</em>':'Life Palace holds <em>'+allSN+'</em>')+'</div>'+
-    '<div class="rt">'+R.S[L]+'</div></div>'+
+    '<div class="rt">'+R.S[GL()]+'</div></div>'+
 
     '<div class="wheel-wrap fi-in">'+buildWheel(BP,mg)+'</div>'+
     '<p class="wheel-hint">'+(L==='zh'?'命盘星位图 · 点击下方宫位展开解读':'Imperial chart · Expand palace readings below')+'</p>'+
 
     // 命宫解读（免费）
     '<div class="rsec fi-in"><div class="stag">'+(L==='zh'?'命宫本质':'Your Essence')+'</div>'+
-    '<div class="stit">'+R.T[L]+'</div><div class="sbod"><p>'+R.E[L]+'</p></div>'+
+    '<div class="stit">'+R.T[GL()]+'</div><div class="sbod"><p>'+R.E[GL()]+'</p></div>'+
     '<div class="pills">'+traits+'</div></div>'+
 
     '<div class="rsec fi-in"><div class="stag">'+(L==='zh'?'性格特质':'Personality')+'</div>'+
-    '<div class="sbod">'+R.P[L]+'</div></div>'+
+    '<div class="sbod">'+R.P[GL()]+'</div></div>'+
 
     '<div class="rsec fi-in"><div class="stag">'+(L==='zh'?'感情与婚姻':'Love & Relationships')+'</div>'+
-    '<div class="sbod">'+R.L[L]+'</div></div>'+
+    '<div class="sbod">'+R.L[GL()]+'</div></div>'+
 
     '<div class="rsec fi-in"><div class="stag">'+(L==='zh'?'事业与使命':'Career & Purpose')+'</div>'+
-    '<div class="sbod">'+R.C[L]+'</div></div>'+
+    '<div class="sbod">'+R.C[GL()]+'</div></div>'+
 
     // 命盘独特之处
     insightHTML+
