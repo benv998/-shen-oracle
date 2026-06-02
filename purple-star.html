@@ -952,7 +952,10 @@ function generate(){
     bodyPalace:bodyPalaceName, izPalsFull:izPalsFull,
     curDayunStem:curDayunStem, curDayunBranch:curDayunBranch, chart:chart};
 
-  // 日期字符串
+  // 日期字符串（农历月日从iztro获取）
+  var _ld = rawDates.lunarDate || {};
+  var lM = _ld.lunarMonth || m;
+  var lD = _ld.lunarDay || d;
   var dateStr=LZ==='zh'
     ?(y+'年'+m+'月'+d+'日 · '+yy+stem+branch+'年（'+animal+'） · 农历'+lM+'月'+lD+'日')
     :(y+' · '+yy+' '+animal+' Year · '+stem+branch);
