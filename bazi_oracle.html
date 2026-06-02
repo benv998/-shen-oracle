@@ -374,6 +374,74 @@ footer { text-align:center; padding:48px 0 20px; }
 /* Select option深色背景修复 */
 select option { background:#0D0A1A; color:#E8D5A3; }
 select { color-scheme: dark; }
+
+/* ── SHEN Pricing Modal ── */
+.shen-modal-overlay {
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(0,0,0,0.82); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center;
+}
+.shen-modal-overlay.active { display:flex; }
+.shen-modal {
+  background:#0D0C1A; border:1px solid rgba(201,168,76,0.2);
+  max-width:480px; width:92%; padding:40px 32px 32px;
+  position:relative; font-family:'Cormorant Garamond',Georgia,serif;
+}
+.shen-modal-close {
+  position:absolute; top:14px; right:18px; background:none; border:none;
+  color:rgba(201,168,76,0.4); font-size:20px; cursor:pointer; transition:color 0.2s;
+}
+.shen-modal-close:hover { color:#C9A84C; }
+.shen-modal-title {
+  font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.35em;
+  color:#C9A84C; text-transform:uppercase; text-align:center; margin-bottom:6px;
+}
+.shen-modal-sub {
+  font-size:14px; color:rgba(214,205,184,0.5); text-align:center;
+  font-style:italic; margin-bottom:28px;
+}
+.shen-plan {
+  border:1px solid rgba(201,168,76,0.12); padding:16px 20px; margin-bottom:10px;
+  cursor:pointer; transition:all 0.25s; display:flex; align-items:center;
+  justify-content:space-between; background:rgba(17,16,32,0.8);
+}
+.shen-plan:hover { border-color:rgba(201,168,76,0.5); background:rgba(201,168,76,0.06); }
+.shen-plan.featured { border-color:rgba(201,168,76,0.35); background:rgba(201,168,76,0.05); }
+.shen-plan-name {
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.2em;
+  color:#E8D5A3; text-transform:uppercase; margin-bottom:3px;
+}
+.shen-plan-desc { font-size:13px; color:rgba(214,205,184,0.5); font-style:italic; }
+.shen-plan-price {
+  font-family:'Cinzel',serif; font-size:16px; color:#C9A84C;
+  letter-spacing:0.05em; white-space:nowrap; margin-left:16px;
+}
+.shen-plan-badge {
+  font-family:'Cinzel',serif; font-size:7px; letter-spacing:0.2em;
+  color:#0D0C1A; background:#C9A84C; padding:2px 8px;
+  text-transform:uppercase; margin-left:8px; white-space:nowrap;
+}
+.shen-code-wrap { display:none; margin-top:20px; border-top:1px solid rgba(201,168,76,0.1); padding-top:20px; }
+.shen-code-wrap.active { display:block; }
+.shen-code-label {
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em;
+  color:rgba(201,168,76,0.6); text-transform:uppercase; margin-bottom:8px;
+}
+.shen-code-row { display:flex; gap:8px; }
+.shen-code-input {
+  flex:1; background:rgba(8,8,14,0.8); border:1px solid rgba(201,168,76,0.2);
+  color:#E8D5A3; font-family:'Cinzel',serif; font-size:13px;
+  letter-spacing:0.2em; padding:10px 14px; outline:none; text-transform:uppercase;
+}
+.shen-code-input:focus { border-color:rgba(201,168,76,0.5); }
+.shen-code-btn {
+  background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.3);
+  color:#C9A84C; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.2em;
+  padding:10px 16px; cursor:pointer; text-transform:uppercase; transition:all 0.2s;
+}
+.shen-code-btn:hover { background:rgba(201,168,76,0.25); border-color:#C9A84C; }
+.shen-modal-note { font-size:12px; color:rgba(214,205,184,0.3); text-align:center; margin-top:16px; font-style:italic; }
+
 </style>
 </head>
 <body>
@@ -388,7 +456,16 @@ select { color-scheme: dark; }
       <a href="bazi_oracle.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:var(--gold);text-decoration:none;padding:6px 14px;border:1px solid var(--gold-dim);border-radius:2px;text-transform:uppercase;background:rgba(201,168,76,0.08);">Ba Zi</a>
       <a href="purple-star.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:var(--text-dim);text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold-dim)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='transparent'">Zi Wei</a>
       <a href="YiJing_Oracle.html" style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;color:var(--text-dim);text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;text-transform:uppercase;transition:all 0.3s;" onmouseover="this.style.color='var(--gold)';this.style.borderColor='var(--gold-dim)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='transparent'">Yi Jing</a>
-    </div>
+    
+      <div class="shen-nav-auth">
+        <button class="shen-login-btn" id="shenLoginBtn" onclick="shenShowAuthModal('login')">Sign In</button>
+        <div class="shen-user-info" id="shenUserInfo">
+          <span class="shen-user-name" id="shenUserEmail"></span>
+          <span class="shen-plan-badge-nav" id="shenPlanBadge">FREE</span>
+          <button class="shen-logout-btn" onclick="shenSignOut()">Sign out</button>
+        </div>
+      </div>
+</div>
   </div>
 </nav>
 <div style="height:52px;"></div>
@@ -681,7 +758,7 @@ select { color-scheme: dark; }
           <textarea id="aiQ" rows="2" placeholder="Add details or a specific question (optional)…" style="margin-bottom:12px;"></textarea>
           <div class="ai-btns">
             <button class="ai-free" onclick="getBaziAI(false)" id="aiPreviewBtn">✦ Free Preview</button>
-            <button class="ai-paid" onclick="getBaziAI(true)" id="aiPaidBtn">⟡ Full Reading · $9</button>
+            <button class="ai-paid" onclick="showShenPricing(function(){ getBaziAI(true,true); })" id="aiPaidBtn">⟡ Full Reading · $9</button>
           </div>
           <div style="text-align:center;margin-top:8px;">
             <button onclick="resetBzTopic()" style="background:none;border:none;color:var(--text-dim);font-size:24px;cursor:pointer;text-decoration:underline;" id="bz-reset-btn">← Change topic</button>
@@ -697,7 +774,7 @@ select { color-scheme: dark; }
         <div class="ai-output-text" id="aiOutText"></div>
         <div class="ai-upgrade" id="aiUpgrade" style="display:none">
           <div class="ai-upgrade-note" id="aiUpgradeNote"></div>
-          <button class="ai-paid" onclick="getBaziAI(true)" style="margin-top:14px;width:100%" id="aiUnlockBtn">⟡ Unlock Full Reading · $9</button>
+          <button class="ai-paid" onclick="showShenPricing(function(){ getBaziAI(true,true); })" style="margin-top:14px;width:100%" id="aiUnlockBtn">⟡ Unlock Full Reading · $9</button>
         </div>
       </div>
     </div>
@@ -762,10 +839,10 @@ const UI = {
     rtNature:'性格天赋', rtCareer:'事业格局', rtWealth:'财运分析', rtRelations:'感情婚姻', rtDayun:'大运流年',
     aiTitleTxt:'个人提问', aiSubTxt:'针对你的命盘提问——事业时机、感情、重大决策',
     aiQ:'补充说明（选填）——不写也可以直接点解读',
-    aiPaidBtn:'完整解读 · ¥69',
+    aiPaidBtn:'完整解读 · $9',
     aiSpinTxt:'解读命盘中……',
     aiOutLabel:'命盘解读',
-    aiUnlockBtn:'解锁完整解读 · ¥69',
+    aiUnlockBtn:'解锁完整解读 · $9',
     resetBtn:'重新排盘',
     ftrTxt:'命盘揭示河流的形状，你决定如何航行。',
     pillars:['年柱','月柱','日柱','时柱'],
@@ -778,7 +855,7 @@ const UI = {
     dayunLabel:'大运',
     currentTag:'当前',
     pwMsg:'完整分析需解锁完整报告',
-    pwBtn:'解锁完整报告 · ¥69',
+    pwBtn:'解锁完整报告 · $9',
     aiUpgradeNote:'以上为预览版。完整解读涵盖所有柱的深度分析、重大人生事件的精确时间节点，以及针对你具体问题的直接回答。',
   }
 };
@@ -1149,6 +1226,9 @@ function resetForm(){
 }
 
 // ── AI READING ──────────────────────────────────
+
+// ── PayPal 收款 ──────────────────────────────────
+
 const DEEPSEEK_KEY='sk-c600e50c1c16467a9932b9d5e6307fed';
 
 function buildFreePreview(c){
@@ -1325,7 +1405,14 @@ function resetBzTopic(){
   initBzTopics();
 }
 
-async function getBaziAI(isPaid){
+async function getBaziAI(isPaid, _paypalDone){
+  // PayPal付款拦截
+  if(isPaid && !_paypalDone){
+    var isZhP = lang==='zh'||lang==='zh-tw';
+    openPayPal(function(){ getBaziAI(true, true); },
+      isZhP?'SHEN 八字完整解读':'SHEN Ba Zi Full Reading');
+    return;
+  }
   const q=document.getElementById('aiQ').value.trim();
   // 有快速选项或文字任意一个即可
   if(!q && !document.getElementById('bz-quick-val')?.value?.trim()){
@@ -1609,6 +1696,611 @@ document.addEventListener('DOMContentLoaded', function(){
   setLang('en');
   updateLangBtns('en');
 });
+</script>
+
+    <div class="shen-plan" onclick="shenPay('bundle')">
+      <div><div class="shen-plan-name" id="spmN2">All Three Tools</div><div class="shen-plan-desc" id="spmD2">Ba Zi + Zi Wei + I Ching</div></div>
+      <div class="shen-plan-price">$19</div>
+    </div>
+    <div class="shen-plan featured" onclick="shenPay('monthly')">
+      <div><div class="shen-plan-name" id="spmN3">Monthly Unlimited</div><div class="shen-plan-desc" id="spmD3">All tools, unlimited readings</div></div>
+      <div style="display:flex;align-items:center;"><div class="shen-plan-price">$39<span style="font-size:10px;color:rgba(201,168,76,0.5)">/mo</span></div></div>
+    </div>
+    <div class="shen-plan" onclick="shenPay('yearly')">
+      <div><div class="shen-plan-name" id="spmN4">Annual Unlimited</div><div class="shen-plan-desc" id="spmD4">All tools · $8.25/month</div></div>
+      <div style="display:flex;align-items:center;"><div class="shen-plan-price">$99<span style="font-size:10px;color:rgba(201,168,76,0.5)">/yr</span></div><div class="shen-plan-badge" id="spmBest">Best Value</div></div>
+    </div>
+    <div class="shen-code-wrap" id="shenCodeWrap">
+      <div class="shen-code-label" id="spmCodeLabel">Enter Activation Code</div>
+      <div class="shen-code-row">
+        <input class="shen-code-input" id="shenCodeInput" placeholder="SHEN-XXXX-XXXX" maxlength="16">
+        <button class="shen-code-btn" onclick="verifyShenCode()" id="spmCodeBtn">Verify</button>
+      </div>
+    </div>
+    <div class="shen-modal-note" id="spmNote">Payments via PayPal · Secure checkout</div>
+  </div>
+</div>
+
+<script>
+// ── SHEN Pricing System ────────────────────────────────────
+var SHEN_PAYPAL = {
+  single:  'https://www.paypal.com/paypalme/luguangben/9',
+  bundle:  'https://www.paypal.com/paypalme/luguangben/19',
+  monthly: 'https://www.paypal.com/paypalme/luguangben/39',
+  yearly:  'https://www.paypal.com/paypalme/luguangben/99'
+};
+
+// 激活码库（手动分配给付款用户，格式：'CODE': 过期时间戳，0=永久）
+var SHEN_CODES = {
+  'SHEN-TEST-2025': 9999999999999
+};
+
+var SHEN_CURRENT_CB = null;
+
+function showShenPricing(cb) {
+  shenAuthCallback = cb;
+
+  // 已登录且是付费会员，直接执行
+  if (shenUser && shenIsPaid()) {
+    if (typeof cb === 'function') cb();
+    return;
+  }
+
+  // 无论是否登录，直接显示定价弹窗
+  // （登录只在选择月卡/年卡时才要求）
+  updateShenModalLang();
+  document.getElementById('shenPricingModal').classList.add('active');
+  document.getElementById('shenCodeWrap') && document.getElementById('shenCodeWrap').classList.remove('active');
+}
+
+function closeShenModal() {
+  document.getElementById('shenPricingModal').classList.remove('active');
+}
+
+function shenPay(plan) {
+  var isSubscription = (plan === 'monthly' || plan === 'yearly');
+
+  // 月卡/年卡：需要先登录
+  if (isSubscription) {
+    if (!shenUser) {
+      closeShenModal();
+      shenShowAuthModal('login', function() {
+        // 登录后重新打开定价弹窗
+        document.getElementById('shenPricingModal').classList.add('active');
+      });
+      return;
+    }
+  }
+
+  // 打开PayPal付款
+  var win = window.open(SHEN_PAYPAL[plan], 'shen_pay', 'width=520,height=640,scrollbars=yes');
+
+  var timer = setInterval(function() {
+    if (win && win.closed) {
+      clearInterval(timer);
+      var isZh = typeof getShenLang === 'function' ? getShenLang() : false;
+      var msg = isZh
+        ? '请确认：您已完成PayPal付款了吗？点击确定立即解锁。'
+        : 'Have you completed your PayPal payment? Click OK to unlock your reading now.';
+      if (window.confirm(msg)) {
+        if (isSubscription && shenUser) {
+          // 月卡/年卡：更新数据库
+          shenUpgradeMembership(plan).then(function() {
+            closeShenModal();
+            shenUpdateNavUI();
+            if (typeof shenAuthCallback === 'function') shenAuthCallback();
+          });
+        } else {
+          // 单次/打包：直接解锁，不需要账号
+          closeShenModal();
+          if (typeof shenAuthCallback === 'function') shenAuthCallback();
+        }
+      }
+    }
+  }, 600);
+}
+
+function verifyShenCodeSilent(code) {
+  var c = code.toUpperCase().trim();
+  return !!(SHEN_CODES[c] && Date.now() < SHEN_CODES[c]);
+}
+
+function verifyShenCode() {
+  var code = document.getElementById('shenCodeInput').value.toUpperCase().trim();
+  var isZh = getShenLang();
+  if(verifyShenCodeSilent(code)){
+    localStorage.setItem('shen_code', code);
+    closeShenModal();
+    alert(isZh ? '激活成功！三个工具无限次使用已解锁。' : 'Activated! All tools are now unlocked for unlimited readings.');
+    if(typeof SHEN_CURRENT_CB==='function') SHEN_CURRENT_CB();
+  } else {
+    alert(isZh ? '激活码无效或已过期，请重试。' : 'Invalid or expired code. Please try again.');
+  }
+}
+
+function getShenLang() {
+  if(typeof L!=='undefined') return L==='zh'||L==='zh-tw';
+  if(typeof lang!=='undefined') return lang==='zh'||lang==='zh-tw';
+  return false;
+}
+
+function updateShenModalLang() {
+  var isZh = getShenLang();
+  var s = function(id,t){ var e=document.getElementById(id); if(e) e.textContent=t; };
+  if(isZh){
+    s('spmTitle','选择你的解读方案'); s('spmSub','选择方案，解锁完整深度解读');
+    s('spmN1','单次解读'); s('spmD1','本工具一次完整解读');
+    s('spmN2','三合一打包'); s('spmD2','八字 + 紫微 + 易经，各一次');
+    s('spmN3','月卡 · 无限次'); s('spmD3','三个工具每月无限次使用');
+    s('spmN4','年卡 · 无限次'); s('spmD4','三个工具 · 折合$8.25/月');
+    s('spmBest','最划算'); s('spmCodeLabel','输入激活码'); s('spmCodeBtn','验证');
+    s('spmNote','通过PayPal安全付款');
+  } else {
+    s('spmTitle','Choose Your Reading'); s('spmSub','Select a plan to unlock your full reading');
+    s('spmN1','Single Reading'); s('spmD1','One complete reading, this tool');
+    s('spmN2','All Three Tools'); s('spmD2','Ba Zi + Zi Wei + I Ching');
+    s('spmN3','Monthly Unlimited'); s('spmD3','All tools, unlimited readings');
+    s('spmN4','Annual Unlimited'); s('spmD4','All tools · $8.25/month');
+    s('spmBest','Best Value'); s('spmCodeLabel','Enter Activation Code'); s('spmCodeBtn','Verify');
+    s('spmNote','Payments via PayPal · Secure checkout');
+  }
+}
+
+document.addEventListener('click', function(e){
+  var m=document.getElementById('shenPricingModal');
+  if(e.target===m) closeShenModal();
+});
+</script>
+<!-- Auth Modal: Login / Signup -->
+<div class="shen-modal-overlay" id="shenAuthModal">
+  <div class="shen-modal">
+    <button class="shen-modal-close" onclick="closeShenModal()">&#x2715;</button>
+
+    <!-- Login Form -->
+    <div id="shenLoginForm">
+      <div class="shen-modal-title">Sign In to SHEN</div>
+      <div class="shen-modal-sub">Access your readings and membership</div>
+      <div class="shen-field">
+        <input class="shen-input" id="shenLoginEmail" type="email" placeholder="Email address" autocomplete="email">
+      </div>
+      <div class="shen-field">
+        <input class="shen-input" id="shenLoginPassword" type="password" placeholder="Password" autocomplete="current-password">
+      </div>
+      <div class="shen-err" id="shenLoginErr"></div>
+      <button class="shen-submit-btn" id="shenLoginSubmit" onclick="shenDoLogin()">Sign In</button>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="shenSignupForm" style="display:none">
+      <div class="shen-modal-title">Create Account</div>
+      <div class="shen-modal-sub">Join SHEN — free to start</div>
+      <div class="shen-field">
+        <input class="shen-input" id="shenSignupEmail" type="email" placeholder="Email address" autocomplete="email">
+      </div>
+      <div class="shen-field">
+        <input class="shen-input" id="shenSignupPassword" type="password" placeholder="Password (min 6 chars)" autocomplete="new-password">
+      </div>
+      <div class="shen-err" id="shenSignupErr"></div>
+      <button class="shen-submit-btn" id="shenSignupSubmit" onclick="shenDoSignup()">Create Account</button>
+    </div>
+
+    <div id="shenToSignup" style="text-align:center;margin-top:16px;">
+      <span class="shen-switch-txt">No account? <a href="#" onclick="shenSetAuthMode('signup');return false;" class="shen-link">Create one free</a></span>
+    </div>
+    <div id="shenToLogin" style="text-align:center;margin-top:16px;display:none;">
+      <span class="shen-switch-txt">Already have an account? <a href="#" onclick="shenSetAuthMode('login');return false;" class="shen-link">Sign in</a></span>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing Modal -->
+<div class="shen-modal-overlay" id="shenPricingModal">
+  <div class="shen-modal">
+    <button class="shen-modal-close" onclick="closeShenModal()">&#x2715;</button>
+    <div class="shen-modal-title" id="spmTitle">Choose Your Plan</div>
+    <div class="shen-modal-sub" id="spmSub">Unlock your full reading</div>
+
+    <div class="shen-plan" onclick="shenPay('single')">
+      <div><div class="shen-plan-name" id="spmN1">Single Reading</div><div class="shen-plan-desc" id="spmD1">One complete reading, this tool</div></div>
+      <div class="shen-plan-price">$9</div>
+    </div>
+    <div class="shen-plan" onclick="shenPay('bundle')">
+      <div><div class="shen-plan-name" id="spmN2">All Three Tools</div><div class="shen-plan-desc" id="spmD2">Ba Zi + Zi Wei + I Ching</div></div>
+      <div class="shen-plan-price">$19</div>
+    </div>
+    <div class="shen-plan featured" onclick="shenPay('monthly')">
+      <div><div class="shen-plan-name" id="spmN3">Monthly Unlimited</div><div class="shen-plan-desc" id="spmD3">All tools, unlimited readings</div></div>
+      <div style="display:flex;align-items:center;">
+        <div class="shen-plan-price">$39<span style="font-size:10px;color:rgba(201,168,76,0.5)">/mo</span></div>
+      </div>
+    </div>
+    <div class="shen-plan" onclick="shenPay('yearly')">
+      <div><div class="shen-plan-name" id="spmN4">Annual Unlimited</div><div class="shen-plan-desc" id="spmD4">All tools · $8.25/month</div></div>
+      <div style="display:flex;align-items:center;">
+        <div class="shen-plan-price">$99<span style="font-size:10px;color:rgba(201,168,76,0.5)">/yr</span></div>
+        <div class="shen-plan-badge" id="spmBest">Best Value</div>
+      </div>
+    </div>
+
+    <div class="shen-modal-note" id="spmNote">Payments via PayPal · Secure checkout</div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// SHEN Auth & Membership System
+// Supabase: https://ivzufetaylnwfietcwpq.supabase.co
+// ═══════════════════════════════════════════════════════════════
+
+const SHEN_CONFIG = {
+  url: 'https://ivzufetaylnwfietcwpq.supabase.co',
+  key: 'sb_publishable_bo1zyOQKlfyEYNnWVkXmXw_cqRVsmKk',
+  // 永久测试账号（你自己用）
+  testEmail: 'benv9988088@gmail.com',
+};
+
+// PayPal链接
+const SHEN_PAYPAL = {
+  single:  'https://www.paypal.com/paypalme/luguangben/9',
+  bundle:  'https://www.paypal.com/paypalme/luguangben/19',
+  monthly: 'https://www.paypal.com/paypalme/luguangben/39',
+  yearly:  'https://www.paypal.com/paypalme/luguangben/99'
+};
+
+// 全局状态
+var shenUser = null;
+var shenMember = null;
+var shenAuthCallback = null;
+
+// ── Supabase API helpers ──────────────────────────────────────
+async function sbFetch(path, opts) {
+  var res = await fetch(SHEN_CONFIG.url + path, Object.assign({
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SHEN_CONFIG.key,
+      'Authorization': 'Bearer ' + (shenGetToken() || SHEN_CONFIG.key)
+    }
+  }, opts));
+  return res.json();
+}
+
+function shenGetToken() {
+  try {
+    var raw = localStorage.getItem('sb-' + SHEN_CONFIG.url.split('//')[1].split('.')[0] + '-auth-token');
+    if (!raw) return null;
+    return JSON.parse(raw).access_token;
+  } catch(e) { return null; }
+}
+
+function shenSaveSession(session) {
+  if (!session) return;
+  var key = 'sb-' + SHEN_CONFIG.url.split('//')[1].split('.')[0] + '-auth-token';
+  localStorage.setItem(key, JSON.stringify(session));
+  shenUser = session.user;
+}
+
+function shenClearSession() {
+  var key = 'sb-' + SHEN_CONFIG.url.split('//')[1].split('.')[0] + '-auth-token';
+  localStorage.removeItem(key);
+  shenUser = null;
+  shenMember = null;
+}
+
+// ── Auth: Sign Up ─────────────────────────────────────────────
+async function shenSignUp(email, password) {
+  var res = await fetch(SHEN_CONFIG.url + '/auth/v1/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': SHEN_CONFIG.key },
+    body: JSON.stringify({ email, password })
+  });
+  return res.json();
+}
+
+// ── Auth: Sign In ─────────────────────────────────────────────
+async function shenSignIn(email, password) {
+  var res = await fetch(SHEN_CONFIG.url + '/auth/v1/token?grant_type=password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': SHEN_CONFIG.key },
+    body: JSON.stringify({ email, password })
+  });
+  var data = await res.json();
+  if (data.access_token) {
+    shenSaveSession(data);
+  }
+  return data;
+}
+
+// ── Auth: Sign Out ────────────────────────────────────────────
+async function shenSignOut() {
+  var token = shenGetToken();
+  if (token) {
+    await fetch(SHEN_CONFIG.url + '/auth/v1/logout', {
+      method: 'POST',
+      headers: { 'apikey': SHEN_CONFIG.key, 'Authorization': 'Bearer ' + token }
+    });
+  }
+  shenClearSession();
+  shenUpdateNavUI();
+}
+
+// ── Auth: Get current user ────────────────────────────────────
+async function shenGetUser() {
+  var token = shenGetToken();
+  if (!token) return null;
+  var res = await fetch(SHEN_CONFIG.url + '/auth/v1/user', {
+    headers: { 'apikey': SHEN_CONFIG.key, 'Authorization': 'Bearer ' + token }
+  });
+  if (!res.ok) { shenClearSession(); return null; }
+  var data = await res.json();
+  shenUser = data;
+  return data;
+}
+
+// ── Membership: Check ─────────────────────────────────────────
+async function shenCheckMembership() {
+  if (!shenUser) return null;
+  var token = shenGetToken();
+  var res = await fetch(
+    SHEN_CONFIG.url + '/rest/v1/members?id=eq.' + shenUser.id + '&select=*',
+    { headers: { 'apikey': SHEN_CONFIG.key, 'Authorization': 'Bearer ' + token } }
+  );
+  var data = await res.json();
+  shenMember = data && data[0] ? data[0] : null;
+  return shenMember;
+}
+
+// ── Membership: Is paid? ──────────────────────────────────────
+function shenIsPaid() {
+  if (!shenMember) return false;
+  if (shenMember.plan === 'lifetime') return true;
+  if (shenMember.plan === 'monthly' || shenMember.plan === 'yearly') {
+    if (!shenMember.plan_expires_at) return true;
+    return new Date(shenMember.plan_expires_at) > new Date();
+  }
+  return false;
+}
+
+// ── Membership: Upgrade (called after PayPal confirms) ────────
+async function shenUpgradeMembership(plan, months) {
+  if (!shenUser) return false;
+  var token = shenGetToken();
+  var expires = null;
+  if (plan === 'monthly') {
+    expires = new Date(Date.now() + 31 * 24 * 60 * 60 * 1000).toISOString();
+  } else if (plan === 'yearly') {
+    expires = new Date(Date.now() + 366 * 24 * 60 * 60 * 1000).toISOString();
+  }
+  var body = { plan: plan };
+  if (expires) body.plan_expires_at = expires;
+  var res = await fetch(
+    SHEN_CONFIG.url + '/rest/v1/members?id=eq.' + shenUser.id,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SHEN_CONFIG.key,
+        'Authorization': 'Bearer ' + token,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(body)
+    }
+  );
+  await shenCheckMembership();
+  return res.ok;
+}
+
+// ── Main: Init on page load ───────────────────────────────────
+async function shenInit() {
+  var user = await shenGetUser();
+  if (user) {
+    await shenCheckMembership();
+  }
+  shenUpdateNavUI();
+}
+
+// ── UI: Update nav bar ────────────────────────────────────────
+function shenUpdateNavUI() {
+  var loginBtn = document.getElementById('shenLoginBtn');
+  var userInfo = document.getElementById('shenUserInfo');
+  var userEmail = document.getElementById('shenUserEmail');
+  var planBadge = document.getElementById('shenPlanBadge');
+
+  if (shenUser) {
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (userInfo) userInfo.style.display = 'flex';
+    if (userEmail) userEmail.textContent = shenUser.email.split('@')[0];
+    if (planBadge) {
+      var plan = shenMember ? shenMember.plan : 'free';
+      var isZh = getShenLang ? getShenLang() : false;
+      if (plan === 'monthly') planBadge.textContent = isZh ? '月卡' : 'PRO';
+      else if (plan === 'yearly') planBadge.textContent = isZh ? '年卡' : 'PRO';
+      else if (plan === 'lifetime') planBadge.textContent = isZh ? '终身' : 'LIFETIME';
+      else planBadge.textContent = isZh ? '免费' : 'FREE';
+      planBadge.style.color = (plan !== 'free') ? '#C9A84C' : 'rgba(201,168,76,0.4)';
+    }
+  } else {
+    if (loginBtn) loginBtn.style.display = 'block';
+    if (userInfo) userInfo.style.display = 'none';
+  }
+}
+
+// ── UI: Show pricing modal ────────────────────────────────────
+function showShenPricing(cb) {
+  shenAuthCallback = cb;
+
+  // 如果已登录且是付费会员，直接执行
+  if (shenUser && shenIsPaid()) {
+    if (typeof cb === 'function') cb();
+    return;
+  }
+
+  // 未登录：先登录
+  if (!shenUser) {
+    shenShowAuthModal('login', function() {
+      showShenPricing(cb);
+    });
+    return;
+  }
+
+  // 已登录但免费：显示定价弹窗
+  updateShenModalLang();
+  document.getElementById('shenPricingModal').classList.add('active');
+  document.getElementById('shenCodeWrap').classList.remove('active');
+}
+
+// ── PayPal payment flow ───────────────────────────────────────
+function shenPay(plan) {
+  var win = window.open(SHEN_PAYPAL[plan], 'shen_pay', 'width=520,height=640,scrollbars=yes');
+  var isSubscription = (plan === 'monthly' || plan === 'yearly');
+
+  var timer = setInterval(function() {
+    if (win && win.closed) {
+      clearInterval(timer);
+      var isZh = typeof getShenLang === 'function' ? getShenLang() : false;
+      var msg = isZh
+        ? '请确认：您已完成PayPal付款了吗？点击确定立即解锁。'
+        : 'Have you completed your PayPal payment? Click OK to unlock your reading now.';
+      if (window.confirm(msg)) {
+        var planKey = (plan === 'bundle') ? 'single' : plan;
+        shenUpgradeMembership(planKey).then(function() {
+          closeShenModal();
+          if (typeof shenAuthCallback === 'function') shenAuthCallback();
+        });
+      }
+    }
+  }, 600);
+}
+
+function closeShenModal() {
+  var m = document.getElementById('shenPricingModal');
+  if (m) m.classList.remove('active');
+  var a = document.getElementById('shenAuthModal');
+  if (a) a.classList.remove('active');
+}
+
+// ── Auth Modal ────────────────────────────────────────────────
+function shenShowAuthModal(mode, afterLoginCb) {
+  shenAuthCallback = afterLoginCb || shenAuthCallback;
+  var modal = document.getElementById('shenAuthModal');
+  if (!modal) return;
+  modal.classList.add('active');
+  shenSetAuthMode(mode || 'login');
+}
+
+function shenSetAuthMode(mode) {
+  var loginForm = document.getElementById('shenLoginForm');
+  var signupForm = document.getElementById('shenSignupForm');
+  var toSignup = document.getElementById('shenToSignup');
+  var toLogin = document.getElementById('shenToLogin');
+  if (mode === 'login') {
+    if (loginForm) loginForm.style.display = 'block';
+    if (signupForm) signupForm.style.display = 'none';
+    if (toSignup) toSignup.style.display = 'block';
+    if (toLogin) toLogin.style.display = 'none';
+  } else {
+    if (loginForm) loginForm.style.display = 'none';
+    if (signupForm) signupForm.style.display = 'block';
+    if (toSignup) toSignup.style.display = 'none';
+    if (toLogin) toLogin.style.display = 'block';
+  }
+}
+
+async function shenDoLogin() {
+  var email = document.getElementById('shenLoginEmail').value.trim();
+  var password = document.getElementById('shenLoginPassword').value;
+  var errEl = document.getElementById('shenLoginErr');
+  var isZh = typeof getShenLang === 'function' ? getShenLang() : false;
+
+  if (!email || !password) {
+    if (errEl) errEl.textContent = isZh ? '请填写邮箱和密码。' : 'Please enter email and password.';
+    return;
+  }
+
+  var btn = document.getElementById('shenLoginSubmit');
+  if (btn) btn.textContent = isZh ? '登录中...' : 'Signing in...';
+
+  var data = await shenSignIn(email, password);
+
+  if (data.access_token) {
+    await shenCheckMembership();
+    shenUpdateNavUI();
+    closeShenModal();
+    if (typeof shenAuthCallback === 'function') {
+      var cb = shenAuthCallback;
+      shenAuthCallback = null;
+      cb();
+    }
+  } else {
+    if (errEl) errEl.textContent = isZh ? '邮箱或密码错误，请重试。' : 'Invalid email or password. Please try again.';
+    if (btn) btn.textContent = isZh ? '登录' : 'Sign In';
+  }
+}
+
+async function shenDoSignup() {
+  var email = document.getElementById('shenSignupEmail').value.trim();
+  var password = document.getElementById('shenSignupPassword').value;
+  var errEl = document.getElementById('shenSignupErr');
+  var isZh = typeof getShenLang === 'function' ? getShenLang() : false;
+
+  if (!email || !password || password.length < 6) {
+    if (errEl) errEl.textContent = isZh ? '密码至少6位。' : 'Password must be at least 6 characters.';
+    return;
+  }
+
+  var btn = document.getElementById('shenSignupSubmit');
+  if (btn) btn.textContent = isZh ? '注册中...' : 'Creating account...';
+
+  var data = await shenSignUp(email, password);
+
+  if (data.user && data.user.id) {
+    if (errEl) errEl.style.color = '#C9A84C';
+    if (errEl) errEl.textContent = isZh
+      ? '注册成功！请检查邮箱验证后登录。'
+      : 'Account created! Please check your email to verify, then sign in.';
+    setTimeout(function() { shenSetAuthMode('login'); }, 2000);
+  } else {
+    if (errEl) errEl.textContent = data.msg || (isZh ? '注册失败，请重试。' : 'Sign up failed. Please try again.');
+    if (btn) btn.textContent = isZh ? '注册' : 'Create Account';
+  }
+}
+
+function updateShenModalLang() {
+  var isZh = typeof getShenLang === 'function' ? getShenLang() : false;
+  var s = function(id, t) { var e = document.getElementById(id); if (e) e.textContent = t; };
+  if (isZh) {
+    s('spmTitle', '选择你的方案'); s('spmSub', '解锁完整深度解读');
+    s('spmN1', '单次解读'); s('spmD1', '本工具一次完整解读');
+    s('spmN2', '三合一打包'); s('spmD2', '八字 + 紫微 + 易经，各一次');
+    s('spmN3', '月卡 · 无限次'); s('spmD3', '三个工具每月无限次');
+    s('spmN4', '年卡 · 无限次'); s('spmD4', '折合$8.25/月');
+    s('spmBest', '最划算'); s('spmNote', '通过PayPal安全付款');
+  } else {
+    s('spmTitle', 'Choose Your Plan'); s('spmSub', 'Unlock your full reading');
+    s('spmN1', 'Single Reading'); s('spmD1', 'One complete reading, this tool');
+    s('spmN2', 'All Three Tools'); s('spmD2', 'Ba Zi + Zi Wei + I Ching');
+    s('spmN3', 'Monthly Unlimited'); s('spmD3', 'All tools, unlimited readings');
+    s('spmN4', 'Annual Unlimited'); s('spmD4', 'All tools · $8.25/month');
+    s('spmBest', 'Best Value'); s('spmNote', 'Payments via PayPal · Secure checkout');
+  }
+}
+
+function getShenLang() {
+  if (typeof L !== 'undefined') return L === 'zh' || L === 'zh-tw';
+  if (typeof lang !== 'undefined') return lang === 'zh' || lang === 'zh-tw';
+  return false;
+}
+
+// Click outside to close
+document.addEventListener('click', function(e) {
+  var pm = document.getElementById('shenPricingModal');
+  var am = document.getElementById('shenAuthModal');
+  if (e.target === pm) closeShenModal();
+  if (e.target === am) closeShenModal();
+});
+
+// Init on load
+document.addEventListener('DOMContentLoaded', shenInit);
+
 </script>
 </body>
 </html>
