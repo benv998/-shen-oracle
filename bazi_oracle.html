@@ -1248,7 +1248,7 @@ function renderResult(c){
   });
 
   document.getElementById('resultPanel').style.display='block';
-  document.getElementById('resultPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  (function(){var _e=document.getElementById('resultPanel');if(_e){var _t=_e.getBoundingClientRect().top+window.pageYOffset-76;window.scrollTo({top:_t,behavior:'smooth'});}  })();
 }
 
 function getDayunDesc(d,c,l){
@@ -1590,7 +1590,7 @@ async function getBaziAI(isPaid, _paypalDone){
         :'<span style="color:var(--gold-dim)">↑ This is your chart preview.</span> The full reading includes: favorable element analysis, detailed Great Cycle interpretation, key timing windows for the next 12–18 months, and deep counsel on your specific question.';
       upEl.style.display='block';
       outEl.style.display='block';
-      outEl.scrollIntoView({behavior:'smooth',block:'start'});
+      (function(){var _e=outEl;if(_e){var _t=_e.getBoundingClientRect().top+window.pageYOffset-76;window.scrollTo({top:_t,behavior:'smooth'});}  })();
     }catch(e){
       loadEl.style.display='none';
       const preview=buildFreePreview(currentChart);
@@ -1598,7 +1598,7 @@ async function getBaziAI(isPaid, _paypalDone){
       document.getElementById('aiUpgradeNote').textContent=UI[lang].aiUpgradeNote;
       upEl.style.display='block';
       outEl.style.display='block';
-      outEl.scrollIntoView({behavior:'smooth',block:'start'});
+      (function(){var _e=outEl;if(_e){var _t=_e.getBoundingClientRect().top+window.pageYOffset-76;window.scrollTo({top:_t,behavior:'smooth'});}  })();
     }
     return;
   }
@@ -1648,7 +1648,7 @@ Address their actual question directly. Don't explain Ba Zi theory — give the 
     outTxt.innerHTML=txt.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold)">$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
     upEl.style.display='none';
     outEl.style.display='block';
-    outEl.scrollIntoView({behavior:'smooth',block:'start'});
+    (function(){var _e=outEl;if(_e){var _t=_e.getBoundingClientRect().top+window.pageYOffset-76;window.scrollTo({top:_t,behavior:'smooth'});}  })();
   }catch(e){
     loadEl.style.display='none';
     outTxt.textContent=isZh?'网络错误，请稍后重试。':'Network error. Please try again.';
@@ -1754,7 +1754,7 @@ function toggleBaziContact(){
   if(sec.style.display==='none'){
     sec.style.display='block';
     btn.textContent='✕  Close';
-    setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'});},100);
+    setTimeout(function(){(function(){var _e=sec;if(_e){var _t=_e.getBoundingClientRect().top+window.pageYOffset-76;window.scrollTo({top:_t,behavior:'smooth'});}  })();},100);
   } else {
     sec.style.display='none';
     btn.textContent='✉  Contact & Consultation';

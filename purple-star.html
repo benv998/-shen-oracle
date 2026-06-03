@@ -1144,7 +1144,11 @@ function generate(){
   var res=document.getElementById('result');
   res.style.display='block'; res.innerHTML=html;
   document.getElementById('bottom-btns').style.display='block';
-  setTimeout(function(){res.scrollIntoView({behavior:'smooth',block:'start'});},100);
+  setTimeout(function(){
+    var navH = 60; // 固定导航栏高度
+    var top = res.getBoundingClientRect().top + window.pageYOffset - navH - 16;
+    window.scrollTo({top:top, behavior:'smooth'});
+  },150);
 
   // 解锁后显示AI区
   if(UNLOCKED){
@@ -1486,7 +1490,7 @@ async function doAI(isPaid, _paypalDone){
     }
 
     document.getElementById('ai-result').style.display='block';
-    document.getElementById('ai-result').scrollIntoView({behavior:'smooth',block:'start'});
+    document.getElementById('ai-result').scrollIntoView && (function(){var _e=document.getElementById('ai-result');var _t=_e.getBoundingClientRect().top+window.pageYOffset-76;window.scrollTo({top:_t,behavior:'smooth'});})();
   }catch(e){
     document.getElementById('ai-loading').style.display='none';
     document.getElementById('ai-res-text').textContent=LZ==='zh'?'网络错误，请稍后重试。':'Network error. Please try again.';
@@ -1501,7 +1505,7 @@ function toggleContact(){
   if(sec.style.display==='none'||!sec.style.display){
     sec.style.display='block';
     btn.textContent=LZ==='zh'?'✕  收起':'✕  Close';
-    setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'});},100);
+    setTimeout(function(){(function(){var _e=sec;var _t=_e.getBoundingClientRect().top+window.pageYOffset-76;window.scrollTo({top:_t,behavior:'smooth'});})();},100);
   }else{
     sec.style.display='none';
     btn.textContent=LZ==='zh'?'✉  联系与咨询':'✉  Contact & Consultation';
