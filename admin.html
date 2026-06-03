@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHEN · Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Josefin+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07060f;
+  --bg2: #0e0c1a;
+  --bg3: #13111f;
+  --gold: #c9a84c;
+  --gold-light: #d4af6a;
+  --gold-dim: rgba(201,168,76,0.3);
+  --text: #d6cdb8;
+  --text-dim: rgba(214,205,184,0.45);
+  --border: rgba(201,168,76,0.12);
+  --border-hover: rgba(201,168,76,0.35);
+  --green: #4caf89;
+  --red: #c94c4c;
+  --blue: #4c7fc9;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Josefin Sans', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Login Screen ── */
+#loginScreen {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  z-index: 999;
+}
+.login-card {
+  width: 340px;
+  border: 1px solid var(--border);
+  padding: 48px 36px;
+  text-align: center;
+  background: var(--bg2);
+}
+.login-glyph {
+  font-family: 'Cinzel', serif;
+  font-size: 36px;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.login-title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 36px;
+}
+.login-field {
+  width: 100%;
+  background: rgba(201,168,76,0.04);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  letter-spacing: .08em;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  outline: none;
+  transition: border .2s;
+}
+.login-field:focus { border-color: var(--gold-dim); }
+.login-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold-light);
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  padding: 14px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all .3s;
+}
+.login-btn:hover { background: rgba(201,168,76,0.08); border-color: var(--gold); }
+.login-err { font-size: 12px; color: var(--red); margin-top: 12px; min-height: 18px; }
+
+/* ── Main Layout ── */
+#adminApp { display: none; }
+
+.top-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 52px;
+  background: rgba(7,6,15,0.95);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+.top-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: .3em;
+  color: var(--gold);
+  display: flex; align-items: center; gap: 10px;
+}
+.top-logo span { color: var(--text-dim); font-size: 10px; letter-spacing: .2em; }
+.top-right { display: flex; align-items: center; gap: 16px; }
+.top-email { font-size: 11px; color: var(--text-dim); letter-spacing: .08em; }
+.logout-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim); font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
+  padding: 6px 14px; cursor: pointer; transition: all .2s;
+}
+.logout-btn:hover { border-color: var(--gold-dim); color: var(--gold-light); }
+
+.main { padding: 80px 28px 60px; max-width: 1100px; margin: 0 auto; }
+
+/* ── Stats Row ── */
+.stats-row {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 20px 22px;
+}
+.stat-label {
+  font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--text-dim); margin-bottom: 8px;
+}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; color: var(--gold-light);
+}
+.stat-sub { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
+
+/* ── Controls ── */
+.controls {
+  display: flex; gap: 10px; margin-bottom: 18px; align-items: center;
+  flex-wrap: wrap;
+}
+.search-input {
+  flex: 1; min-width: 200px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 12px; letter-spacing: .06em;
+  padding: 10px 14px; outline: none; transition: border .2s;
+}
+.search-input:focus { border-color: var(--gold-dim); }
+.search-input::placeholder { color: var(--text-dim); }
+.filter-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim); font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 10px 16px; cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.filter-btn:hover, .filter-btn.active { border-color: var(--gold-dim); color: var(--gold-light); background: rgba(201,168,76,0.05); }
+.refresh-btn {
+  background: rgba(201,168,76,0.08); border: 1px solid var(--gold-dim);
+  color: var(--gold-light); font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
+  padding: 10px 18px; cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.refresh-btn:hover { background: rgba(201,168,76,0.15); }
+
+/* ── Table ── */
+.table-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.table-head {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.2fr 1fr 1fr 100px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+}
+.th {
+  font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--text-dim);
+}
+.user-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.2fr 1fr 1fr 100px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+  align-items: center;
+  transition: background .15s;
+}
+.user-row:hover { background: rgba(201,168,76,0.03); }
+.user-row:last-child { border-bottom: none; }
+.user-email { font-size: 13px; color: var(--text); letter-spacing: .02em; }
+.user-email small { display: block; font-size: 10px; color: var(--text-dim); letter-spacing: .05em; margin-top: 2px; }
+
+/* Plan badges */
+.badge {
+  display: inline-block;
+  font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 2px;
+}
+.badge-free { background: rgba(214,205,184,0.08); color: var(--text-dim); border: 1px solid rgba(214,205,184,0.15); }
+.badge-single { background: rgba(76,127,201,0.12); color: #7aaae8; border: 1px solid rgba(76,127,201,0.25); }
+.badge-bundle { background: rgba(76,127,201,0.18); color: #7aaae8; border: 1px solid rgba(76,127,201,0.35); }
+.badge-monthly { background: rgba(201,168,76,0.12); color: var(--gold-light); border: 1px solid var(--gold-dim); }
+.badge-yearly { background: rgba(201,168,76,0.2); color: var(--gold); border: 1px solid rgba(201,168,76,0.4); }
+.badge-expired { background: rgba(201,76,76,0.1); color: #e87a7a; border: 1px solid rgba(201,76,76,0.2); }
+
+.cell-date { font-size: 11px; color: var(--text-dim); }
+.cell-expires { font-size: 11px; color: var(--text-dim); }
+.cell-expires.soon { color: #e8b87a; }
+.cell-expires.expired { color: #e87a7a; }
+
+/* Action dropdown */
+.action-wrap { position: relative; }
+.action-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim); font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px; letter-spacing: .1em;
+  padding: 6px 12px; cursor: pointer; transition: all .2s; width: 100%;
+  text-align: center;
+}
+.action-btn:hover { border-color: var(--gold-dim); color: var(--gold-light); }
+.action-menu {
+  position: absolute; right: 0; top: 32px;
+  background: var(--bg3); border: 1px solid var(--border);
+  min-width: 160px; z-index: 50;
+  display: none;
+}
+.action-menu.open { display: block; }
+.action-item {
+  padding: 10px 14px; font-size: 11px; letter-spacing: .08em;
+  cursor: pointer; transition: background .15s; border-bottom: 1px solid rgba(201,168,76,0.06);
+  white-space: nowrap;
+}
+.action-item:last-child { border-bottom: none; }
+.action-item:hover { background: rgba(201,168,76,0.06); color: var(--gold-light); }
+.action-item.danger { color: var(--red); }
+.action-item.danger:hover { background: rgba(201,76,76,0.06); }
+
+/* Loading / Empty */
+.loading-row {
+  padding: 48px; text-align: center;
+  font-size: 11px; letter-spacing: .2em; color: var(--text-dim);
+}
+.empty-row {
+  padding: 48px; text-align: center;
+  font-family: 'Cormorant Garamond', serif; font-size: 18px;
+  font-style: italic; color: var(--text-dim);
+}
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  background: var(--bg3); border: 1px solid var(--gold-dim);
+  color: var(--gold-light); font-size: 12px; letter-spacing: .1em;
+  padding: 12px 24px; z-index: 999;
+  opacity: 0; transition: opacity .3s; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+.toast.error { border-color: rgba(201,76,76,0.4); color: #e87a7a; }
+
+/* Edit Modal */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(7,6,15,0.88);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200; opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 36px 32px; width: 420px; max-width: 90vw;
+}
+.modal-title {
+  font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: .25em;
+  color: var(--gold-light); margin-bottom: 4px;
+}
+.modal-sub { font-size: 11px; color: var(--text-dim); margin-bottom: 28px; letter-spacing: .05em; }
+.modal-label { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; }
+.modal-select {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px; padding: 11px 14px; outline: none; margin-bottom: 16px;
+}
+.modal-select:focus { border-color: var(--gold-dim); }
+.modal-input {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px; padding: 11px 14px; outline: none; margin-bottom: 16px;
+}
+.modal-input:focus { border-color: var(--gold-dim); }
+.modal-btns { display: flex; gap: 10px; margin-top: 8px; }
+.modal-save {
+  flex: 1; background: rgba(201,168,76,0.1); border: 1px solid var(--gold-dim);
+  color: var(--gold-light); font-family: 'Cinzel', serif;
+  font-size: 11px; letter-spacing: .2em; padding: 12px;
+  cursor: pointer; transition: all .2s;
+}
+.modal-save:hover { background: rgba(201,168,76,0.2); }
+.modal-cancel {
+  flex: 1; background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim); font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px; letter-spacing: .15em; padding: 12px;
+  cursor: pointer; transition: all .2s;
+}
+.modal-cancel:hover { border-color: var(--gold-dim); color: var(--text); }
+
+.section-title {
+  font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: .3em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* Pagination */
+.pagination { display: flex; gap: 6px; margin-top: 14px; justify-content: flex-end; align-items: center; }
+.page-info { font-size: 11px; color: var(--text-dim); margin-right: 8px; }
+.page-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim); font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px; padding: 6px 12px; cursor: pointer; transition: all .2s;
+}
+.page-btn:hover:not(:disabled) { border-color: var(--gold-dim); color: var(--gold-light); }
+.page-btn:disabled { opacity: 0.3; cursor: default; }
+
+@media (max-width: 768px) {
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  .table-head, .user-row { grid-template-columns: 1fr 80px 80px; }
+  .th:nth-child(n+4), .user-row > *:nth-child(n+4) { display: none; }
+  .main { padding: 72px 14px 40px; }
+  .top-bar { padding: 0 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Login -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-glyph">神</div>
+    <div class="login-title">SHEN · Admin Console</div>
+    <input class="login-field" id="adminPwd" type="password" placeholder="Admin Password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">ENTER</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- App -->
+<div id="adminApp">
+  <div class="top-bar">
+    <div class="top-logo">神 SHEN <span>· ADMIN</span></div>
+    <div class="top-right">
+      <span class="top-email" id="topEmail"></span>
+      <button class="logout-btn" onclick="doLogout()">SIGN OUT</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Total Users</div>
+        <div class="stat-num" id="statTotal">—</div>
+        <div class="stat-sub">registered accounts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Paid Members</div>
+        <div class="stat-num" id="statPaid">—</div>
+        <div class="stat-sub">active subscriptions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Monthly / Yearly</div>
+        <div class="stat-num" id="statSub">—</div>
+        <div class="stat-sub">recurring revenue</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">New This Week</div>
+        <div class="stat-num" id="statNew">—</div>
+        <div class="stat-sub">last 7 days</div>
+      </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="section-title">User Management</div>
+
+    <div class="controls">
+      <input class="search-input" id="searchInput" placeholder="Search by email..." oninput="onSearch()">
+      <button class="filter-btn active" id="fAll" onclick="setFilter('all')">All</button>
+      <button class="filter-btn" id="fPaid" onclick="setFilter('paid')">Paid</button>
+      <button class="filter-btn" id="fFree" onclick="setFilter('free')">Free</button>
+      <button class="filter-btn" id="fSub" onclick="setFilter('sub')">Subscription</button>
+      <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-head">
+        <div class="th">Email</div>
+        <div class="th">Plan</div>
+        <div class="th">Expires</div>
+        <div class="th">Joined</div>
+        <div class="th">Last Sign In</div>
+        <div class="th">Action</div>
+      </div>
+      <div id="tableBody">
+        <div class="loading-row">Loading members...</div>
+      </div>
+    </div>
+
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-title">Edit Membership</div>
+    <div class="modal-sub" id="editModalEmail">—</div>
+    <div class="modal-label">Plan</div>
+    <select class="modal-select" id="editPlan">
+      <option value="free">Free</option>
+      <option value="single">Single Reading ($9)</option>
+      <option value="bundle">Bundle - All Tools ($19)</option>
+      <option value="monthly">Monthly Unlimited ($39/mo)</option>
+      <option value="yearly">Yearly Unlimited ($99/yr)</option>
+    </select>
+    <div class="modal-label">Expires (leave blank = no expiry)</div>
+    <input class="modal-input" id="editExpires" type="date">
+    <div class="modal-label">Note (optional)</div>
+    <input class="modal-input" id="editNote" type="text" placeholder="e.g. Complimentary, Refunded...">
+    <div class="modal-btns">
+      <button class="modal-save" onclick="saveEdit()">SAVE CHANGES</button>
+      <button class="modal-cancel" onclick="closeModal()">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Config ──────────────────────────────────────────────────
+const ADMIN_PASSWORD = 'Benv8088'; // 修改这里设置你的密码
+const SB_URL = 'https://ivzufetaylnwfietcwpq.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2enVmZXRheWxud2ZpZXRjd3BxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzODk0MjcsImV4cCI6MjA5NTk2NTQyN30.p4ZUHv1jD_Qts4yI6OkuIgrQP_5Q1ZAbmRvBkAiGUZY';
+
+// ── State ────────────────────────────────────────────────────
+var allUsers = [];
+var filtered = [];
+var currentFilter = 'all';
+var currentPage = 1;
+var pageSize = 20;
+var editUserId = null;
+var openMenuId = null;
+
+// ── Login ────────────────────────────────────────────────────
+function doLogin() {
+  var pwd = document.getElementById('adminPwd').value;
+  if (pwd === ADMIN_PASSWORD) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'block';
+    document.getElementById('topEmail').textContent = 'Admin';
+    loadData();
+  } else {
+    document.getElementById('loginErr').textContent = 'Incorrect password.';
+    document.getElementById('adminPwd').value = '';
+  }
+}
+
+function doLogout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminApp').style.display = 'none';
+  document.getElementById('adminPwd').value = '';
+}
+
+// ── Supabase fetch ───────────────────────────────────────────
+async function sbGet(path) {
+  var res = await fetch(SB_URL + path, {
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' }
+  });
+  return res.json();
+}
+
+async function sbPatch(path, body) {
+  var res = await fetch(SB_URL + path, {
+    method: 'PATCH',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+    body: JSON.stringify(body)
+  });
+  return res.json();
+}
+
+async function sbPost(path, body) {
+  var res = await fetch(SB_URL + path, {
+    method: 'POST',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+    body: JSON.stringify(body)
+  });
+  return res.json();
+}
+
+// ── Load Data ────────────────────────────────────────────────
+async function loadData() {
+  document.getElementById('tableBody').innerHTML = '<div class="loading-row">Loading...</div>';
+  try {
+    // 获取members表（你现有的表结构）
+    var members = await sbGet('/rest/v1/members?select=*&order=created_at.desc&limit=1000');
+    if (!Array.isArray(members)) { members = []; }
+
+    allUsers = members;
+    updateStats();
+    applyFilter();
+  } catch(e) {
+    document.getElementById('tableBody').innerHTML = '<div class="loading-row">Failed to load. Check console.</div>';
+    console.error(e);
+  }
+}
+
+// ── Stats ────────────────────────────────────────────────────
+function updateStats() {
+  var total = allUsers.length;
+  var paid = allUsers.filter(u => u.plan && u.plan !== 'free').length;
+  var sub = allUsers.filter(u => u.plan === 'monthly' || u.plan === 'yearly').length;
+  var week = allUsers.filter(u => {
+    if (!u.created_at) return false;
+    var d = new Date(u.created_at);
+    return (Date.now() - d.getTime()) < 7*24*3600*1000;
+  }).length;
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statPaid').textContent = paid;
+  document.getElementById('statSub').textContent = sub;
+  document.getElementById('statNew').textContent = week;
+}
+
+// ── Filter & Search ──────────────────────────────────────────
+function setFilter(f) {
+  currentFilter = f;
+  currentPage = 1;
+  ['fAll','fPaid','fFree','fSub'].forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById('f' + f.charAt(0).toUpperCase() + f.slice(1)).classList.add('active');
+  applyFilter();
+}
+
+function onSearch() { currentPage = 1; applyFilter(); }
+
+function applyFilter() {
+  var q = (document.getElementById('searchInput').value || '').toLowerCase();
+  filtered = allUsers.filter(u => {
+    var email = (u.email || '').toLowerCase();
+    if (q && !email.includes(q)) return false;
+    if (currentFilter === 'paid') return u.plan && u.plan !== 'free';
+    if (currentFilter === 'free') return !u.plan || u.plan === 'free';
+    if (currentFilter === 'sub') return u.plan === 'monthly' || u.plan === 'yearly';
+    return true;
+  });
+  renderTable();
+}
+
+// ── Render ───────────────────────────────────────────────────
+function renderTable() {
+  var start = (currentPage-1)*pageSize;
+  var page = filtered.slice(start, start+pageSize);
+  var body = document.getElementById('tableBody');
+
+  if (filtered.length === 0) {
+    body.innerHTML = '<div class="empty-row">No users found</div>';
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  body.innerHTML = page.map(u => {
+    var plan = u.plan || 'free';
+    var badge = getBadge(u);
+    var exp = getExpiry(u);
+    var joined = u.created_at ? fmtDate(u.created_at) : '—';
+    var lastSign = u.last_sign_in_at ? fmtDate(u.last_sign_in_at) : '—';
+    return `<div class="user-row">
+      <div class="user-email">${u.email||'—'}<small>${u.user_id ? u.user_id.substring(0,8)+'...' : ''}</small></div>
+      <div>${badge}</div>
+      <div class="${exp.cls}">${exp.txt}</div>
+      <div class="cell-date">${joined}</div>
+      <div class="cell-date">${lastSign}</div>
+      <div class="action-wrap">
+        <button class="action-btn" onclick="toggleMenu('${u.user_id||u.id}')">▾ Edit</button>
+        <div class="action-menu" id="menu_${u.user_id||u.id}">
+          <div class="action-item" onclick="openEdit('${u.user_id||u.id}')">✦ Edit Plan</div>
+          <div class="action-item" onclick="quickUpgrade('${u.user_id||u.id}','monthly')">↑ Set Monthly</div>
+          <div class="action-item" onclick="quickUpgrade('${u.user_id||u.id}','yearly')">↑ Set Yearly</div>
+          <div class="action-item danger" onclick="quickUpgrade('${u.user_id||u.id}','free')">↓ Reset Free</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  renderPagination();
+}
+
+function getBadge(u) {
+  var plan = u.plan || 'free';
+  var labels = { free:'Free', single:'Single', bundle:'Bundle', monthly:'Monthly', yearly:'Yearly' };
+  var cls = 'badge-' + (plan||'free');
+  // 检查是否过期
+  if (u.expires_at && new Date(u.expires_at) < new Date() && plan !== 'free') {
+    return `<span class="badge badge-expired">Expired</span>`;
+  }
+  return `<span class="badge ${cls}">${labels[plan]||plan}</span>`;
+}
+
+function getExpiry(u) {
+  if (!u.expires_at) return { txt:'—', cls:'cell-expires' };
+  var d = new Date(u.expires_at);
+  var now = new Date();
+  var diff = (d - now) / (1000*3600*24);
+  var txt = fmtDate(u.expires_at);
+  if (d < now) return { txt: txt+' ✕', cls:'cell-expires expired' };
+  if (diff < 14) return { txt: txt+' ⚠', cls:'cell-expires soon' };
+  return { txt, cls:'cell-expires' };
+}
+
+function fmtDate(str) {
+  var d = new Date(str);
+  return d.getFullYear()+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getDate().toString().padStart(2,'0');
+}
+
+function renderPagination() {
+  var total = filtered.length;
+  var pages = Math.ceil(total/pageSize);
+  if (pages <= 1) { document.getElementById('pagination').innerHTML=''; return; }
+  var html = `<span class="page-info">${filtered.length} users · Page ${currentPage}/${pages}</span>`;
+  html += `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>← Prev</button>`;
+  html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>Next →</button>`;
+  document.getElementById('pagination').innerHTML = html;
+}
+
+function goPage(p) { currentPage = p; renderTable(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+// ── Action Menu ──────────────────────────────────────────────
+function toggleMenu(uid) {
+  if (openMenuId && openMenuId !== uid) {
+    var old = document.getElementById('menu_'+openMenuId);
+    if (old) old.classList.remove('open');
+  }
+  var menu = document.getElementById('menu_'+uid);
+  if (menu) menu.classList.toggle('open');
+  openMenuId = uid;
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.classList.contains('action-btn') && openMenuId) {
+    var m = document.getElementById('menu_'+openMenuId);
+    if (m) m.classList.remove('open');
+    openMenuId = null;
+  }
+});
+
+// ── Quick Upgrade ────────────────────────────────────────────
+async function quickUpgrade(uid, plan) {
+  if (openMenuId) {
+    var m = document.getElementById('menu_'+openMenuId);
+    if (m) m.classList.remove('open');
+  }
+  var expires = null;
+  if (plan === 'monthly') {
+    var d = new Date(); d.setMonth(d.getMonth()+1);
+    expires = d.toISOString();
+  } else if (plan === 'yearly') {
+    var d = new Date(); d.setFullYear(d.getFullYear()+1);
+    expires = d.toISOString();
+  }
+  await updateMember(uid, { plan, expires_at: expires });
+}
+
+// ── Edit Modal ───────────────────────────────────────────────
+function openEdit(uid) {
+  if (openMenuId) {
+    var m = document.getElementById('menu_'+openMenuId);
+    if (m) m.classList.remove('open');
+  }
+  var u = allUsers.find(u => (u.user_id||u.id) === uid);
+  if (!u) return;
+  editUserId = uid;
+  document.getElementById('editModalEmail').textContent = u.email || uid;
+  document.getElementById('editPlan').value = u.plan || 'free';
+  document.getElementById('editExpires').value = u.expires_at ? u.expires_at.substring(0,10) : '';
+  document.getElementById('editNote').value = u.note || '';
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('editModal').classList.remove('open');
+  editUserId = null;
+}
+
+async function saveEdit() {
+  if (!editUserId) return;
+  var plan = document.getElementById('editPlan').value;
+  var exp = document.getElementById('editExpires').value;
+  var note = document.getElementById('editNote').value;
+  var expires_at = exp ? new Date(exp).toISOString() : null;
+  await updateMember(editUserId, { plan, expires_at, note });
+  closeModal();
+}
+
+// ── Update Member ────────────────────────────────────────────
+async function updateMember(uid, fields) {
+  try {
+    // 先尝试PATCH，如果没有记录就POST
+    var res = await sbPatch('/rest/v1/members?user_id=eq.'+uid, fields);
+    if (Array.isArray(res) && res.length === 0) {
+      // 记录不存在，获取email后插入
+      var u = allUsers.find(u => (u.user_id||u.id) === uid);
+      await sbPost('/rest/v1/members', { user_id: uid, email: u?.email, ...fields });
+    }
+    // 更新本地数据
+    var idx = allUsers.findIndex(u => (u.user_id||u.id) === uid);
+    if (idx >= 0) Object.assign(allUsers[idx], fields);
+    updateStats();
+    applyFilter();
+    showToast('✓ Updated successfully');
+  } catch(e) {
+    showToast('✗ Update failed: ' + e.message, true);
+    console.error(e);
+  }
+}
+
+// ── Toast ────────────────────────────────────────────────────
+function showToast(msg, isError) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isError?' error':'');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// ── Init ─────────────────────────────────────────────────────
+document.getElementById('adminPwd').focus();
+</script>
+</body>
+</html>
