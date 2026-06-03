@@ -2157,21 +2157,13 @@ function shenUpdateNavUI() {
 function showShenPricing(cb) {
   shenAuthCallback = cb;
 
-  // 如果已登录且是付费会员，直接执行
+  // 已登录且是付费会员，直接执行
   if (shenUser && shenIsPaid()) {
     if (typeof cb === 'function') cb();
     return;
   }
 
-  // 未登录：先登录
-  if (!shenUser) {
-    shenShowAuthModal('login', function() {
-      showShenPricing(cb);
-    });
-    return;
-  }
-
-  // 已登录但免费：显示定价弹窗
+  // single/bundle：直接显示定价弹窗，不强制登录
   updateShenModalLang();
   document.getElementById('shenPricingModal').classList.add('active');
   document.getElementById('shenCodeWrap').classList.remove('active');
@@ -2179,22 +2171,37 @@ function showShenPricing(cb) {
 
 // ── PayPal payment flow ───────────────────────────────────────
 function shenPay(plan) {
-  var win = window.open(SHEN_PAYPAL[plan], 'shen_pay', 'width=520,height=640,scrollbars=yes');
   var isSubscription = (plan === 'monthly' || plan === 'yearly');
 
+  // 月卡/年卡：需要账号，先登录再付款
+  if (isSubscription && !shenUser) {
+    closeShenModal();
+    shenShowAuthModal('login', function() {
+      shenPay(plan);
+    });
+    return;
+  }
+
+  var win = window.open(SHEN_PAYPAL[plan], 'shen_pay', 'width=520,height=640,scrollbars=yes');
   var timer = setInterval(function() {
     if (win && win.closed) {
       clearInterval(timer);
-      var isZh = typeof getShenLang === 'function' ? getShenLang() : false;
+      var isZh = (typeof L !== 'undefined' && (L==='zh'||L==='tw'));
       var msg = isZh
         ? '请确认：您已完成PayPal付款了吗？点击确定立即解锁。'
         : 'Have you completed your PayPal payment? Click OK to unlock your reading now.';
       if (window.confirm(msg)) {
-        var planKey = (plan === 'bundle') ? 'single' : plan;
-        shenUpgradeMembership(planKey).then(function() {
-          closeShenModal();
+        closeShenModal();
+        if (isSubscription) {
+          // 月卡/年卡：写入Supabase会员记录
+          var planKey = plan;
+          shenUpgradeMembership(planKey).then(function() {
+            if (typeof shenAuthCallback === 'function') shenAuthCallback();
+          });
+        } else {
+          // 单次/套餐：本地直接解锁，不需要账号
           if (typeof shenAuthCallback === 'function') shenAuthCallback();
-        });
+        }
       }
     }
   }, 600);
