@@ -509,6 +509,9 @@ select { color-scheme: dark; }
   .form-section { padding: 0 !important; }
   .form-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
   .form-grid.three { grid-template-columns: 1fr 1fr 1fr !important; gap: 6px !important; }
+  .form-grid.three .form-group { display:flex; flex-direction:column; }
+  .form-grid.three label { font-size:9px !important; letter-spacing:.15em !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:6px !important; }
+  .form-grid.three select { font-size:13px !important; padding:10px 6px !important; }
   select, input { font-size: 15px !important; padding: 11px 10px !important; }
   label { font-size: 12px !important; }
   /* 起盘按钮 */
@@ -619,7 +622,7 @@ select { color-scheme: dark; }
     </div>
     <div class="form-grid three" style="margin-top:16px">
       <div class="form-group">
-        <label id="lYear">Birth Year</label>
+        <label id="lYear">Year</label>
         <select id="iYear">
           <option value="">—</option>
           <option value="2005">2005</option>
@@ -915,7 +918,7 @@ const UI = {
     badge:'Five Thousand Years of Destiny Intelligence', title:'Ba Zi · Four Pillars',
     sub:'Your birth moment encodes a precise map of elemental forces — the same framework that guided Chinese emperors, generals, and strategists for five millennia. Decoded for the decisions that shape your life.',
     fTitle:'Your Birth Information', lName:'Name', lGender:'Gender', gM:'♂ Male', gF:'♀ Female',
-    lYear:'Birth Year', lMonth:'Month', lDay:'Day', lHour:'Birth Hour', lTz:'Timezone',
+    lYear:'Year', lMonth:'Month', lDay:'Day', lHour:'Birth Hour', lTz:'Timezone',
     calcBtn:'Reveal My Destiny Chart',
     rForLabel:'Four Pillars Chart for',
     pLabel:'The Four Pillars · 四柱', elLabel:'Five Element Balance · 五行',
@@ -1548,6 +1551,11 @@ async function getBaziAI(isPaid, _paypalDone){
     alert(lang==='en'?'Please select a topic or enter your question.':'请选择一个方向或输入问题。');
     return;
   }
+  // 获取用户选择的问卦方向
+  var bzTopicObj = (typeof BZ_TOPICS !== 'undefined' && bzCurrentTopic)
+    ? BZ_TOPICS.find(function(x){ return x.key === bzCurrentTopic; }) : null;
+  var bzTopicZh = bzTopicObj ? bzTopicObj.zh : '';
+  var bzTopicEn = bzTopicObj ? bzTopicObj.en : '';
   if(!currentChart){ return; }
 
   const loadEl=document.getElementById('aiLoading');
@@ -1572,8 +1580,8 @@ async function getBaziAI(isPaid, _paypalDone){
       :`You are a Ba Zi analyst trusted by executives, investors, and high-performers who need more than surface-level insight. Your audience is intelligent, skeptical, and time-poor. Write a chart preview that earns their attention immediately. Today is ${new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"})}. Speak only of present and future. Requirements: ①Open with the single most specific and distinctive quality of THIS chart — tied directly to the Day Master and elemental configuration, not a generic archetype. ②Address their exact question with the most critical signal the chart reveals — name whether this is a structural opportunity, timing window, or a risk pattern they need to understand. ③Close with genuine suspense: reference that the favorable element (yong shen) and precise upcoming timing windows have not yet been surfaced. ④No references to payment or unlocking. ⑤90-120 words. Every sentence must earn its place.`;
 
     const freeUsr=isZh
-      ?`命主：${c.name}，${c.gender==='M'?'男':'女'}，${c.year}年${c.month}月${c.day}日生\n日主：${c.dayStemName}（${_elNamesZh[_dmIdx]}）\n四柱：${c.pillars.map(p=>STEMS[p.s]+BRANCHES[p.b]).join(' ')}\n五行分布：${_elBal}\n当前大运：${STEMS[_dayun.stem]}${BRANCHES[_dayun.branch]}（约${_dayun.age}岁起）\n问题：${q}`
-      :`Name: ${c.name}, ${c.gender==='M'?'Male':'Female'}, born ${c.year}/${c.month}/${c.day}\nDay Master: ${c.dayStemName} (${_elNames[_dmIdx]})\nFour Pillars: ${c.pillars.map(p=>STEMS[p.s]+BRANCHES[p.b]).join(' ')}\nElement balance: ${_elBal}\nCurrent Great Cycle: ${STEMS[_dayun.stem]}${BRANCHES[_dayun.branch]} (from age ${_dayun.age})\nQuestion: ${q}`;
+      ?`命主：${c.name}，${c.gender==='M'?'男':'女'}，${c.year}年${c.month}月${c.day}日生\n日主：${c.dayStemName}（${_elNamesZh[_dmIdx]}）\n四柱：${c.pillars.map(p=>STEMS[p.s]+BRANCHES[p.b]).join(' ')}\n五行分布：${_elBal}\n当前大运：${STEMS[_dayun.stem]}${BRANCHES[_dayun.branch]}（约${_dayun.age}岁起）\n${bzTopicZh?'问卦方向：【'+bzTopicZh+'】——请重点围绕此方向解读，不要跑题到其他领域':''}\n问题：${q}`
+      :`Name: ${c.name}, ${c.gender==='M'?'Male':'Female'}, born ${c.year}/${c.month}/${c.day}\nDay Master: ${c.dayStemName} (${_elNames[_dmIdx]})\nFour Pillars: ${c.pillars.map(p=>STEMS[p.s]+BRANCHES[p.b]).join(' ')}\nElement balance: ${_elBal}\nCurrent Great Cycle: ${STEMS[_dayun.stem]}${BRANCHES[_dayun.branch]} (from age ${_dayun.age})\n${bzTopicEn?'Focus area: ['+bzTopicEn+'] — Keep the entire reading focused on this domain only. Do not drift into other life areas.':''}\nQuestion: ${q}`;
 
     try{
       const resp=await fetch('https://api.deepseek.com/chat/completions',{
@@ -1621,6 +1629,7 @@ async function getBaziAI(isPaid, _paypalDone){
 四柱：${c.pillars.map(p=>STEMS[p.s]+BRANCHES[p.b]).join(' ')}
 五行：${elBalance}
 当前大运：${STEMS[curDayun.stem]}${BRANCHES[curDayun.branch]}（约${curDayun.age}岁起）
+${bzTopicZh?'问卦方向：【'+bzTopicZh+'】——全部解读必须聚焦此方向，不得偏离到其他生活领域。':''}
 
 命主的问题：${q}
 
@@ -1630,6 +1639,7 @@ Day Master: ${c.dayStemName} (${elNames[dmIdx]})
 Four Pillars: ${c.pillars.map(p=>STEMS[p.s]+BRANCHES[p.b]).join(' ')}
 Element balance: ${elBalance}
 Current Great Cycle: ${STEMS[curDayun.stem]}${BRANCHES[curDayun.branch]} (approx. age ${curDayun.age}+)
+${bzTopicEn?'REQUIRED FOCUS: ['+bzTopicEn+'] — Every section of this reading must address this specific life domain. Do not drift into unrelated areas.':''}
 
 Their specific question: ${q}
 

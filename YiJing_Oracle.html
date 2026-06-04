@@ -1147,87 +1147,6 @@ select { color-scheme: dark; }
 }
 .shen-logout-btn:hover { color:rgba(214,205,184,0.6); }
 
-
-/* ══════════════════════════════════════════
-   MOBILE RESPONSIVE — Yi Jing Oracle
-   全面移动端适配
-══════════════════════════════════════════ */
-@media (max-width: 600px) {
-  /* 全局 */
-  body { font-size: 15px; }
-  /* 导航 */
-  nav > div { padding: 0 12px !important; height: 48px !important; }
-  /* Header */
-  header { padding: 80px 16px 32px !important; }
-  .header-ornament { font-size: 18px !important; }
-  h1 { font-size: clamp(32px,9vw,52px) !important; }
-  .header-subtitle { font-size: 11px !important; letter-spacing: .12em !important; }
-  /* 语言切换 */
-  .lang-toggle { position: static !important; margin: 0 auto 16px !important; }
-  /* 问题输入区 */
-  .question-section, div[style*="padding:20px 24px"] { padding: 16px 12px !important; }
-  #questionInput { font-size: 15px !important; min-height: 80px !important; padding: 12px !important; }
-  /* 抛硬币按钮 */
-  .cast-btn { font-size: 12px !important; padding: 16px 20px !important; letter-spacing: .15em !important; }
-  /* 硬币动画区 */
-  #coin-drop-scene { min-height: 120px !important; }
-  .coin { width: 42px !important; height: 42px !important; font-size: 18px !important; }
-  /* 卦象显示 */
-  .hexagram-display { padding: 32px 0 20px !important; }
-  .hex-symbol { font-size: 68px !important; }
-  .hex-number { font-size: 11px !important; }
-  .hex-name { font-size: clamp(24px,6vw,36px) !important; }
-  .hex-subtitle { font-size: 13px !important; }
-  /* Tab栏 */
-  .tab-btn { padding: 12px 10px !important; font-size: 10px !important; letter-spacing: .1em !important; }
-  .tab-content { padding: 16px 14px !important; }
-  /* 解读内容 */
-  .section-label { font-size: 10px !important; }
-  .classical-text { font-size: 18px !important; line-height: 1.8 !important; }
-  .line-text { font-size: 16px !important; }
-  /* AI结果 */
-  .ai-result { padding: 16px 14px !important; }
-  .ai-result-text { font-size: 15px !important; line-height: 1.9 !important; }
-  .ai-actions { padding: 12px 14px 16px !important; gap: 8px !important; }
-  .ai-free-btn, .ai-paid-btn { font-size: 12px !important; padding: 14px 10px !important; }
-  /* 问卦方向 */
-  #yj-topics { grid-template-columns: repeat(2,1fr) !important; gap: 8px !important; }
-  /* 引导提示 */
-  .ritual-notice { padding: 14px !important; font-size: 13px !important; }
-  .ritual-summary { padding: 12px 14px !important; }
-  .ritual-quick-list { gap: 4px 8px !important; }
-  .ritual-quick-item { font-size: 12px !important; }
-  /* 定价区 */
-  #pricing-section { padding: 0 12px !important; }
-  /* 联系区 */
-  #contact-section { padding: 0 12px 40px !important; }
-  /* 弹窗 */
-  .shen-modal { padding: 28px 16px 20px !important; }
-  .shen-plan { padding: 12px 10px !important; }
-  /* 包裹容器 */
-  .wrap, [class*="wrap"] { padding: 0 12px !important; }
-  /* 爻线显示 */
-  .hex-lines { gap: 6px !important; }
-  .hex-line { height: 5px !important; gap: 6px !important; }
-}
-
-@media (max-width: 390px) {
-  h1 { font-size: 28px !important; }
-  .tab-btn { font-size: 9px !important; padding: 11px 8px !important; }
-  .cast-btn { font-size: 11px !important; }
-  #yj-topics { grid-template-columns: 1fr 1fr !important; }
-}
-
-/* 定价grid手机单列 */
-@media (max-width: 600px) {
-  div[style*="grid-template-columns:1fr 1fr;gap:12px"] {
-    grid-template-columns: 1fr !important;
-  }
-  div[style*="display:grid;grid-template-columns:1fr 1fr"] {
-    grid-template-columns: 1fr !important;
-  }
-}
-
 </style>
 </head>
 <body>
@@ -1463,7 +1382,7 @@ select { color-scheme: dark; }
     <div class="ai-reading-section" id="aiReadingSection">
       <div class="ai-reading-header">
         <div class="ai-reading-title" id="aiTitle">Ask the Oracle</div>
-        <div class="ai-reading-sub" id="aiSub">Your hexagram holds answers your rational mind cannot reach alone — preview free, unlock the full counsel for $9.9</div>
+        <div class="ai-reading-sub" id="aiSub">Your hexagram holds answers your rational mind cannot reach alone — preview free, unlock the full counsel for $9</div>
       </div>
 
       <div class="ai-result" id="aiResult" style="display:none">
@@ -1473,7 +1392,7 @@ select { color-scheme: dark; }
           <div class="ai-upgrade-text" id="aiUpgradeText">↑ This is your oracle preview. The full reading includes: deep hexagram analysis, moving line interpretation, how your situation transforms over the next 3–6 months, and specific, actionable counsel for your exact question.</div>
           <div style="text-align:center;margin-top:16px;">
             <button class="ai-paid-btn" onclick="showShenPricing(function(){ getAIReading(true,true); })" style="max-width:320px;margin:0 auto;display:block;">
-              <span id="aiUnlockLabel">⟡ Unlock Full Reading · $9.9</span>
+              <span id="aiUnlockLabel">⟡ Unlock Full Reading · $9</span>
             </button>
           </div>
         </div>
@@ -1484,7 +1403,7 @@ select { color-scheme: dark; }
         <div style="display:flex;gap:10px;flex-wrap:wrap;padding:16px 24px 20px;background:var(--panel);">
           <button class="ai-free-btn" onclick="getAIReading(false)" id="aiPreviewBtn" style="flex:1;">✦ Free Preview</button>
           <button class="ai-paid-btn" onclick="showShenPricing(function(){ getAIReading(true,true); })" id="aiPaidBtn" style="flex:2;">
-            <span id="aiPaidLabel">⟡ Full Reading · $9.9</span>
+            <span id="aiPaidLabel">⟡ Full Reading · $9</span>
           </button>
         </div>
       </div>
@@ -1633,7 +1552,7 @@ function setLang(l) {
   var paidBtn = document.getElementById('aiPaidBtn');
   if(paidBtn) {
     var paidLabel = paidBtn.querySelector('#aiPaidLabel') || paidBtn;
-    paidLabel.textContent = isZhNow ? '⟡ 完整解读 · $9.9' : '⟡ Full Reading · $9.9';
+    paidLabel.textContent = isZhNow ? '⟡ 完整解读 · $9' : '⟡ Full Reading · $9';
   }
   var upgText = document.getElementById('aiUpgradeText');
   if(upgText && upgText.innerHTML) {
@@ -1641,19 +1560,6 @@ function setLang(l) {
       ? '<span style="color:var(--gold-dim)">↑ 这是卦象预览。</span> 完整解读包含：动爻深度解析、变卦走向、未来3-6个月关键时机节点，以及针对你具体问题的实操建议。'
       : '<span style="color:var(--gold-dim)">↑ This is your oracle preview.</span> The full reading includes: moving line analysis, the changing hexagram’s message, timing signals for the next 3–6 months, and specific actionable counsel for your exact question.';
   }
-  // 更新页面内定价区语言
-  var _ptx={
-    'pricing-title':{en:'Unlock Your Full Reading',zh:'解锁完整卦象解读'},
-    'pricing-sub':{en:'One-time · Or unlimited access to all three SHEN tools',zh:'单次付费，或无限畅读全部三项神数工具'},
-    'pc-n1':{en:'Single Reading',zh:'单次解读'},'pc-d1':{en:'This tool, one complete reading',zh:'本工具一次完整解读'},
-    'pc-n2':{en:'All Three Tools',zh:'三工具套餐'},'pc-d2':{en:'Ba Zi + Zi Wei + I Ching',zh:'八字 + 紫微 + 易经'},
-    'pc-n3':{en:'Monthly Unlimited',zh:'月度无限'},'pc-d3':{en:'All tools · unlimited readings',zh:'全部工具 · 无限次解读'},
-    'pc-badge-m':{en:'Most Popular',zh:'最受欢迎'},
-    'pc-n4':{en:'Annual Unlimited',zh:'年度无限'},'pc-d4':{en:'All tools · $16.6/month',zh:'全部工具 · 折合每月$16.6'},
-    'pc-badge-y':{en:'Best Value',zh:'最划算'},
-    'pc-note':{en:'Secure payment via PayPal · Instant access after confirmation',zh:'PayPal安全付款 · 确认后立即开通'}
-  };
-  Object.keys(_ptx).forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=_ptx[id][isZhNow?'zh':'en'];});
 }
 
 function applyUI() {
@@ -1693,19 +1599,19 @@ function applyAIUI() {
   document.getElementById('aiTitle').textContent = isZh ? '深度解读' : 'Personal Reading';
   document.getElementById('aiSub').textContent = isZh ? '卦象正在解读中' : 'Reading the hexagram against your question';
   document.getElementById('aiFreeLabel').textContent = isZh ? '免费预览' : 'Free Preview';
-  document.getElementById('aiPaidLabel').textContent = isZh ? '完整深度解读 · $9.9' : '⟡ Full Reading · $9.9';
+  document.getElementById('aiPaidLabel').textContent = isZh ? '完整深度解读 · $9' : '⟡ Full Reading · $9';
   document.getElementById('aiResultLabel').textContent = isZh ? '卦象直言' : 'The Oracle Speaks';
   document.getElementById('aiUpgradeText').textContent = isZh
     ? '以上为预览版。完整解读包含：处境深度分析、具体行动建议、时机判断、需要警惕的风险——专为你的问题定制。'
     : 'This is a preview. The full reading includes situation analysis, specific action counsel, timing guidance, and risks to watch — tailored precisely to your question.';
-  document.getElementById('aiUnlockLabel').textContent = isZh ? '解锁完整解读 · $9.9' : '⟡ Unlock Full Reading · $9.9';
+  document.getElementById('aiUnlockLabel').textContent = isZh ? '解锁完整解读 · $9' : '⟡ Unlock Full Reading · $9';
   document.getElementById('aiLoadingText').textContent = isZh ? '卦象正在回应……' : 'Consulting the hexagram...';
   const toggleLabel = document.getElementById('hexDetailToggleLabel');
   if (toggleLabel) toggleLabel.textContent = isZh ? '+ 卦象参考（展开）' : '+ Hexagram Reference';
   const paidLabel = document.getElementById('aiPaidLabel');
-  if (paidLabel) paidLabel.textContent = isZh ? '完整解读 · $9.9' : '⟡ Full Reading · $9.9';
+  if (paidLabel) paidLabel.textContent = isZh ? '完整解读 · $9' : '⟡ Full Reading · $9';
   const unlockLabel = document.getElementById('aiUnlockLabel');
-  if (unlockLabel) unlockLabel.textContent = isZh ? '解锁完整解读 · $9.9' : '⟡ Unlock Full Reading · $9.9';
+  if (unlockLabel) unlockLabel.textContent = isZh ? '解锁完整解读 · $9' : '⟡ Unlock Full Reading · $9';
 }
 
 // ─── HEXAGRAM DATA ───────────────────────────────────────────
@@ -2545,11 +2451,13 @@ async function getAIReading(isPaid, _paypalDone) {
 卦辞：${h.classical_zh ? h.classical_zh.split('\n')[0].substring(0,50) : h.zh}
 动爻：${movingDesc}
 时辰：${currentCastTime ? currentCastTime.zh : ''}
+${topicLabelZh ? '问卦方向：【' + topicLabelZh + '】' : ''}
 问题：${q}`
       : `Hexagram: ${h.en} (#${h.num}, ${h.pinyin})
 Classical judgment: ${h.classical_en ? h.classical_en.split('.')[0].substring(0,70) : h.en}
 Moving lines: ${movingDesc}
 Time cast: ${currentCastTime ? currentCastTime.en : ''}
+${topicLabelEn ? 'Focus area: [' + topicLabelEn + ']' : ''}
 Question: ${q}`;
 
     try {
@@ -2627,11 +2535,19 @@ One sentence that lands with weight and stays with them long after they've close
 
 Tone: the clearest, warmest, most direct advisor they've ever had. No filler phrases. No mystical hedging. Cut straight to the insight. 520-570 words.`;
 
+  // 获取用户选择的问卦方向
+  const yjTopicObj = typeof YJ_TOPICS !== 'undefined' && yjCurrentTopic
+    ? YJ_TOPICS.find(function(x){ return x.key === yjCurrentTopic; })
+    : null;
+  const topicLabelZh = yjTopicObj ? yjTopicObj.zh : '';
+  const topicLabelEn = yjTopicObj ? yjTopicObj.en : '';
+
   const userPrompt = isZh
     ? `卦象：${h.zh}卦（第${h.num}卦，${h.pinyin}）
 卦辞：${h.classical_zh ? h.classical_zh.split('\n')[0] : ''}
 动爻：${movingDesc}
 起卦时辰：${currentCastTime ? currentCastTime.zh : ''}（可在解读中自然融入时辰的象征意义）
+${topicLabelZh ? '用户问卦方向：【' + topicLabelZh + '】——请重点围绕这个方向解读，不要跑题到其他领域。' : ''}
 
 用户的具体处境和问题：
 ${q}
@@ -2641,6 +2557,7 @@ ${q}
 Classical judgment: ${h.classical_en ? h.classical_en.split('.')[0] : ''}
 Moving lines: ${movingDesc}
 Time of casting: ${currentCastTime ? currentCastTime.en : ''} — weave this naturally into the reading where it adds genuine meaning
+${topicLabelEn ? 'User\'s chosen focus area: [' + topicLabelEn + '] — Keep the entire reading focused on this domain. Do not drift into unrelated life areas.' : ''}
 
 This person's situation and question:
 ${q}
@@ -2682,43 +2599,6 @@ Address this person's specific situation directly. Do not give a generic hexagra
   }
 }
 </script>
-
-<!-- Pricing Section (inline, always visible) -->
-<div id="pricing-section" style="max-width:680px;margin:0 auto 60px;padding:0 24px;">
-  <div style="border-top:1px solid rgba(201,168,76,0.15);padding-top:52px;text-align:center;">
-    <div style="font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:rgba(201,168,76,0.5);margin-bottom:10px;">SHEN · MEMBERSHIP</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold-light,#d4af6a);font-style:italic;margin-bottom:6px;" id="pricing-title">Unlock Your Full Reading</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:rgba(214,205,184,0.45);font-style:italic;margin-bottom:32px;" id="pricing-sub">One-time · Or unlimited access to all three SHEN tools</div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-      <div onclick="shenPay('single')" style="border:1px solid rgba(201,168,76,0.25);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.25)'">
-        <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light,#d4af6a);margin-bottom:6px;" id="pc-n1">Single Reading</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d1">This tool, one complete reading</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold,#c9a84c);">$9.9</div>
-      </div>
-      <div onclick="shenPay('bundle')" style="border:1px solid rgba(201,168,76,0.25);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.25)'">
-        <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light,#d4af6a);margin-bottom:6px;" id="pc-n2">All Three Tools</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d2">Ba Zi + Zi Wei + I Ching</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold,#c9a84c);">$19.9</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <div onclick="shenPay('monthly')" style="border:1px solid rgba(201,168,76,0.5);background:rgba(201,168,76,0.06);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;position:relative;" onmouseover="this.style.borderColor='rgba(201,168,76,0.8)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.5)'">
-        <div style="position:absolute;top:-1px;right:12px;background:var(--gold,#c9a84c);color:#0a0806;font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:.18em;padding:3px 8px;text-transform:uppercase;" id="pc-badge-m">Most Popular</div>
-        <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light,#d4af6a);margin-bottom:6px;" id="pc-n3">Monthly Unlimited</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d3">All tools · unlimited readings</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold,#c9a84c);">$39<span style="font-size:13px;color:rgba(201,168,76,0.5)">/mo</span></div>
-      </div>
-      <div onclick="shenPay('yearly')" style="border:1px solid rgba(201,168,76,0.25);padding:20px 18px;cursor:pointer;transition:all .3s;border-radius:2px;text-align:left;position:relative;" onmouseover="this.style.borderColor='rgba(201,168,76,0.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.25)'">
-        <div style="position:absolute;top:-1px;right:12px;background:rgba(201,168,76,0.15);color:var(--gold,#c9a84c);font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:.18em;padding:3px 8px;text-transform:uppercase;border:1px solid rgba(201,168,76,0.3);" id="pc-badge-y">Best Value</div>
-        <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light,#d4af6a);margin-bottom:6px;" id="pc-n4">Annual Unlimited</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.4);font-style:italic;margin-bottom:14px;" id="pc-d4">All tools · $16.6/month</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold,#c9a84c);">$199<span style="font-size:13px;color:rgba(201,168,76,0.5)">/yr</span></div>
-      </div>
-    </div>
-    <div style="margin-top:16px;font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.3);font-style:italic;" id="pc-note">Secure payment via PayPal · Instant access after confirmation</div>
-  </div>
-</div>
 
 <!-- Contact Section -->
 <div id="contact-section" style="display:none;max-width:720px;margin:0 auto;padding:0 24px 60px;">
@@ -3359,11 +3239,11 @@ function updateLangBtns(active){
 
     <div class="shen-plan" onclick="shenPay('single')">
       <div><div class="shen-plan-name" id="spmN1">Single Reading</div><div class="shen-plan-desc" id="spmD1">One complete reading, this tool</div></div>
-      <div class="shen-plan-price">$9.9</div>
+      <div class="shen-plan-price">$9</div>
     </div>
     <div class="shen-plan" onclick="shenPay('bundle')">
       <div><div class="shen-plan-name" id="spmN2">All Three Tools</div><div class="shen-plan-desc" id="spmD2">Ba Zi + Zi Wei + I Ching</div></div>
-      <div class="shen-plan-price">$19.9</div>
+      <div class="shen-plan-price">$19</div>
     </div>
     <div class="shen-plan featured" onclick="shenPay('monthly')">
       <div><div class="shen-plan-name" id="spmN3">Monthly Unlimited</div><div class="shen-plan-desc" id="spmD3">All tools, unlimited readings</div></div>
@@ -3372,9 +3252,9 @@ function updateLangBtns(active){
       </div>
     </div>
     <div class="shen-plan" onclick="shenPay('yearly')">
-      <div><div class="shen-plan-name" id="spmN4">Annual Unlimited</div><div class="shen-plan-desc" id="spmD4">All tools · $16.6/month</div></div>
+      <div><div class="shen-plan-name" id="spmN4">Annual Unlimited</div><div class="shen-plan-desc" id="spmD4">All tools · $8.25/month</div></div>
       <div style="display:flex;align-items:center;">
-        <div class="shen-plan-price">$199<span style="font-size:10px;color:rgba(201,168,76,0.5)">/yr</span></div>
+        <div class="shen-plan-price">$99<span style="font-size:10px;color:rgba(201,168,76,0.5)">/yr</span></div>
         <div class="shen-plan-badge" id="spmBest">Best Value</div>
       </div>
     </div>
@@ -3398,10 +3278,10 @@ const SHEN_CONFIG = {
 
 // PayPal链接
 const SHEN_PAYPAL = {
-  single:  'https://www.paypal.com/paypalme/luguangben/9.9',
-  bundle:  'https://www.paypal.com/paypalme/luguangben/19.9',
+  single:  'https://www.paypal.com/paypalme/luguangben/9',
+  bundle:  'https://www.paypal.com/paypalme/luguangben/19',
   monthly: 'https://www.paypal.com/paypalme/luguangben/39',
-  yearly:  'https://www.paypal.com/paypalme/luguangben/199'
+  yearly:  'https://www.paypal.com/paypalme/luguangben/99'
 };
 
 // 全局状态
@@ -3585,13 +3465,21 @@ function shenUpdateNavUI() {
 function showShenPricing(cb) {
   shenAuthCallback = cb;
 
-  // 已登录且是付费会员，直接执行
+  // 如果已登录且是付费会员，直接执行
   if (shenUser && shenIsPaid()) {
     if (typeof cb === 'function') cb();
     return;
   }
 
-  // single/bundle：直接显示定价弹窗，不强制登录
+  // 未登录：先登录
+  if (!shenUser) {
+    shenShowAuthModal('login', function() {
+      showShenPricing(cb);
+    });
+    return;
+  }
+
+  // 已登录但免费：显示定价弹窗
   updateShenModalLang();
   document.getElementById('shenPricingModal').classList.add('active');
   document.getElementById('shenCodeWrap').classList.remove('active');
@@ -3599,37 +3487,22 @@ function showShenPricing(cb) {
 
 // ── PayPal payment flow ───────────────────────────────────────
 function shenPay(plan) {
+  var win = window.open(SHEN_PAYPAL[plan], 'shen_pay', 'width=520,height=640,scrollbars=yes');
   var isSubscription = (plan === 'monthly' || plan === 'yearly');
 
-  // 月卡/年卡：需要账号，先登录再付款
-  if (isSubscription && !shenUser) {
-    closeShenModal();
-    shenShowAuthModal('login', function() {
-      shenPay(plan);
-    });
-    return;
-  }
-
-  var win = window.open(SHEN_PAYPAL[plan], 'shen_pay', 'width=520,height=640,scrollbars=yes');
   var timer = setInterval(function() {
     if (win && win.closed) {
       clearInterval(timer);
-      var isZh = (typeof L !== 'undefined' && (L==='zh'||L==='tw'));
+      var isZh = typeof getShenLang === 'function' ? getShenLang() : false;
       var msg = isZh
         ? '请确认：您已完成PayPal付款了吗？点击确定立即解锁。'
         : 'Have you completed your PayPal payment? Click OK to unlock your reading now.';
       if (window.confirm(msg)) {
-        closeShenModal();
-        if (isSubscription) {
-          // 月卡/年卡：写入Supabase会员记录
-          var planKey = plan;
-          shenUpgradeMembership(planKey).then(function() {
-            if (typeof shenAuthCallback === 'function') shenAuthCallback();
-          });
-        } else {
-          // 单次/套餐：本地直接解锁，不需要账号
+        var planKey = (plan === 'bundle') ? 'single' : plan;
+        shenUpgradeMembership(planKey).then(function() {
+          closeShenModal();
           if (typeof shenAuthCallback === 'function') shenAuthCallback();
-        }
+        });
       }
     }
   }, 600);
@@ -3743,7 +3616,7 @@ function updateShenModalLang() {
     s('spmN1', 'Single Reading'); s('spmD1', 'One complete reading, this tool');
     s('spmN2', 'All Three Tools'); s('spmD2', 'Ba Zi + Zi Wei + I Ching');
     s('spmN3', 'Monthly Unlimited'); s('spmD3', 'All tools, unlimited readings');
-    s('spmN4', 'Annual Unlimited'); s('spmD4', 'All tools · $16.6/month');
+    s('spmN4', 'Annual Unlimited'); s('spmD4', 'All tools · $8.25/month');
     s('spmBest', 'Best Value'); s('spmNote', 'Payments via PayPal · Secure checkout');
   }
 }
