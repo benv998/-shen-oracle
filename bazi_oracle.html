@@ -1419,7 +1419,7 @@ function buildFreePreview(c){
     else if(isMoney) main=`你的日主${c.dayStemName}（${elNames.zh[elIdx]}）的财运格局是<strong style="color:var(--gold)">稳健积累型</strong>——不是靠一次爆发，而是靠持续的专业建树和正确的时机判断。命盘中最旺的元素是${elNames.zh[domElIdx]}，这对你的财运${domElIdx===elIdx||domElIdx===(elIdx+1)%5?'是正向加持':'提示要注意某些消耗点'}。`;
     else main=`你的日主${c.dayStemName}（${elNames.zh[elIdx]}）是你整张命盘的核心。五行分布显示你的优势集中在${elNames.zh[domElIdx]}的领域，这意味着${getDomElNote(elNames.en[domElIdx].toLowerCase(),'zh')}。你的命盘整体呈现出一个<strong style="color:var(--gold)">有长期潜力、需要找到正确释放通道</strong>的人。`;
 
-    return main+`\n\n———\n\n<em>完整解读将深入分析：你的用神（对你最有利的五行元素）、当前大运对你具体问题的影响、以及最有利于你行动的时间窗口。</em>`;
+    return main+`\n\n———\n\n<em>完整解读将深入分析：你命局中最有利的五行元素、当前大运对你具体问题的影响、以及最有利于你行动的时间窗口。</em>`;
 
   } else {
     let main='';
@@ -1576,7 +1576,7 @@ async function getBaziAI(isPaid, _paypalDone){
     const _dayun=c.dayuns.find(d=>d.isCurrent)||c.dayuns[0];
 
     const freeSys=isZh
-      ?`你是八字命理大师，服务过无数商界精英和决策者。根据命盘数据和提问，写一段让人感到"说中了"的【命盘解读预览】，风格：温暖、有洞察力、像一个见过世面的智者在说话。今天是${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日，只谈现在和未来。严格要求：①第一句就切入这个命盘最独特的核心特质，具体到天干地支层面，不能是任何人都适用的套话；②直接回应用户的具体问题，说出命盘在这个方向上给出的最重要信号——是窗口机会、结构性障碍还是需要警惕的隐患；③最后一句制造真实悬念——暗示用神（命局最需要的元素）和关键时间节点还未揭示；④绝对不出现"付费""购买""解锁"等字眼；⑤全文110-140字，每一个字都要有重量。`
+      ?`你是八字命理大师，服务过无数商界精英和决策者。根据命盘数据和提问，写一段让人感到"说中了"的【命盘解读预览】，风格：温暖、有洞察力、像一个见过世面的智者在说话。今天是${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日，只谈现在和未来。严格要求：①第一句就切入这个命盘最独特的核心特质，具体到天干地支层面，不能是任何人都适用的套话；②直接回应用户的具体问题，说出命盘在这个方向上给出的最重要信号——是窗口机会、结构性障碍还是需要警惕的隐患；③最后一句制造真实悬念——暗示命局中最关键的有利元素和时间节点还未揭示（不要直接说"用神"这个术语）；④绝对不出现"付费""购买""解锁"等字眼；⑤全文110-140字，每一个字都要有重量。`
       :`You are a Ba Zi analyst trusted by executives, investors, and high-performers who need more than surface-level insight. Your audience is intelligent, skeptical, and time-poor. Write a chart preview that earns their attention immediately. Today is ${new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"})}. Speak only of present and future. Requirements: ①Open with the single most specific and distinctive quality of THIS chart — tied directly to the Day Master and elemental configuration, not a generic archetype. ②Address their exact question with the most critical signal the chart reveals — name whether this is a structural opportunity, timing window, or a risk pattern they need to understand. ③Close with genuine suspense: reference that the favorable element (yong shen) and precise upcoming timing windows have not yet been surfaced. ④No references to payment or unlocking. ⑤90-120 words. Every sentence must earn its place.`;
 
     const freeUsr=isZh
@@ -1592,9 +1592,10 @@ async function getBaziAI(isPaid, _paypalDone){
       const data=await resp.json();
       const txt=data.choices?.[0]?.message?.content||(isZh?'解读生成失败，请重试。':'Reading failed. Please try again.');
       loadEl.style.display='none';
-      outTxt.innerHTML=`<span style="color:var(--gold);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;">${isZh?'命盘解读预览':'CHART PREVIEW'}</span><br><br>`+txt.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold)">$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
+      outTxt.style.fontFamily="'Cormorant Garamond', 'Josefin Sans', serif";
+outTxt.innerHTML=`<span style="color:var(--gold);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;font-family:'Josefin Sans',sans-serif;">${isZh?'命盘解读预览':'CHART PREVIEW'}</span><br><br>`+txt.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold)">$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
       document.getElementById('aiUpgradeNote').innerHTML=isZh
-        ?'<span style="color:var(--gold-dim)">↑ 这是命盘预览。</span> 完整解读包含：用神分析、当前大运详解、未来12-18个月关键时间节点、以及针对你具体问题的深度建议。'
+        ?'<span style="color:var(--gold-dim)">↑ 这是命盘预览。</span> 完整解读包含：命局最有利元素深度分析、当前大运详解、未来12-18个月关键时间节点、以及针对你具体问题的深度建议。'
         :'<span style="color:var(--gold-dim)">↑ This is your chart preview.</span> The full reading includes: favorable element analysis, detailed Great Cycle interpretation, key timing windows for the next 12–18 months, and deep counsel on your specific question.';
       upEl.style.display='block';
       outEl.style.display='block';
@@ -1655,6 +1656,7 @@ Address their actual question directly. Don't explain Ba Zi theory — give the 
     const data=await resp.json();
     const txt=data.choices?.[0]?.message?.content||(isZh?'解读生成失败，请重试。':'Reading failed. Please try again.');
     loadEl.style.display='none';
+    outTxt.style.fontFamily="'Cormorant Garamond', serif";
     outTxt.innerHTML=txt.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold)">$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/\n/g,'<br>');
     upEl.style.display='none';
     outEl.style.display='block';

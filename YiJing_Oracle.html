@@ -763,6 +763,17 @@ footer {
 /* ─── END RITUAL NOTICE ─────────────────────────── */
 
 @media (max-width: 600px) {
+  /* 硬币选择界面 — 防止横向溢出 */
+  .toss-row { gap: 8px !important; padding: 14px 0 !important; }
+  .toss-label, .toss-label-zh { font-size: 13px !important; min-width: 28px !important; letter-spacing: .03em !important; }
+  .toss-coins { gap: 7px !important; }
+  .coin-btn { width: 46px !important; height: 46px !important; font-size: 16px !important; }
+  .coin-btn-label { font-size: 8px !important; bottom: -14px !important; letter-spacing: 0 !important; white-space: nowrap !important; }
+  .toss-coins { gap: 4px !important; justify-content: space-between !important; }
+  .toss-row { gap: 6px !important; padding: 16px 0 !important; }
+  .toss-label, .toss-label-zh { min-width: 22px !important; font-size: 12px !important; flex-shrink: 0 !important; }
+  .toss-result { font-size: 14px !important; min-width: 32px !important; flex-shrink: 0 !important; }
+  #manualTossWrap { padding: 0 6px !important; overflow-x: hidden !important; }
   .lang-toggle { position: static; margin: 0 auto 20px; width: fit-content; }
   header { padding-top: 32px; }
   .tab-btn { padding: 14px 16px; font-size: 21px; }
@@ -1159,7 +1170,7 @@ select { color-scheme: dark; }
 
     <!-- 铜钱抛落动画场景（装饰演示） -->
     <div id="coin-drop-scene" style="width:100%;text-align:center;padding:24px 0 8px;position:relative;min-height:160px;overflow:hidden;">
-      <canvas id="coinCanvas" width="400" height="150" style="max-width:100%;"></canvas>
+      <canvas id="coinCanvas" style="max-width:100%;display:block;margin:0 auto;"></canvas>
       <div id="coin-drop-notice" style="font-size:24px;letter-spacing:.15em;color:#8878AA;margin-top:8px;text-transform:uppercase;padding:0 16px;line-height:1.8;"></div>
     </div>
 
@@ -1209,8 +1220,35 @@ select { color-scheme: dark; }
     <div class="coin-step" id="coinStep4">
       <div class="coin-step-num" id="csr4">Step 4 of 4 · Record Each Toss</div>
       <div class="coin-step-title" id="cst4">Toss & Record</div>
-      <div class="coin-step-body" id="csb4" style="margin-bottom:20px;">
-        For each toss, tap how many coins landed <strong>heads-up</strong>.
+      <div class="coin-step-body" id="csb4" style="margin-bottom:16px;">
+        After each toss, count how many coins show <strong>heads</strong> (the face/portrait side), then tap that number below.
+      </div>
+      <!-- 规则速查卡 -->
+      <div id="tossRuleCard" style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);padding:14px 16px;margin-bottom:20px;border-radius:2px;">
+        <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.22em;color:rgba(201,168,76,0.6);margin-bottom:10px;text-transform:uppercase;" id="trcTitle">Quick Reference · Count Heads-Up Coins</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;">
+          <div style="padding:8px 4px;">
+            <div style="font-size:20px;margin-bottom:4px;">○○○</div>
+            <div style="font-size:10px;color:rgba(201,168,76,0.9);font-family:'Cinzel',serif;letter-spacing:.05em;" id="trc0">0 heads</div>
+            <div style="font-size:9px;color:rgba(214,205,184,0.4);margin-top:2px;" id="trc0s">all tails</div>
+          </div>
+          <div style="padding:8px 4px;">
+            <div style="font-size:20px;margin-bottom:4px;">●○○</div>
+            <div style="font-size:10px;color:rgba(201,168,76,0.9);font-family:'Cinzel',serif;letter-spacing:.05em;" id="trc1">1 head</div>
+            <div style="font-size:9px;color:rgba(214,205,184,0.4);margin-top:2px;" id="trc1s">1 face-up</div>
+          </div>
+          <div style="padding:8px 4px;background:rgba(201,168,76,0.08);border-radius:2px;">
+            <div style="font-size:20px;margin-bottom:4px;">●●○</div>
+            <div style="font-size:10px;color:rgba(201,168,76,0.9);font-family:'Cinzel',serif;letter-spacing:.05em;" id="trc2">2 heads</div>
+            <div style="font-size:9px;color:rgba(214,205,184,0.4);margin-top:2px;" id="trc2s">most common</div>
+          </div>
+          <div style="padding:8px 4px;">
+            <div style="font-size:20px;margin-bottom:4px;">●●●</div>
+            <div style="font-size:10px;color:rgba(201,168,76,0.9);font-family:'Cinzel',serif;letter-spacing:.05em;" id="trc3">3 heads</div>
+            <div style="font-size:9px;color:rgba(214,205,184,0.4);margin-top:2px;" id="trc3s">all face-up</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:10px;color:rgba(214,205,184,0.4);text-align:center;" id="trcNote">● = heads (face/portrait side) · ○ = tails (number side)</div>
       </div>
 
       <div class="toss-section">
@@ -1943,8 +1981,19 @@ function coinNextStep(n) {
 }
 
 function buildTossRows() {
-  const isZh = lang==='zh';
+  const isZh = lang==='zh'||lang==='tw';
   const labels = isZh ? TOSS_LABELS_ZH : TOSS_LABELS_EN;
+  // 更新规则卡语言
+  var trcTitle=document.getElementById('trcTitle');
+  if(trcTitle) trcTitle.textContent=isZh?'快速参考 · 数正面朝上的硬币数':'Quick Reference · Count Heads-Up Coins';
+  var trcDefs=isZh?{0:'0枚正面',1:'1枚正面',2:'2枚正面',3:'3枚正面',s0:'全部反面',s1:'1枚正面朝上',s2:'最常见',s3:'全部正面',note:'● = 正面（有图案/人物的一面）· ○ = 反面（数字面）'}:{0:'0 heads',1:'1 head',2:'2 heads',3:'3 heads',s0:'all tails',s1:'1 face-up',s2:'most common',s3:'all face-up',note:'● = heads (face/portrait side) · ○ = tails (number side)'};
+  [0,1,2,3].forEach(function(n){
+    var el=document.getElementById('trc'+n); if(el) el.textContent=trcDefs[n];
+    var es=document.getElementById('trc'+n+'s'); if(es) es.textContent=trcDefs['s'+n];
+  });
+  var trcNote=document.getElementById('trcNote'); if(trcNote) trcNote.textContent=trcDefs.note;
+  var csb4=document.getElementById('csb4');
+  if(csb4) csb4.innerHTML=isZh?'每次投完后，数一下<strong>正面朝上（有图案的一面）</strong>的硬币数量，点击下方对应数字。':'After each toss, count how many coins show <strong>heads</strong> (the face/portrait side), then tap that number below.';
   const rows = document.getElementById('tossRows');
   rows.innerHTML = '';
   for(let i=0;i<6;i++){
@@ -1956,8 +2005,8 @@ function buildTossRows() {
       <div class="toss-coins">
         ${[0,1,2,3].map(n=>`
           <button class="coin-btn" id="coin_${i}_${n}" onclick="selectToss(${i},${n})" title="${n} heads-up">
-            <span style="font-size:18px;display:block;margin-bottom:4px;">${n===0?'○○○':n===1?'●○○':n===2?'●●○':'●●●'}</span>
-            <span class="coin-btn-label">${isZh?(n===0?'0枚正面':n===1?'1枚正面':n===2?'2枚正面':'3枚正面'):(n===0?'0 heads':n===1?'1 head':n===2?'2 heads':'3 heads')}</span>
+            <span style="font-size:${window.innerWidth<400?'14px':'17px'};display:block;line-height:1.3;letter-spacing:1px;">${n===0?'○○○':n===1?'●○○':n===2?'●●○':'●●●'}</span>
+            <span class="coin-btn-label" style="font-weight:bold;">${isZh?(n===0?'0正':n===1?'1正':n===2?'2正':'3正'):(n===0?'0':n===1?'1':n===2?'2':'3')}</span>
           </button>
         `).join('')}
       </div>
@@ -2747,147 +2796,176 @@ function submitYCContact(e){
 
 <script>
 (function(){
-  // Western coin scatter animation — 3 coins tumble and land scattered
-  var canvas, ctx, coins=[], animId=null, started=false;
+  var canvas, ctx, coins=[], animId=null, W=0, H=0;
+  var FLOOR_Y = 0;
 
-  function Coin(startX, startY, vx, vy, rotV, landX, landY, delay, isTails){
-    this.x = startX;
-    this.y = startY;
-    this.vx = vx;
-    this.vy = vy;
-    this.rot = Math.random()*360;
-    this.rotV = rotV;
-    this.tiltAngle = 0; // 3D tilt for flip
-    this.tiltSpeed = (Math.random()*0.08+0.06) * (Math.random()<0.5?1:-1);
-    this.landed = false;
-    this.landX = landX;
-    this.landY = landY;
-    this.delay = delay;
-    this.age = 0;
-    this.bounce = 0;
-    this.bounceH = 0;
-    this.shadow = 0;
-    this.isTails = isTails;
-    this.finalTilt = 0; // flat after landing
-    this.settling = false;
-    this.settleFrames = 0;
+  function resize(){
+    var container = canvas.parentNode;
+    W = Math.min(container.offsetWidth || 360, 480);
+    H = Math.round(W * 0.52);
+    canvas.width = W;
+    canvas.height = H;
+    FLOOR_Y = H - 36;
+  }
+
+  // 硬币数据
+  function makeCoin(idx){
+    // 从画面顶部中央随机抛出
+    var cx = W/2 + (Math.random()-0.5)*W*0.12;
+    // 每枚硬币随机初速度，散落到不同位置
+    var angle = (-90 + (idx-1)*38 + (Math.random()-0.5)*22) * Math.PI/180;
+    var speed = W*0.028 + Math.random()*W*0.018;
+    // 最终落点 - 不均匀分布
+    var landPositions = [
+      W*0.20 + (Math.random()-0.5)*W*0.08,
+      W*0.50 + (Math.random()-0.5)*W*0.06,
+      W*0.78 + (Math.random()-0.5)*W*0.08
+    ];
+    // 随机交换落点制造更自然散落
+    if(Math.random()<0.35){ var t=landPositions[0]; landPositions[0]=landPositions[1]; landPositions[1]=t; }
+
+    var isTails = Math.random() < 0.5;
+    var delay = idx * 7 + Math.floor(Math.random()*5);
+    var rotV = (Math.random()*6+4) * (Math.random()<0.5?1:-1);
+    var tiltSpeed = (Math.random()*0.12+0.08) * (Math.random()<0.5?1:-1);
+    var finalTilt = (Math.random()-0.5)*0.15; // 落地后略微倾斜
+
+    return {
+      x: cx, y: -28,
+      vx: Math.cos(angle)*speed,
+      vy: Math.sin(angle)*speed - W*0.012,
+      rot: Math.random()*360,
+      rotV: rotV,
+      tiltAngle: Math.random()*Math.PI*2,
+      tiltSpeed: tiltSpeed,
+      landed: false,
+      settling: false,
+      settleFrames: 0,
+      landX: landPositions[idx],
+      isTails: isTails,
+      finalTilt: finalTilt,
+      delay: delay,
+      age: 0,
+      bounces: 0,
+      R: Math.round(W * 0.072), // 硬币半径随屏幕缩放
+    };
   }
 
   function initCoins(){
-    // 3 coins scatter from center-top, land at different positions
-    coins = [
-      new Coin(200,-30, -2.8, -4, -14, 90,  115, 0,  false),
-      new Coin(200,-30,  0.2, -5,  9,  200, 125, 6,  true),
-      new Coin(200,-30,  2.4, -3.5, 16, 305, 110, 12, false)
-    ];
+    coins = [makeCoin(0), makeCoin(1), makeCoin(2)];
   }
 
-  function drawWesternCoin(coin){
-    if(coin.age < coin.delay) return;
+  function drawCoin(c){
+    if(c.age < c.delay) return;
+    var R = c.R;
     ctx.save();
-    ctx.translate(coin.x, coin.y);
+    ctx.translate(c.x, c.y);
 
-    // Shadow on table
-    if(coin.landed || coin.y > 60){
-      var shadowAlpha = coin.landed ? 0.35 : Math.min(0.35,(coin.y-60)/80*0.35);
-      var shadowY = coin.landY - coin.y + 8;
+    // 地面投影
+    if(c.y > H*0.3){
+      var alpha = Math.min(0.4, (c.y-H*0.3)/(FLOOR_Y-H*0.3)*0.4);
+      var shadowW = R * (c.landed ? 2.2 : 1.8);
       ctx.save();
-      ctx.translate(0, shadowY);
-      ctx.scale(1, 0.25);
+      ctx.translate(R*0.15, FLOOR_Y - c.y + R*0.18);
+      ctx.scale(1, 0.28);
       ctx.beginPath();
-      ctx.arc(0,0,22,0,Math.PI*2);
-      ctx.fillStyle = 'rgba(0,0,0,'+shadowAlpha+')';
-      ctx.filter = 'blur(4px)';
+      ctx.arc(0, 0, shadowW*0.5, 0, Math.PI*2);
+      var sg = ctx.createRadialGradient(0,0,0,0,0,shadowW*0.5);
+      sg.addColorStop(0,'rgba(0,0,0,'+(alpha)+')');
+      sg.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle = sg;
+      ctx.filter = 'blur(3px)';
       ctx.fill();
       ctx.restore();
     }
 
-    ctx.rotate(coin.rot * Math.PI/180);
-
-    // 3D flip: scaleY based on tiltAngle
-    var scaleY = Math.cos(coin.tiltAngle);
+    // 3D翻转：scaleY = cos(tiltAngle)
+    ctx.rotate(c.rot * Math.PI/180);
+    var scaleY = Math.cos(c.tiltAngle);
     var absScale = Math.abs(scaleY);
     ctx.scale(1, scaleY < 0 ? -absScale : absScale);
 
-    var R = 22;
-    var showTails = (scaleY < 0) ? !coin.isTails : coin.isTails;
+    var showTails = scaleY < 0 ? !c.isTails : c.isTails;
 
-    // Edge (3D thickness illusion)
-    ctx.beginPath();
-    ctx.arc(0,0,R,0,Math.PI*2);
-    var edgeGrad = ctx.createLinearGradient(-R,0,R,0);
-    edgeGrad.addColorStop(0,'#8a7340');
-    edgeGrad.addColorStop(0.4,'#d4aa50');
-    edgeGrad.addColorStop(0.6,'#f0cc6a');
-    edgeGrad.addColorStop(1,'#8a7340');
-    ctx.fillStyle = edgeGrad;
-    ctx.fill();
+    // ── 硬币厚度（侧边）──
+    if(absScale < 0.92){
+      var edgeH = R * 0.18;
+      ctx.beginPath();
+      ctx.ellipse(0, edgeH*0.5, R, edgeH*0.5, 0, 0, Math.PI*2);
+      ctx.fillStyle = '#7a5a10';
+      ctx.fill();
+    }
 
-    // Face gradient
-    var faceGrad = ctx.createRadialGradient(-7,-7,2, 0,0,R);
+    // ── 正面渐变 ──
+    var fg = ctx.createRadialGradient(-R*0.32, -R*0.32, R*0.08, 0, 0, R);
     if(showTails){
-      faceGrad.addColorStop(0,'#f5e070');
-      faceGrad.addColorStop(0.5,'#c9a030');
-      faceGrad.addColorStop(1,'#8a6010');
+      fg.addColorStop(0, '#f8e888');
+      fg.addColorStop(0.35, '#d4a030');
+      fg.addColorStop(0.75, '#a07018');
+      fg.addColorStop(1, '#6a4808');
     } else {
-      faceGrad.addColorStop(0,'#ffe080');
-      faceGrad.addColorStop(0.4,'#d4aa40');
-      faceGrad.addColorStop(1,'#9a7020');
+      fg.addColorStop(0, '#fff4a0');
+      fg.addColorStop(0.3, '#e8c040');
+      fg.addColorStop(0.65, '#c09020');
+      fg.addColorStop(1, '#7a5510');
     }
     ctx.beginPath();
-    ctx.arc(0,0,R-1,0,Math.PI*2);
-    ctx.fillStyle = faceGrad;
+    ctx.arc(0, 0, R, 0, Math.PI*2);
+    ctx.fillStyle = fg;
     ctx.fill();
 
-    // Rim detail
+    // ── 外环纹路 ──
     ctx.beginPath();
-    ctx.arc(0,0,R-1,0,Math.PI*2);
-    ctx.strokeStyle = 'rgba(255,220,80,0.6)';
-    ctx.lineWidth = 1.5;
+    ctx.arc(0, 0, R, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(255,230,100,0.55)';
+    ctx.lineWidth = R*0.06;
     ctx.stroke();
     ctx.beginPath();
-    ctx.arc(0,0,R-3,0,Math.PI*2);
-    ctx.strokeStyle = 'rgba(100,70,10,0.4)';
-    ctx.lineWidth = 0.8;
+    ctx.arc(0, 0, R*0.82, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(90,60,5,0.3)';
+    ctx.lineWidth = R*0.04;
     ctx.stroke();
 
-    if(absScale > 0.15){
+    // ── 面部图案 ──
+    if(absScale > 0.18){
       ctx.save();
-      ctx.scale(1, absScale < 0.3 ? 1/absScale : 1);
+      var textScale = Math.max(0.5, absScale);
+      ctx.scale(1, 1/textScale);
       if(showTails){
-        // TAILS — eagle / spread wings
-        ctx.font = 'bold 18px serif';
-        ctx.fillStyle = 'rgba(80,50,5,0.85)';
+        // 反面：✦ 符号
+        ctx.font = 'bold '+Math.round(R*0.72)+'px serif';
+        ctx.fillStyle = 'rgba(70,45,5,0.75)';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('✦', 0, 0);
-        ctx.font = '7px sans-serif';
-        ctx.fillStyle = 'rgba(80,50,5,0.5)';
-        ctx.fillText('E·PLURIBUS', 0, -9);
+        ctx.font = Math.round(R*0.22)+'px sans-serif';
+        ctx.fillStyle = 'rgba(70,45,5,0.45)';
+        ctx.fillText('E·PLURIBUS', 0, -R*0.42);
       } else {
-        // HEADS — profile silhouette
+        // 正面：月牙+LIBERTY
         ctx.beginPath();
-        ctx.arc(3, 0, 10, 0, Math.PI*2);
-        ctx.fillStyle = 'rgba(100,65,5,0.3)';
+        ctx.arc(R*0.1, 0, R*0.44, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(120,80,5,0.15)';
         ctx.fill();
-        ctx.font = 'bold 11px serif';
-        ctx.fillStyle = 'rgba(80,50,5,0.8)';
+        ctx.font = 'bold '+Math.round(R*0.5)+'px serif';
+        ctx.fillStyle = 'rgba(70,45,5,0.75)';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('☽', -2, 1);
-        ctx.font = '6px sans-serif';
-        ctx.fillStyle = 'rgba(80,50,5,0.5)';
-        ctx.fillText('LIBERTY', 0, 10);
+        ctx.fillText('☽', -R*0.08, R*0.04);
+        ctx.font = Math.round(R*0.21)+'px sans-serif';
+        ctx.fillStyle = 'rgba(70,45,5,0.45)';
+        ctx.fillText('LIBERTY', 0, R*0.46);
       }
       ctx.restore();
     }
 
-    // Shine highlight
+    // ── 高光 ──
+    var shine = ctx.createRadialGradient(-R*0.36,-R*0.36,0,-R*0.28,-R*0.28,R*0.38);
+    shine.addColorStop(0,'rgba(255,255,240,0.42)');
+    shine.addColorStop(0.6,'rgba(255,255,240,0.08)');
+    shine.addColorStop(1,'rgba(255,255,240,0)');
     ctx.beginPath();
-    ctx.arc(-7,-8,7,0,Math.PI*2);
-    var shine = ctx.createRadialGradient(-8,-9,0,-7,-8,7);
-    shine.addColorStop(0,'rgba(255,255,220,0.35)');
-    shine.addColorStop(1,'rgba(255,255,220,0)');
+    ctx.arc(0,0,R,0,Math.PI*2);
     ctx.fillStyle = shine;
     ctx.fill();
 
@@ -2895,43 +2973,44 @@ function submitYCContact(e){
   }
 
   function update(){
+    var gravity = H * 0.0028;
     var allDone = true;
-    var gravity = 0.45;
-    coins.forEach(function(coin){
-      coin.age++;
-      if(coin.age < coin.delay){ allDone=false; return; }
-
-      if(coin.settling){
-        coin.settleFrames++;
-        // tilt eases to flat
-        coin.tiltAngle *= 0.85;
-        coin.rot += coin.rotV * 0.05;
-        coin.rotV *= 0.85;
-        if(coin.settleFrames > 30) coin.settling = false;
+    coins.forEach(function(c){
+      c.age++;
+      if(c.age < c.delay){ allDone=false; return; }
+      if(c.settling){
+        c.settleFrames++;
+        c.tiltAngle += (c.finalTilt - c.tiltAngle)*0.12;
+        c.rotV *= 0.82;
+        c.rot += c.rotV;
+        if(c.settleFrames > 40){ c.settling=false; }
         return;
       }
-      if(coin.landed) return;
+      if(c.landed) return;
       allDone = false;
-
-      coin.vy += gravity;
-      coin.x += coin.vx;
-      coin.y += coin.vy;
-      coin.rot += coin.rotV;
-      coin.tiltAngle += coin.tiltSpeed;
-      coin.vx *= 0.995;
-
-      // Bounce off floor
-      if(coin.y >= coin.landY){
-        coin.y = coin.landY;
-        if(Math.abs(coin.vy) > 2){
-          coin.vy = -coin.vy * 0.32;
-          coin.vx *= 0.5;
-          coin.rotV *= 0.6;
+      c.vy += gravity;
+      c.x += c.vx;
+      c.y += c.vy;
+      c.rot += c.rotV;
+      c.tiltAngle += c.tiltSpeed;
+      c.vx *= 0.993;
+      // 左右边界反弹
+      if(c.x < c.R+4){ c.x=c.R+4; c.vx=Math.abs(c.vx)*0.5; }
+      if(c.x > W-c.R-4){ c.x=W-c.R-4; c.vx=-Math.abs(c.vx)*0.5; }
+      // 落地弹跳
+      if(c.y >= FLOOR_Y){
+        c.y = FLOOR_Y;
+        c.bounces++;
+        if(Math.abs(c.vy) > H*0.018 && c.bounces < 4){
+          c.vy = -c.vy * (0.28 - c.bounces*0.04);
+          c.vx *= 0.45;
+          c.rotV *= 0.55;
+          c.tiltSpeed *= 0.5;
         } else {
-          coin.landed = true;
-          coin.settling = true;
-          coin.settleFrames = 0;
-          coin.x = coin.landX;
+          c.landed = true;
+          c.settling = true;
+          c.settleFrames = 0;
+          c.x = c.landX;
         }
       }
     });
@@ -2939,16 +3018,13 @@ function submitYCContact(e){
   }
 
   function render(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    // Subtle surface line
+    ctx.clearRect(0,0,W,H);
+    // 桌面线
     ctx.beginPath();
-    ctx.moveTo(0,134); ctx.lineTo(canvas.width,134);
-    ctx.strokeStyle='rgba(201,168,76,0.15)'; ctx.lineWidth=1; ctx.stroke();
-
-    // Sort by y for correct overlap
-    var sorted = coins.slice().sort(function(a,b){ return a.y-b.y; });
-    sorted.forEach(drawWesternCoin);
+    ctx.moveTo(0,FLOOR_Y); ctx.lineTo(W,FLOOR_Y);
+    ctx.strokeStyle='rgba(201,168,76,0.18)'; ctx.lineWidth=1; ctx.stroke();
+    // 按y排序保证正确覆盖
+    coins.slice().sort(function(a,b){ return a.y-b.y; }).forEach(drawCoin);
   }
 
   function loop(){
@@ -2957,12 +3033,14 @@ function submitYCContact(e){
     if(!done){
       animId = requestAnimationFrame(loop);
     } else {
-      setTimeout(startAnim, 2200);
+      // 2.5秒后重新抛
+      setTimeout(startAnim, 2500);
     }
   }
 
   function startAnim(){
     if(!canvas || !canvas.parentNode) return;
+    resize();
     initCoins();
     if(animId) cancelAnimationFrame(animId);
     animId = requestAnimationFrame(loop);
@@ -2972,14 +3050,18 @@ function submitYCContact(e){
     canvas = document.getElementById('coinCanvas');
     if(!canvas) return;
     ctx = canvas.getContext('2d');
+    resize();
     var notice = document.getElementById('coin-drop-notice');
-    var isZh = typeof lang !== 'undefined' && lang === 'zh';
+    var isZh = typeof lang !== 'undefined' && (lang==='zh'||lang==='tw');
     if(notice){
       notice.innerHTML = isZh
-        ? '⚠ 以上为演示动画，不代表起卦结果<br>请用真实铜钱或硬币投掷，并在下方输入结果'
-        : '⚠ Animation for illustration only — does not determine your hexagram<br>Please toss real coins and enter the results below';
+        ? '⚠ 以上为演示动画，不代表起卦结果<br>请用真实硬币投掷，并在下方输入结果'
+        : '⚠ Animation for illustration only — does not determine your hexagram<br>Toss real coins and enter the results below';
     }
-    if(!started){ started=true; startAnim(); }
+    startAnim();
+    window.addEventListener('resize', function(){
+      if(canvas && ctx){ resize(); }
+    });
   };
 })();
 </script>
