@@ -2467,6 +2467,12 @@ async function getAIReading(isPaid, _paypalDone) {
       isZhP?'SHEN 易经完整解读':'SHEN I Ching Full Reading');
     return;
   }
+  // topic方向变量——放在函数最前面，免费和付费都能用
+  const yjTopicObjA = (typeof YJ_TOPICS !== 'undefined' && yjCurrentTopic)
+    ? YJ_TOPICS.find(function(x){ return x.key === yjCurrentTopic; }) : null;
+  const topicLabelZh = yjTopicObjA ? yjTopicObjA.zh : '';
+  const topicLabelEn = yjTopicObjA ? yjTopicObjA.en : '';
+
   const question = document.getElementById('questionInput') ? document.getElementById('questionInput').value.trim() : '';
   const question2 = document.getElementById('questionInput2') ? document.getElementById('questionInput2').value.trim() : '';
   const q = question || question2 || '';
@@ -2583,13 +2589,6 @@ Near term (next 2-4 weeks): what to watch for. Medium term (3-6 months): how the
 One sentence that lands with weight and stays with them long after they've closed this page.
 
 Tone: the clearest, warmest, most direct advisor they've ever had. No filler phrases. No mystical hedging. Cut straight to the insight. 520-570 words.`;
-
-  // 获取用户选择的问卦方向
-  const yjTopicObj = typeof YJ_TOPICS !== 'undefined' && yjCurrentTopic
-    ? YJ_TOPICS.find(function(x){ return x.key === yjCurrentTopic; })
-    : null;
-  const topicLabelZh = yjTopicObj ? yjTopicObj.zh : '';
-  const topicLabelEn = yjTopicObj ? yjTopicObj.en : '';
 
   const userPrompt = isZh
     ? `卦象：${h.zh}卦（第${h.num}卦，${h.pinyin}）
