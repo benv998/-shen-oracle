@@ -1400,7 +1400,7 @@ async function doAI(isPaid, _paypalDone){
   document.getElementById('ai-submit-wrap').style.display='none';
   document.getElementById('ai-result').style.display='none';
   document.getElementById('ai-loading').style.display='block';
-  document.getElementById('ai-load-txt').textContent=LZ==='zh'?'命盘正在解读中...':'Consulting your chart...';
+  document.getElementById('ai-load-txt').textContent=isPaid?(LZ==='zh'?'深度解读命盘中，请稍候……':'Performing deep chart analysis...'):(LZ==='zh'?'命盘解读中...':'Consulting your chart...');
 
   var BP=CHART.BP,mg=CHART.mg,ms=CHART.ms,ny=CHART.ny,ju=CHART.ju,isFwd=CHART.isFwd||true;
   var PN_ZH=['命宫','兄弟','夫妻','子女','财帛','疾厄','迁移','交友','官禄','田宅','福德','父母'];
@@ -1447,23 +1447,24 @@ async function doAI(isPaid, _paypalDone){
       ?'你是紫微斗数命理大师，为商界精英和决策者服务。根据命盘数据，写一段让人感到"说中了"的【命盘预览】。今天是'+today.getFullYear()+'年'+(today.getMonth()+1)+'月'+today.getDate()+'日，只谈现在和未来。要求：①第一句直接点出命宫主星赋予此人最独特的核心特质，具体到星盘层面；②针对所问方向，说出命盘给出的最重要信号——是机会窗口还是需要注意的结构性挑战；③最后一句制造真实悬念——暗示当前大运宫位的深层含义和关键时间节点还未揭示；④绝不出现付费相关字眼；⑤全文110-140字，字字有份量。'
       :'You are a Zi Wei Dou Shu master serving executives and high-performers who need precision, not platitudes. Write a chart preview that earns their attention immediately. Today is '+today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'. Speak only of present and future. Requirements: ①Open with the single most specific quality this person\'s Life Palace star gives them — name the star, make it concrete and individual. ②Address their exact topic with the most critical signal the chart reveals — opportunity window or structural challenge to navigate. ③Close with genuine suspense: reference that the current Luck Cycle palace and key timing windows ahead have not yet been surfaced. ④No payment references. ⑤90-120 words. Every sentence earns its place.';
     usr=LZ==='zh'
-      ?'命宫主星：'+ms+'\n身宫：'+(bodyPalInfo||'未知')+'\n五行局：'+ny+'（起运岁数：'+ju+'，当前年龄约'+curAgeNow+'岁）\n当前大运干支：'+(curDayunInfo||curDayunPal)+'\n\n十二宫详细星曜（含亮度）：\n'+palInfo+'\n\n问卦方向：'+info.label+'\n背景：'+ctx.join(' | ')
-      :'Life Palace Star: '+(SEN[ms]||ms)+' | Body Palace: '+(bodyPalInfo||'-')+'\nFive Elements: '+ny+' (start age: '+ju+', current: '+curAgeNow+')\nCurrent Decade: '+(curDayunInfo||curDayunPal)+'\n12 Palaces: '+palInfo+'\n\nTopic: '+info.label+'\nContext: '+ctx.join(' | ');
+      ?'命宫主星：'+ms+'\n身宫：'+(bodyPalInfo||'未知')+'\n五行局：'+ny+'（起运岁数：'+ju+'，当前年龄约'+curAgeNow+'岁）\n当前大运干支：'+(curDayunInfo||curDayunPal)+'\n\n十二宫详细星曜（含亮度）：\n'+palInfo+'\n\n问卦方向：【'+info.label+'】——全部解读必须聚焦此方向，不得偏离到其他生活领域。\n背景：'+ctx.join(' | ')
+      :'Life Palace Star: '+(SEN[ms]||ms)+' | Body Palace: '+(bodyPalInfo||'-')+'\nFive Elements: '+ny+' (start age: '+ju+', current: '+curAgeNow+')\nCurrent Decade: '+(curDayunInfo||curDayunPal)+'\n12 Palaces: '+palInfo+'\n\nREQUIRED FOCUS: '+info.label+' — Keep entire reading on this domain only. Do not drift into other life areas.\nContext: '+ctx.join(' | ');
   } else {
     // ── 付费完整解读 Prompt ──
     sys=LZ==='zh'
       ?'你是紫微斗数命理大师，精通十四主星与十二宫位的人生映射。你的客户是商界精英、投资人和需要做重大决策的人——他们聪明、务实，一眼能看穿套话。今天是'+today.getFullYear()+'年'+(today.getMonth()+1)+'月'+today.getDate()+'日，所有时机只说现在和未来，绝不提过去年份。\n\n请按以下结构给出完整深度解读：\n\n【一、命盘核心特质】\n命宫主星和关键宫位组合对此人最核心的定义——具体说出这个人和别人不一样在哪里（3-4句）\n\n【二、命盘对此问题的判断】\n从相关宫位找出关键星曜组合，给出清晰判断——是机会还是挑战，核心原因具体是什么（3-4句）\n\n【三、当前大运时机】\n现在处于什么大运宫位，对这个问题意味着什么，近期关键时间节点在哪里（2-3句）\n\n【四、具体行动建议】\n2-3条真正针对此命盘的实操建议，不能是通用建议（每条一句话）\n\n【五、点睛一句】\n一句有力量的话收尾，让人感到被真正看见\n\n语气：像懂你的智者，温暖而有分量。全文500-600字。'
       :'You are a master of Purple Star Astrology (Zi Wei Dou Shu). Your clients are executives, investors, and professionals facing real decisions — they are intelligent, skeptical, and will immediately notice generic advice. Today is '+today.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'. All timing must point forward — never reference past years.\n\nDeliver a complete reading using this exact structure:\n\n[I. CHART IDENTITY]\nWhat this person\'s Life Palace star and key palace configuration says about who they fundamentally are. Be specific — name the star combination, explain what makes them distinctive. (3-4 sentences)\n\n[II. VERDICT ON THE QUESTION]\nIdentify the exact relevant palace, name the stars and their interaction, give a decisive reading — opportunity or challenge, and the specific astrological reason. (3-4 sentences)\n\n[III. CURRENT LUCK CYCLE & TIMING]\nWhat palace the current Luck Cycle activates, what this means for their question, and where the key turning points are in the near future. (2-3 sentences)\n\n[IV. CONCRETE GUIDANCE]\n2-3 specific, chart-grounded recommendations they can act on immediately — not generic life advice. (one sentence each)\n\n[V. CLOSING INSIGHT]\nOne powerful sentence that makes them feel genuinely seen.\n\nTone: the most trusted advisor they\'ve ever had — warm, direct, no filler. Blank line between sections. 500-600 words.';
     usr=LZ==='zh'
-      ?'【命盘信息】\n命宫主星：'+ms+'\n纳音五行：'+ny+'（'+ju+'局，当前年龄约'+curAgeNow+'岁）\n十二宫完整星位：'+palInfo+'\n当前大运：'+curDayunAge+'岁起，走'+curDayunPal+'\n\n【命主背景】\n'+ctx.join('\n')+'\n\n【问卦方向】'+info.label
-      :'CHART DATA\nLife Palace Star: '+(SEN[ms]||ms)+'\nBody Palace: '+(bodyPalInfo||'-')+'\nFive Elements Class: '+ny+' (activation age: '+ju+', current age: '+curAgeNow+')\nCurrent Decade: '+(curDayunInfo?curDayunInfo+' cycle':curDayunPal+' Palace')+'\n\n12 Palaces with star brightness:\n'+palInfo+'\n\nBACKGROUND\n'+ctx.join('\n')+'\n\nTOPIC: '+info.label;
+      ?'【命盘信息】\n命宫主星：'+ms+'\n纳音五行：'+ny+'（'+ju+'局，当前年龄约'+curAgeNow+'岁）\n十二宫完整星位：'+palInfo+'\n当前大运：'+curDayunAge+'岁起，走'+curDayunPal+'\n\n【命主背景】\n'+ctx.join('\n')+'\n\n【问卦方向】'+info.label+'——全部解读必须严格聚焦此方向，不得偏离到其他生活领域'
+      :'CHART DATA\nLife Palace Star: '+(SEN[ms]||ms)+'\nBody Palace: '+(bodyPalInfo||'-')+'\nFive Elements Class: '+ny+' (activation age: '+ju+', current age: '+curAgeNow+')\nCurrent Decade: '+(curDayunInfo?curDayunInfo+' cycle':curDayunPal+' Palace')+'\n\n12 Palaces with star brightness:\n'+palInfo+'\n\nBACKGROUND\n'+ctx.join('\n')+'\n\nREQUIRED TOPIC: '+info.label+' — Every section of this reading must focus exclusively on this domain. Do not drift into other life areas.';
   }
 
   try{
+    if(isPaid) await new Promise(r=>setTimeout(r,5000)); // 付费仪式感延迟
     var resp=await fetch('https://api.deepseek.com/chat/completions',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+DEEPSEEK_KEY},
-      body:JSON.stringify({model:'deepseek-chat',messages:[{role:'system',content:sys},{role:'user',content:usr}],max_tokens:isPaid?1200:280,temperature:0.75})
+      body:JSON.stringify({model:'deepseek-chat',messages:[{role:'system',content:sys},{role:'user',content:usr}],max_tokens:isPaid?1400:280,temperature:isPaid?0.72:0.75})
     });
     var data=await resp.json();
     var txt=data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content
