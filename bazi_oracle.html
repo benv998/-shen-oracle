@@ -1177,17 +1177,31 @@ function calculate(){
 }
 
 function calcDayun(year,month,gender,yStem,mBranch,dStem){
+  // 顺逆：阳年男命/阴年女命顺排，其余逆排
   const isYangYear=yStem%2===0;
   const isMale=gender==='M';
   const forward=(isYangYear&&isMale)||(!isYangYear&&!isMale);
 
+  // 大运从月柱天干起排（不是日柱）
+  // 先算月柱天干：年干×2+月支 mod 10（五虎遁年起月法）
+  const mStemBase=(yStem%5)*2; // 年干决定月干起点
+  const mStem=(mStemBase+(month-1))%10;
+
   const dayuns=[];
-  let startAge=3; // simplified start age
+  // 起运年龄：用简化的3岁起（实际应查节气，这里合理近似）
+  let startAge=Math.max(1,3+Math.floor(Math.random()*4)); // 1-6岁随机近似
+  // 更准确：根据月支到节的距离估算，这里用固定3岁
+  startAge=3;
   for(let i=0;i<8;i++){
     const offset=forward?(i+1):(-(i+1));
     const b=((mBranch+offset)%12+12)%12;
-    const s=((dStem+offset)%10+10)%10; // simplified
-    dayuns.push({age:startAge+i*10, stem:s, branch:b, isCurrent:(year+(startAge+i*10))>=(new Date().getFullYear()-5)&&(year+(startAge+i*10))<=(new Date().getFullYear()+5)});
+    const s=((mStem+offset)%10+10)%10; // 从月柱天干顺/逆排
+    dayuns.push({
+      age:startAge+i*10,
+      stem:s,
+      branch:b,
+      forward:forward
+    });
   }
   return dayuns;
 }
@@ -1255,14 +1269,25 @@ function renderResult(c){
 }
 
 function getDayunDesc(d,c,l){
-  const el=STEM_EL[d.stem];
+  const stemEl=STEM_EL[d.stem];
+  const branchEl=BRANCH_EL[d.branch];
   const dm=c.dayMaster;
-  const favorable={wood:['water','wood'],fire:['wood','fire'],earth:['fire','earth'],metal:['earth','metal'],water:['metal','water']};
-  const isFav=favorable[dm]?.includes(el);
-  if(l==='en'){
-    return isFav?'Favorable cycle — growth and opportunity':'Challenging cycle — consolidate and build resilience';
+  // 用神：日主的生扶元素为顺，克泄耗为逆
+  // 五行相生：水生木，木生火，火生土，土生金，金生水
+  // 顺运：印星（生日主）+ 比劫（同日主）
+  const generate={wood:'water',fire:'wood',earth:'fire',metal:'earth',water:'metal'};
+  const same=dm; // 比劫同五行
+  const stemFav=(stemEl===generate[dm]||stemEl===same);
+  const branchFav=(branchEl===generate[dm]||branchEl===same);
+  // 天干地支都顺=大顺运，一顺一逆=平运，都逆=逆运
+  const favScore=(stemFav?1:0)+(branchFav?1:0);
+  const isZh=l==='zh'||l==='tw';
+  if(favScore===2){
+    return isZh?'顺运——生长与机遇期':'Favorable cycle — growth and opportunity';
+  } else if(favScore===1){
+    return isZh?'平运——稳中求进期':'Balanced cycle — steady progress';
   } else {
-    return isFav?'顺运——生长与机遇期':'逆运——沉淀与积累期';
+    return isZh?'逆运——沉淀与积累期':'Challenging cycle — consolidate and build resilience';
   }
 }
 
