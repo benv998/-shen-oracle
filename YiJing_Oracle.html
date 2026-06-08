@@ -1643,7 +1643,7 @@ function applyAIUI() {
     ? '以上为预览版。完整解读包含：处境深度分析、具体行动建议、时机判断、需要警惕的风险——专为你的问题定制。'
     : 'This is a preview. The full reading includes situation analysis, specific action counsel, timing guidance, and risks to watch — tailored precisely to your question.';
   document.getElementById('aiUnlockLabel').textContent = isZh ? '解锁完整解读 · $9' : '⟡ Unlock Full Reading · $9';
-  document.getElementById('aiLoadingText').textContent = isZh ? '卦象正在回应……' : 'Consulting the hexagram...';
+  document.getElementById('aiLoadingText').textContent = isPaid ? (isZh ? '正在深度推演卦象，请稍候……' : 'Performing deep hexagram analysis...') : (isZh ? '卦象正在回应……' : 'Consulting the hexagram...');
   const toggleLabel = document.getElementById('hexDetailToggleLabel');
   if (toggleLabel) toggleLabel.textContent = isZh ? '+ 卦象参考（展开）' : '+ Hexagram Reference';
   const paidLabel = document.getElementById('aiPaidLabel');
@@ -2475,7 +2475,10 @@ async function getAIReading(isPaid, _paypalDone) {
 
   const question = document.getElementById('questionInput') ? document.getElementById('questionInput').value.trim() : '';
   const question2 = document.getElementById('questionInput2') ? document.getElementById('questionInput2').value.trim() : '';
-  const q = question || question2 || '';
+  const yjQVLocal = (document.getElementById('yj-quick-val')?.value || '').trim();
+  const baseQ = question || question2 || '';
+  // 合并快速选项和自由输入——快速选项优先作为具体方向
+  const q = yjQVLocal && baseQ ? yjQVLocal + '：' + baseQ : (yjQVLocal || baseQ);
   // question is optional — oracle reads the moment even without a stated question
 
   const h = currentHex;
