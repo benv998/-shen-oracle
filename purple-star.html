@@ -517,6 +517,7 @@ select { color-scheme: dark; }
       </div>
     </div>
     <div style="margin-top:16px;font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(214,205,184,0.3);font-style:italic;" id="pc-note">Secure payment via PayPal · Instant access after confirmation</div>
+      <div style="margin-top:8px;font-size:10px;color:rgba(214,205,184,0.2);font-family:'Josefin Sans',sans-serif;letter-spacing:.05em;text-align:center;">By purchasing you confirm you are 18 or older, or have parental consent.</div>
   </div>
 </div>
 
@@ -657,7 +658,7 @@ function buildDateSelects(){
   var bdVal=document.getElementById('bd')?document.getElementById('bd').value:'';
 
   var yOpts='<option value="">'+(LZ==='zh'?'年份':'Year')+'</option>';
-  for(var y=2005;y>=1920;y--) yOpts+='<option value="'+y+'"'+(byVal==y?' selected':'')+'>'+y+'</option>';
+  for(var y=2012;y>=1920;y--) yOpts+='<option value="'+y+'"'+(byVal==y?' selected':'')+'>'+y+'</option>';
 
   var mOpts='<option value="">'+(LZ==='zh'?'月份':'Month')+'</option>';
   var mNames=LZ==='zh'?MONTHS_ZH:MONTHS_EN;
