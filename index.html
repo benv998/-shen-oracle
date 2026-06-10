@@ -119,18 +119,20 @@ nav {
   font-family: 'Cinzel', serif;
   font-size: 9px;
   letter-spacing: 0.2em;
-  color: var(--text-dim);
+  color: rgba(214,205,184,0.55);
   text-decoration: none;
   padding: 7px 14px;
-  border: 1px solid transparent;
+  border: 1px solid rgba(201,168,76,0.15);
   border-radius: 2px;
   text-transform: uppercase;
   transition: all 0.3s;
+  background: rgba(201,168,76,0.03);
 }
 
 .nav-link:hover {
   color: var(--gold);
   border-color: var(--gold-dim);
+  background: rgba(201,168,76,0.08);
 }
 
 /* ── HERO ── */
@@ -457,28 +459,37 @@ section {
 .tool-cta {
   font-family: 'Cinzel', serif;
   font-size: 11px;
-  letter-spacing: 0.3em;
-  color: var(--text-dim);
+  letter-spacing: 0.25em;
+  color: var(--gold-light);
   text-transform: uppercase;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 12px;
-  transition: all 0.3s;
+  padding: 12px 22px;
+  border: 1px solid var(--gold-dim);
+  background: rgba(201,168,76,0.06);
+  transition: all 0.35s;
+  width: 100%;
+  justify-content: center;
+  margin-top: 4px;
 }
 
 .tool-card:hover .tool-cta {
   color: var(--gold);
+  background: rgba(201,168,76,0.13);
+  border-color: var(--gold);
   gap: 18px;
+  letter-spacing: 0.32em;
 }
 
 .tool-cta::after {
   content: '→';
-  font-size: 12px;
+  font-size: 13px;
   transition: transform 0.3s;
 }
 
 .tool-card:hover .tool-cta::after {
-  transform: translateX(4px);
+  transform: translateX(6px);
 }
 
 /* ── PHILOSOPHY SECTION ── */
